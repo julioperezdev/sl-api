@@ -17,7 +17,7 @@ public class ClientDifference {
     private String clientId;
     private Float amount;
     private String description;
-    private String differenceTypeId;
-    private String differenceStatusId;
+    private String differenceType;
+    private String differenceStatus;
 
 }

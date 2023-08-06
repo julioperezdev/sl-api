@@ -20,6 +20,6 @@ public class CurrencyMultiBox {
     private String operationId;
     private Float quantity;
     private Float priceOperation;
-    private String multiBoxStatusId;
+    private String multiBoxStatus;
 
 }

@@ -1,8 +1,6 @@
 package dev.julioperez.littleTree.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.Data;
 
 @Entity
@@ -12,7 +10,7 @@ public class SellerCommission {
     @Id
     private String uuid;
     private String sellerId;
-    private String sellerCommissionStatusId;
+    private String sellerCommissionStatus;
     private Float pesos;
     private Float quantity;
     private Float profit;

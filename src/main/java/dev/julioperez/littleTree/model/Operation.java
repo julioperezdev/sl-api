@@ -16,5 +16,5 @@ public class Operation {
     @Column(name = "CREATED_AT")
     private Date createdAt;
     private String clientId;
-    private String operationTypeId;
+    private String operationType;
 }
