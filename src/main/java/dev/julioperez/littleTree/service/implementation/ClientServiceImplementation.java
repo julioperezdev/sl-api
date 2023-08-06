@@ -1,7 +1,5 @@
 package dev.julioperez.littleTree.service.implementation;
 
-import dev.julioperez.littleTree.model.Client;
-import dev.julioperez.littleTree.repository.ClientRepository;
 import dev.julioperez.littleTree.service.ClientService;
 import org.springframework.stereotype.Service;
 
@@ -11,7 +9,7 @@ import java.util.UUID;
 
 @Service
 public class ClientServiceImplementation implements ClientService {
-
+/*
     private final ClientRepository clientRepository;
 
     public ClientServiceImplementation(ClientRepository clientRepository) {
@@ -46,4 +44,6 @@ public class ClientServiceImplementation implements ClientService {
             throw new Exception("Error in createClient method ", exception);
         }
     }
+
+ */
 }
