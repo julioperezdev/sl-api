@@ -1,6 +1,8 @@
 package dev.julioperez.littleTree.client.domain.model;
 
 
+import java.util.Date;
+
 public final class Client {
 
     private final ClientId id;
@@ -10,12 +12,36 @@ public final class Client {
     private final ClientDescription description;
     private final ClientCreatedAt createdAt;
 
-    public Client(ClientId id, ClientName name, ClientPhone phone, ClientAddress address, ClientDescription description, ClientCreatedAt createdAt) {
-        this.id = id;
-        this.name = name;
-        this.phone = phone;
-        this.address = address;
-        this.description = description;
-        this.createdAt = createdAt;
+    public Client(String id, String name, String phone, String address, String description, Date createdAt) {
+        this.id = new ClientId(id);
+        this.name = new ClientName(name);
+        this.phone = new ClientPhone(phone);
+        this.address = new ClientAddress(address);
+        this.description = new ClientDescription(description);
+        this.createdAt = new ClientCreatedAt(createdAt);
+    }
+
+    public String getId() {
+        return id.value();
+    }
+
+    public String getName() {
+        return name.value();
+    }
+
+    public String getPhone() {
+        return phone.value();
+    }
+
+    public String getAddress() {
+        return address.value();
+    }
+
+    public String getDescription() {
+        return description.value();
+    }
+
+    public Date getCreatedAt() {
+        return createdAt.value();
     }
 }

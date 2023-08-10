@@ -1,0 +1,46 @@
+package dev.julioperez.littleTree.client.application.modelMapper;
+
+import dev.julioperez.littleTree.client.domain.dto.CreateClientRequest;
+import dev.julioperez.littleTree.client.domain.model.Client;
+import dev.julioperez.littleTree.client.domain.port.mapper.ClientMapper;
+import dev.julioperez.littleTree.client.infrastructure.repository.entity.ClientEntity;
+
+import java.time.Instant;
+import java.util.Date;
+import java.util.UUID;
+
+public class ClientModelMapper implements ClientMapper {
+
+    @Override
+    public Client toClientModel(CreateClientRequest createClientRequest) {
+        return new Client(
+                UUID.randomUUID().toString(),
+                createClientRequest.name(),
+                createClientRequest.phone(),
+                createClientRequest.address(),
+                createClientRequest.description(),
+                Date.from(Instant.now()));
+    }
+
+    @Override
+    public Client toClientModel(ClientEntity clientEntity) {
+        return new Client(
+                clientEntity.getId(),
+                clientEntity.getName(),
+                clientEntity.getPhone(),
+                clientEntity.getAddress(),
+                clientEntity.getDescription(),
+                clientEntity.getCreatedAt());
+    }
+
+    @Override
+    public ClientEntity toClientEntity(Client client) {
+        return new ClientEntity(
+                client.getId(),
+                client.getName(),
+                client.getPhone(),
+                client.getDescription(),
+                client.getAddress(),
+                client.getCreatedAt());
+    }
+}

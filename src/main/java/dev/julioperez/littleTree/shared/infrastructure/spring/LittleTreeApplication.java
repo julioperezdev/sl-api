@@ -1,4 +1,4 @@
-package dev.julioperez.littleTree;
+package dev.julioperez.littleTree.shared.infrastructure.spring;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
