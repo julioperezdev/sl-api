@@ -16,7 +16,7 @@ public class CreateClientDelivery implements CreateClientInputPort {
     private final ClientMapper clientMapper;
 
     @Override
-    public boolean createClient(CreateClientRequest createClientRequest) {
+    public boolean createClient(CreateClientRequest createClientRequest) throws Exception{
         Client newClient = clientMapper.toClientModel(createClientRequest);
         return createClient.createClient(newClient);
     }

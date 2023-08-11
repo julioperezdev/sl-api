@@ -16,7 +16,7 @@ public class CreateClientAdapterRepository implements CreateClientOutputPort {
     private final ClientMapper clientMapper;
 
     @Override
-    public Client createClient(Client newClient) {
+    public Client createClient(Client newClient) throws Exception{
         ClientEntity clientPreSaving = clientMapper.toClientEntity(newClient);
         ClientEntity clientSaved = clientDao.save(clientPreSaving);
         return clientMapper.toClientModel(clientSaved);
