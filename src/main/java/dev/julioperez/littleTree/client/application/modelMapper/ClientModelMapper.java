@@ -1,6 +1,7 @@
 package dev.julioperez.littleTree.client.application.modelMapper;
 
 import dev.julioperez.littleTree.client.domain.dto.CreateClientRequest;
+import dev.julioperez.littleTree.client.domain.dto.UpdateClientRequest;
 import dev.julioperez.littleTree.client.domain.model.Client;
 import dev.julioperez.littleTree.client.domain.port.mapper.ClientMapper;
 import dev.julioperez.littleTree.client.infrastructure.repository.entity.ClientEntity;
@@ -21,6 +22,17 @@ public class ClientModelMapper implements ClientMapper {
                 createClientRequest.address(),
                 createClientRequest.description(),
                 Date.from(Instant.now()));
+    }
+
+    @Override
+    public Client toClientModel(Client client, UpdateClientRequest updateClientRequest) {
+        return new Client(
+                updateClientRequest.id(),
+                client.getName(),
+                updateClientRequest.phone(),
+                updateClientRequest.address(),
+                updateClientRequest.description(),
+                client.getCreatedAt());
     }
 
     @Override

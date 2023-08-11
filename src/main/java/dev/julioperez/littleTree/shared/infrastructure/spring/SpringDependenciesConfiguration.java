@@ -9,6 +9,9 @@ import dev.julioperez.littleTree.client.application.getClients.adapter.GetClient
 import dev.julioperez.littleTree.client.application.getClients.delivery.GetClientsDelivery;
 import dev.julioperez.littleTree.client.application.getClients.service.GetClientsService;
 import dev.julioperez.littleTree.client.application.modelMapper.ClientModelMapper;
+import dev.julioperez.littleTree.client.application.updateClient.adapter.UpdateClientAdapterRepository;
+import dev.julioperez.littleTree.client.application.updateClient.delivery.UpdateClientDelivery;
+import dev.julioperez.littleTree.client.application.updateClient.service.UpdateClientService;
 import dev.julioperez.littleTree.client.infrastructure.repository.dao.ClientDao;
 import dev.julioperez.littleTree.currency.infrastructure.repository.dao.CurrencyDao;
 import dev.julioperez.littleTree.operation.infrastructure.repository.dao.OperationDao;
@@ -86,6 +89,23 @@ public class SpringDependenciesConfiguration {
     @Bean
     public GetClientsDelivery getClientsDelivery(){
         return new GetClientsDelivery(getClientsService());
+    }
+    /**
+     * UpdateClient
+     */
+    @Bean
+    public UpdateClientAdapterRepository updateClientAdapterRepository(){
+        return new UpdateClientAdapterRepository(clientDao,clientModelMapper());
+    }
+
+    @Bean
+    public UpdateClientService updateClientService(){
+        return new UpdateClientService(updateClientAdapterRepository(), getClientsService(), clientModelMapper());
+    }
+
+    @Bean
+    public UpdateClientDelivery updateClientDelivery(){
+        return new UpdateClientDelivery(updateClientService());
     }
 
 }
