@@ -7,6 +7,7 @@ import dev.julioperez.littleTree.client.infrastructure.repository.entity.ClientE
 
 import java.time.Instant;
 import java.util.Date;
+import java.util.List;
 import java.util.UUID;
 
 public class ClientModelMapper implements ClientMapper {
@@ -20,6 +21,11 @@ public class ClientModelMapper implements ClientMapper {
                 createClientRequest.address(),
                 createClientRequest.description(),
                 Date.from(Instant.now()));
+    }
+
+    @Override
+    public List<Client> toClientsModel(List<ClientEntity> clientsEntity) {
+        return clientsEntity.stream().map(this::toClientModel).toList();
     }
 
     @Override

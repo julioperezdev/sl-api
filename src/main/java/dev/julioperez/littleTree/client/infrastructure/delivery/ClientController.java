@@ -1,14 +1,15 @@
 package dev.julioperez.littleTree.client.infrastructure.delivery;
 
 import dev.julioperez.littleTree.client.domain.dto.CreateClientRequest;
+import dev.julioperez.littleTree.client.domain.model.Client;
 import dev.julioperez.littleTree.client.domain.port.createClient.CreateClientInputPort;
+import dev.julioperez.littleTree.client.domain.port.getClients.GetClientsInputPort;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/client")
@@ -16,14 +17,26 @@ import org.springframework.web.bind.annotation.RestController;
 public class ClientController {
 
     private final CreateClientInputPort createClientInputPort;
+    private final GetClientsInputPort getClientsInputPort;
 
-    public ClientController(CreateClientInputPort createClientInputPort) {
+    public ClientController(CreateClientInputPort createClientInputPort, GetClientsInputPort getClientsInputPort) {
         this.createClientInputPort = createClientInputPort;
+        this.getClientsInputPort = getClientsInputPort;
     }
 
-    @GetMapping
+    @PostMapping("/create")
     public ResponseEntity<Boolean> createClient(@RequestBody CreateClientRequest createClientRequest) throws Exception{
         boolean response = createClientInputPort.createClient(createClientRequest);
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
+
+    @PostMapping("/get")
+    public ResponseEntity<List<Client>> getAllClients() throws Exception {
+        List<Client> allClients = getClientsInputPort.getClients();
+        HttpStatus httpStatus = allClients.isEmpty()
+                ? HttpStatus.NO_CONTENT
+                : HttpStatus.FOUND;
+        return new ResponseEntity<>(allClients, httpStatus);
+    }
+
 }

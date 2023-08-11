@@ -15,6 +15,6 @@ public class CreateClientService implements CreateClient {
     @Override
     public boolean createClient(Client newClient) throws Exception{
         Client newClientResponse = createClientOutputPort.createClient(newClient);
-        return newClientResponse.equals(newClient);
+        return newClientResponse.getId().equals(newClient.getId());
     }
 }
