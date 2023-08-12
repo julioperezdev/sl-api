@@ -5,14 +5,22 @@ import dev.julioperez.littleTree.box.infrastructure.repository.dao.CurrencyMulti
 import dev.julioperez.littleTree.client.application.createClient.adapter.CreateClientAdapterRepository;
 import dev.julioperez.littleTree.client.application.createClient.delivery.CreateClientDelivery;
 import dev.julioperez.littleTree.client.application.createClient.service.CreateClientService;
+import dev.julioperez.littleTree.client.application.createClientDifference.adapter.CreateClientDifferenceAdapterRepository;
+import dev.julioperez.littleTree.client.application.createClientDifference.delivery.CreateClientDifferenceDelivery;
+import dev.julioperez.littleTree.client.application.createClientDifference.service.CreateClientDifferenceService;
+import dev.julioperez.littleTree.client.application.getClientDifference.adapter.GetClientDifferenceAdapterRepository;
+import dev.julioperez.littleTree.client.application.getClientDifference.delivery.GetClientDifferenceDelivery;
+import dev.julioperez.littleTree.client.application.getClientDifference.service.GetClientDifferenceService;
 import dev.julioperez.littleTree.client.application.getClients.adapter.GetClientsAdapterRepository;
 import dev.julioperez.littleTree.client.application.getClients.delivery.GetClientsDelivery;
 import dev.julioperez.littleTree.client.application.getClients.service.GetClientsService;
+import dev.julioperez.littleTree.client.application.modelMapper.ClientDifferenceModelMapper;
 import dev.julioperez.littleTree.client.application.modelMapper.ClientModelMapper;
 import dev.julioperez.littleTree.client.application.updateClient.adapter.UpdateClientAdapterRepository;
 import dev.julioperez.littleTree.client.application.updateClient.delivery.UpdateClientDelivery;
 import dev.julioperez.littleTree.client.application.updateClient.service.UpdateClientService;
 import dev.julioperez.littleTree.client.infrastructure.repository.dao.ClientDao;
+import dev.julioperez.littleTree.client.infrastructure.repository.dao.ClientDifferenceDao;
 import dev.julioperez.littleTree.currency.infrastructure.repository.dao.CurrencyDao;
 import dev.julioperez.littleTree.operation.infrastructure.repository.dao.OperationDao;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
@@ -36,14 +44,16 @@ public class SpringDependenciesConfiguration {
     private final BalanceDao balanceDao;
     private final CurrencyMultiBoxDao currencyMultiBoxDao;
     private final ClientDao clientDao;
+    private final ClientDifferenceDao clientDifferenceDao;
     private final CurrencyDao currencyDao;
     private final OperationDao operationDao;
 
 
-    public SpringDependenciesConfiguration(BalanceDao balanceDao, CurrencyMultiBoxDao currencyMultiBoxDao, ClientDao clientDao, CurrencyDao currencyDao, OperationDao operationDao) {
+    public SpringDependenciesConfiguration(BalanceDao balanceDao, CurrencyMultiBoxDao currencyMultiBoxDao, ClientDao clientDao, ClientDifferenceDao clientDifferenceDao, CurrencyDao currencyDao, OperationDao operationDao) {
         this.balanceDao = balanceDao;
         this.currencyMultiBoxDao = currencyMultiBoxDao;
         this.clientDao = clientDao;
+        this.clientDifferenceDao = clientDifferenceDao;
         this.currencyDao = currencyDao;
         this.operationDao = operationDao;
     }
@@ -55,6 +65,10 @@ public class SpringDependenciesConfiguration {
     @Bean
     ClientModelMapper clientModelMapper(){
         return new ClientModelMapper();
+    }
+    @Bean
+    ClientDifferenceModelMapper clientDifferenceModelMapper(){
+        return new ClientDifferenceModelMapper();
     }
     /**
      * createClient
@@ -108,4 +122,39 @@ public class SpringDependenciesConfiguration {
         return new UpdateClientDelivery(updateClientService());
     }
 
+    /**
+     * GetClientDifference
+     */
+    @Bean
+    public GetClientDifferenceAdapterRepository getClientDifferenceAdapterRepository(){
+        return new GetClientDifferenceAdapterRepository(clientDifferenceDao,clientDifferenceModelMapper());
+    }
+
+    @Bean
+    public GetClientDifferenceService getClientDifferenceService(){
+        return new GetClientDifferenceService(getClientDifferenceAdapterRepository());
+    }
+
+    @Bean
+    public GetClientDifferenceDelivery getClientDifferenceDelivery(){
+        return new GetClientDifferenceDelivery(getClientDifferenceService());
+    }
+
+    /**
+     * CreateClientDifference
+     */
+    @Bean
+    public CreateClientDifferenceAdapterRepository createClientDifferenceAdapterRepository(){
+        return new CreateClientDifferenceAdapterRepository(clientDifferenceDao,clientDifferenceModelMapper());
+    }
+
+    @Bean
+    public CreateClientDifferenceService createClientDifferenceService(){
+        return new CreateClientDifferenceService(createClientDifferenceAdapterRepository(),clientDifferenceModelMapper());
+    }
+
+    @Bean
+    public CreateClientDifferenceDelivery createClientDifferenceDelivery(){
+        return new CreateClientDifferenceDelivery(createClientDifferenceService());
+    }
 }
