@@ -5,6 +5,7 @@ import dev.julioperez.littleTree.client.domain.port.getClientDifference.GetClien
 import dev.julioperez.littleTree.client.domain.port.getClientDifference.GetClientDifferenceOutputPort;
 
 import java.util.List;
+import java.util.Optional;
 
 public class GetClientDifferenceService implements GetClientDifference {
     private final GetClientDifferenceOutputPort getClientDifferenceOutputPort;
@@ -15,5 +16,13 @@ public class GetClientDifferenceService implements GetClientDifference {
     @Override
     public List<ClientDifference> getClientDifference() {
         return getClientDifferenceOutputPort.getClientDifference();
+    }
+
+    @Override
+    public Optional<ClientDifference> getOptionalClientDifferenceById(String id){
+        List<ClientDifference> allClientDifference = getClientDifference();
+        return allClientDifference.stream()
+                .filter(clientDifference -> clientDifference.getId().equals(id))
+                .findFirst();
     }
 }

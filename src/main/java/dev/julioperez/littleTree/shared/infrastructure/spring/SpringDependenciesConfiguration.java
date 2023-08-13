@@ -19,6 +19,9 @@ import dev.julioperez.littleTree.client.application.modelMapper.ClientModelMappe
 import dev.julioperez.littleTree.client.application.updateClient.adapter.UpdateClientAdapterRepository;
 import dev.julioperez.littleTree.client.application.updateClient.delivery.UpdateClientDelivery;
 import dev.julioperez.littleTree.client.application.updateClient.service.UpdateClientService;
+import dev.julioperez.littleTree.client.application.updateClientDifference.adapter.UpdateClientDifferenceAdapterRepository;
+import dev.julioperez.littleTree.client.application.updateClientDifference.delivery.UpdateClientDifferenceDelivery;
+import dev.julioperez.littleTree.client.application.updateClientDifference.service.UpdateClientDifferenceService;
 import dev.julioperez.littleTree.client.infrastructure.repository.dao.ClientDao;
 import dev.julioperez.littleTree.client.infrastructure.repository.dao.ClientDifferenceDao;
 import dev.julioperez.littleTree.currency.infrastructure.repository.dao.CurrencyDao;
@@ -156,5 +159,23 @@ public class SpringDependenciesConfiguration {
     @Bean
     public CreateClientDifferenceDelivery createClientDifferenceDelivery(){
         return new CreateClientDifferenceDelivery(createClientDifferenceService());
+    }
+
+    /**
+     * UpdateClientDifference
+     */
+    @Bean
+    public UpdateClientDifferenceAdapterRepository updateClientDifferenceAdapterRepository(){
+        return new UpdateClientDifferenceAdapterRepository(clientDifferenceDao,clientDifferenceModelMapper());
+    }
+
+    @Bean
+    public UpdateClientDifferenceService updateClientDifferenceService(){
+        return new UpdateClientDifferenceService(updateClientDifferenceAdapterRepository(), getClientDifferenceService(),clientDifferenceModelMapper());
+    }
+
+    @Bean
+    public UpdateClientDifferenceDelivery updateClientDifferenceDelivery(){
+        return new UpdateClientDifferenceDelivery(updateClientDifferenceService());
     }
 }

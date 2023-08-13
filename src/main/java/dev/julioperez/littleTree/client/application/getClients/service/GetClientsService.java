@@ -22,7 +22,7 @@ public class GetClientsService implements GetClients {
     }
 
     @Override
-    public Optional<Client> getOptionalClientById(String id) throws Exception {
+    public Optional<Client> getOptionalClientById(String id){
         List<Client> allClients = getClients();
         return allClients.stream()
                 .filter(client -> client.getId().equals(id))

@@ -1,6 +1,7 @@
 package dev.julioperez.littleTree.client.application.modelMapper;
 
 import dev.julioperez.littleTree.client.domain.dto.CreateClientDifferenceRequest;
+import dev.julioperez.littleTree.client.domain.dto.UpdateClientDifferenceRequest;
 import dev.julioperez.littleTree.client.domain.model.ClientDifference;
 import dev.julioperez.littleTree.client.domain.port.mapper.ClientDifferenceMapper;
 import dev.julioperez.littleTree.client.infrastructure.repository.entity.ClientDifferenceEntity;
@@ -24,6 +25,17 @@ public class ClientDifferenceModelMapper implements ClientDifferenceMapper {
     }
 
     @Override
+    public ClientDifference toClientDifferenceModel(ClientDifference clientDifference, UpdateClientDifferenceRequest updateClientDifferenceRequest) {
+        return new ClientDifference(clientDifference.getId(),
+                clientDifference.getCreatedAt(),
+                clientDifference.getClientId(),
+                updateClientDifferenceRequest.amount(),
+                updateClientDifferenceRequest.description(),
+                updateClientDifferenceRequest.differenceType(),
+                updateClientDifferenceRequest.differenceStatus());
+    }
+
+    @Override
     public ClientDifference toClientDifferenceModel(ClientDifferenceEntity clientDifferenceEntity) {
         return new ClientDifference(
                 clientDifferenceEntity.getId(),
@@ -37,7 +49,10 @@ public class ClientDifferenceModelMapper implements ClientDifferenceMapper {
 
     @Override
     public List<ClientDifference> toClientDifferencesModel(List<ClientDifferenceEntity> clientDifferenceEntities) {
-        return null;
+        return clientDifferenceEntities
+                .stream()
+                .map(this::toClientDifferenceModel)
+                .toList();
     }
 
     @Override
