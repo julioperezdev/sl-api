@@ -57,8 +57,8 @@ public class ClientModelMapper implements ClientMapper {
                 client.getId(),
                 client.getName(),
                 client.getPhone(),
-                client.getDescription(),
                 client.getAddress(),
+                client.getDescription(),
                 client.getCreatedAt());
     }
 }

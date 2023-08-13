@@ -83,12 +83,12 @@ public class SpringDependenciesConfiguration {
 
     @Bean
     public CreateClientService createClientService(){
-        return new CreateClientService(createClientAdapterRepository());
+        return new CreateClientService(createClientAdapterRepository(), clientModelMapper());
     }
 
     @Bean
     public CreateClientDelivery createClientDelivery(){
-        return new CreateClientDelivery(createClientService(), clientModelMapper());
+        return new CreateClientDelivery(createClientService());
     }
     /**
      * getClients

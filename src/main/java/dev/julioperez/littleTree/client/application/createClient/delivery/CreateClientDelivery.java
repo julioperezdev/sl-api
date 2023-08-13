@@ -13,11 +13,9 @@ import lombok.extern.slf4j.Slf4j;
 public class CreateClientDelivery implements CreateClientInputPort {
 
     private final CreateClient createClient;
-    private final ClientMapper clientMapper;
 
     @Override
     public boolean createClient(CreateClientRequest createClientRequest) throws Exception{
-        Client newClient = clientMapper.toClientModel(createClientRequest);
-        return createClient.createClient(newClient);
+        return createClient.createClient(createClientRequest);
     }
 }
