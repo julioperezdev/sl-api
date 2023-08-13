@@ -17,11 +17,6 @@ public enum DifferenceType {
         return this.value.equalsIgnoreCase(LACK.value);
     }
 
-    public boolean isValidDifferenceType(){
-        return Arrays.stream(DifferenceType.values())
-                .anyMatch(particular -> particular.value.equalsIgnoreCase(value));
-    }
-
     public String value(){
         return this.value;
     }
