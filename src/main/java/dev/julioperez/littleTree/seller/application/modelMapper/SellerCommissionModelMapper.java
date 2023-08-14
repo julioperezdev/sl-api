@@ -7,31 +7,56 @@ import dev.julioperez.littleTree.seller.domain.port.mapper.SellerCommissionMappe
 import dev.julioperez.littleTree.seller.infrastructure.repository.entity.SellerCommissionEntity;
 
 import java.util.List;
+import java.util.UUID;
 
 public class SellerCommissionModelMapper implements SellerCommissionMapper {
 
     @Override
     public SellerCommission toSellerCommissionModel(CreateSellerCommissionRequest createSellerCommissionRequest) {
-        return null;
+        return new SellerCommission(
+                UUID.randomUUID().toString(),
+                createSellerCommissionRequest.pesos(),
+                createSellerCommissionRequest.quantity(),
+                createSellerCommissionRequest.profit(),
+                createSellerCommissionRequest.sellerId(),
+                createSellerCommissionRequest.sellerCommissionStatus());
     }
 
     @Override
     public SellerCommission toSellerCommissionModel(SellerCommission sellerCommission, UpdateSellerCommissionRequest updateSellerCommissionRequest) {
-        return null;
+        return new SellerCommission(
+                sellerCommission.getId(),
+                sellerCommission.getPesos(),
+                sellerCommission.getQuantity(),
+                sellerCommission.getProfit(),
+                sellerCommission.getSellerId(),
+                updateSellerCommissionRequest.sellerCommissionStatus());
     }
 
     @Override
     public SellerCommission toSellerCommissionModel(SellerCommissionEntity sellerCommissionEntity) {
-        return null;
+        return new SellerCommission(
+                sellerCommissionEntity.getId(),
+                sellerCommissionEntity.getPesos(),
+                sellerCommissionEntity.getQuantity(),
+                sellerCommissionEntity.getProfit(),
+                sellerCommissionEntity.getSellerId(),
+                sellerCommissionEntity.getSellerCommissionStatus());
     }
 
     @Override
     public List<SellerCommission> toSellerCommissionsModel(List<SellerCommissionEntity> sellerCommissionEntities) {
-        return null;
+        return sellerCommissionEntities.stream().map(this::toSellerCommissionModel).toList();
     }
 
     @Override
     public SellerCommissionEntity toSellerCommissionEntity(SellerCommission sellerCommission) {
-        return null;
+        return new SellerCommissionEntity(
+                sellerCommission.getId(),
+                sellerCommission.getSellerId(),
+                sellerCommission.getSellerCommissionStatus(),
+                sellerCommission.getPesos(),
+                sellerCommission.getQuantity(),
+                sellerCommission.getProfit());
     }
 }
