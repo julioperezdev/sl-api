@@ -32,11 +32,15 @@ import dev.julioperez.littleTree.seller.application.createSeller.service.CreateS
 import dev.julioperez.littleTree.seller.application.getSeller.adapter.GetSellerAdapterRepository;
 import dev.julioperez.littleTree.seller.application.getSeller.delivery.GetSellerDelivery;
 import dev.julioperez.littleTree.seller.application.getSeller.service.GetSellerService;
+import dev.julioperez.littleTree.seller.application.getSellerCommission.adapter.GetSellerCommissionAdapterRepository;
+import dev.julioperez.littleTree.seller.application.getSellerCommission.delivery.GetSellerCommissionDelivery;
+import dev.julioperez.littleTree.seller.application.getSellerCommission.service.GetSellerCommissionService;
+import dev.julioperez.littleTree.seller.application.modelMapper.SellerCommissionModelMapper;
 import dev.julioperez.littleTree.seller.application.modelMapper.SellerModelMapper;
 import dev.julioperez.littleTree.seller.application.updateSeller.adapter.UpdateSellerAdapterRepository;
 import dev.julioperez.littleTree.seller.application.updateSeller.delivery.UpdateSellerDelivery;
 import dev.julioperez.littleTree.seller.application.updateSeller.service.UpdateSellerService;
-import dev.julioperez.littleTree.seller.domain.port.mapper.SellerMapper;
+import dev.julioperez.littleTree.seller.infrastructure.repository.dao.SellerCommissionDao;
 import dev.julioperez.littleTree.seller.infrastructure.repository.dao.SellerDao;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
@@ -63,9 +67,10 @@ public class SpringDependenciesConfiguration {
     private final CurrencyDao currencyDao;
     private final OperationDao operationDao;
     private final SellerDao sellerDao;
+    private final SellerCommissionDao sellerCommissionDao;
 
 
-    public SpringDependenciesConfiguration(BalanceDao balanceDao, CurrencyMultiBoxDao currencyMultiBoxDao, ClientDao clientDao, ClientDifferenceDao clientDifferenceDao, CurrencyDao currencyDao, OperationDao operationDao, SellerDao sellerDao) {
+    public SpringDependenciesConfiguration(BalanceDao balanceDao, CurrencyMultiBoxDao currencyMultiBoxDao, ClientDao clientDao, ClientDifferenceDao clientDifferenceDao, CurrencyDao currencyDao, OperationDao operationDao, SellerDao sellerDao, SellerCommissionDao sellerCommissionDao) {
         this.balanceDao = balanceDao;
         this.currencyMultiBoxDao = currencyMultiBoxDao;
         this.clientDao = clientDao;
@@ -73,6 +78,7 @@ public class SpringDependenciesConfiguration {
         this.currencyDao = currencyDao;
         this.operationDao = operationDao;
         this.sellerDao = sellerDao;
+        this.sellerCommissionDao = sellerCommissionDao;
     }
 
     /**
@@ -210,6 +216,10 @@ public class SpringDependenciesConfiguration {
     SellerModelMapper sellerModelMapper(){
         return new SellerModelMapper();
     }
+    @Bean
+    SellerCommissionModelMapper sellerCommissionModelMapper(){
+        return new SellerCommissionModelMapper();
+    }
 
     /**
      * CreateSeller
@@ -261,5 +271,22 @@ public class SpringDependenciesConfiguration {
     @Bean
     public UpdateSellerService updateSellerService(){
         return new UpdateSellerService(updateSellerAdapterRepository(), getSellerService(), sellerModelMapper());
+    }
+    /**
+     * GetSellerCommission
+     */
+    @Bean
+    public GetSellerCommissionAdapterRepository getSellerCommissionAdapterRepository(){
+        return new GetSellerCommissionAdapterRepository(sellerCommissionDao,sellerCommissionModelMapper());
+    }
+
+    @Bean
+    public GetSellerCommissionDelivery getSellerCommissionDelivery(){
+        return new GetSellerCommissionDelivery(getSellerCommissionService());
+    }
+
+    @Bean
+    public GetSellerCommissionService getSellerCommissionService(){
+        return new GetSellerCommissionService(getSellerCommissionAdapterRepository());
     }
 }
