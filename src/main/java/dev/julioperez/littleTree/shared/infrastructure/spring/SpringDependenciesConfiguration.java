@@ -43,6 +43,9 @@ import dev.julioperez.littleTree.seller.application.modelMapper.SellerModelMappe
 import dev.julioperez.littleTree.seller.application.updateSeller.adapter.UpdateSellerAdapterRepository;
 import dev.julioperez.littleTree.seller.application.updateSeller.delivery.UpdateSellerDelivery;
 import dev.julioperez.littleTree.seller.application.updateSeller.service.UpdateSellerService;
+import dev.julioperez.littleTree.seller.application.updateSellerCommission.adapter.UpdateSellerCommissionAdapterRepository;
+import dev.julioperez.littleTree.seller.application.updateSellerCommission.delivery.UpdateSellerCommissionDelivery;
+import dev.julioperez.littleTree.seller.application.updateSellerCommission.service.UpdateSellerCommissionService;
 import dev.julioperez.littleTree.seller.infrastructure.repository.dao.SellerCommissionDao;
 import dev.julioperez.littleTree.seller.infrastructure.repository.dao.SellerDao;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
@@ -308,5 +311,22 @@ public class SpringDependenciesConfiguration {
     @Bean
     public CreateSellerCommissionDelivery createSellerCommissionDelivery(){
         return new CreateSellerCommissionDelivery(createSellerCommissionService());
+    }
+    /**
+     * UpdateSellerCommission
+     */
+    @Bean
+    public UpdateSellerCommissionAdapterRepository updateSellerCommissionAdapterRepository(){
+        return new UpdateSellerCommissionAdapterRepository(sellerCommissionDao,sellerCommissionModelMapper());
+    }
+
+    @Bean
+    public UpdateSellerCommissionDelivery updateSellerCommissionDelivery(){
+        return new UpdateSellerCommissionDelivery(updateSellerCommissionService());
+    }
+
+    @Bean
+    public UpdateSellerCommissionService updateSellerCommissionService(){
+        return new UpdateSellerCommissionService(updateSellerCommissionAdapterRepository(), getSellerCommissionService(), sellerCommissionModelMapper());
     }
 }

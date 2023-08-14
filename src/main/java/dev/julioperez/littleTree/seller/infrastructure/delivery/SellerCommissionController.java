@@ -5,6 +5,7 @@ import dev.julioperez.littleTree.seller.domain.dto.UpdateSellerCommissionRequest
 import dev.julioperez.littleTree.seller.domain.model.SellerCommission;
 import dev.julioperez.littleTree.seller.domain.port.createSellerCommission.CreateSellerCommissionInputPort;
 import dev.julioperez.littleTree.seller.domain.port.getSellerCommission.GetSellerCommissionInputPort;
+import dev.julioperez.littleTree.seller.domain.port.updateSellerCommission.UpdateSellerCommissionInputPort;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,10 +19,12 @@ import java.util.List;
 public class SellerCommissionController {
     private final GetSellerCommissionInputPort getSellerCommissionInputPort;
     private final CreateSellerCommissionInputPort createSellerCommissionInputPort;
+    private final UpdateSellerCommissionInputPort updateSellerCommissionInputPort;
 
-    public SellerCommissionController(GetSellerCommissionInputPort getSellerCommissionInputPort, CreateSellerCommissionInputPort createSellerCommissionInputPort) {
+    public SellerCommissionController(GetSellerCommissionInputPort getSellerCommissionInputPort, CreateSellerCommissionInputPort createSellerCommissionInputPort, UpdateSellerCommissionInputPort updateSellerCommissionInputPort) {
         this.getSellerCommissionInputPort = getSellerCommissionInputPort;
         this.createSellerCommissionInputPort = createSellerCommissionInputPort;
+        this.updateSellerCommissionInputPort = updateSellerCommissionInputPort;
     }
 
     @PostMapping("/get")
@@ -39,7 +42,7 @@ public class SellerCommissionController {
     }
     @PutMapping("/update")
     public ResponseEntity<SellerCommission> updateSellerCommission(@RequestBody UpdateSellerCommissionRequest updateSellerCommissionRequest){
-        List<SellerCommission> sellerCommission = getSellerCommissionInputPort.getSellerCommission();
-        return new ResponseEntity<>(sellerCommission.get(0), HttpStatus.CREATED);
+        SellerCommission sellerCommission = updateSellerCommissionInputPort.updateSellerCommission(updateSellerCommissionRequest);
+        return new ResponseEntity<>(sellerCommission, HttpStatus.CREATED);
     }
 }

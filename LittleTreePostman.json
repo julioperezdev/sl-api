@@ -190,6 +190,191 @@
 					"response": []
 				}
 			]
+		},
+		{
+			"name": "seller",
+			"item": [
+				{
+					"name": "createSeller",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\":\"Paul\",\n    \"phone\":\"1122222233\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8081/api/v1/seller/create",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"api",
+								"v1",
+								"seller",
+								"create"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "updateSeller",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"sellerId\":\"a626bed3-65ac-41d0-9bfc-88daea2c3446\",\n    \"phone\":\"1111111111\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8081/api/v1/seller/update",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"api",
+								"v1",
+								"seller",
+								"update"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getSeller",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8081/api/v1/seller/get",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"api",
+								"v1",
+								"seller",
+								"get"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "createSellerCommission",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"pesos\":\"600\",\n    \"quantity\":\"1500\",\n    \"profit\":\"12\",\n    \"sellerId\":\"39acb3cb-0d61-47ee-b15d-938feb157d43\",\n    \"sellerCommissionStatus\":\"pendiente\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8081/api/v1/seller/commission/create",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"api",
+								"v1",
+								"seller",
+								"commission",
+								"create"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "updateSellerCommission",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"id\":\"45a4463e-d536-4451-b016-283a7c58486e\",\n    \"sellerCommissionStatus\":\"pagado\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8081/api/v1/seller/commission/update",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"api",
+								"v1",
+								"seller",
+								"commission",
+								"update"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getSellerCommission",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\":\"Juan\",\n    \"phone\":\"1126555555\",\n    \"address\":\"Rivadavia 21\",\n    \"description\":\"Tiene dinero\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8081/api/v1/seller/commission/get",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"api",
+								"v1",
+								"seller",
+								"commission",
+								"get"
+							]
+						}
+					},
+					"response": []
+				}
+			]
 		}
 	]
 }
