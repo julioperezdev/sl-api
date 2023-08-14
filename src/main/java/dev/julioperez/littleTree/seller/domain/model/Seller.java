@@ -5,9 +5,21 @@ public final class Seller {
     private final SellerName name;
     private final SellerPhone phone;
 
-    public Seller(SellerId id, SellerName name, SellerPhone phone) {
-        this.id = id;
-        this.name = name;
-        this.phone = phone;
+    public Seller(String id, String name, String phone) {
+        this.id = new SellerId(id);
+        this.name = new SellerName(name);
+        this.phone = new SellerPhone(phone);
+    }
+
+    public String getId() {
+        return id.value();
+    }
+
+    public String getName() {
+        return name.value();
+    }
+
+    public String getPhone() {
+        return phone.value();
     }
 }

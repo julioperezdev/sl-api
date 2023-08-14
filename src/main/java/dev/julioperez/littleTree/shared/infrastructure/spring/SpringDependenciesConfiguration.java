@@ -26,6 +26,15 @@ import dev.julioperez.littleTree.client.infrastructure.repository.dao.ClientDao;
 import dev.julioperez.littleTree.client.infrastructure.repository.dao.ClientDifferenceDao;
 import dev.julioperez.littleTree.currency.infrastructure.repository.dao.CurrencyDao;
 import dev.julioperez.littleTree.operation.infrastructure.repository.dao.OperationDao;
+import dev.julioperez.littleTree.seller.application.createSeller.adapter.CreateSellerAdapterRepository;
+import dev.julioperez.littleTree.seller.application.createSeller.delivery.CreateSellerDelivery;
+import dev.julioperez.littleTree.seller.application.createSeller.service.CreateSellerService;
+import dev.julioperez.littleTree.seller.application.getSeller.adapter.GetSellerAdapterRepository;
+import dev.julioperez.littleTree.seller.application.getSeller.delivery.GetSellerDelivery;
+import dev.julioperez.littleTree.seller.application.getSeller.service.GetSellerService;
+import dev.julioperez.littleTree.seller.application.modelMapper.SellerModelMapper;
+import dev.julioperez.littleTree.seller.domain.port.mapper.SellerMapper;
+import dev.julioperez.littleTree.seller.infrastructure.repository.dao.SellerDao;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.context.annotation.Bean;
@@ -50,17 +59,24 @@ public class SpringDependenciesConfiguration {
     private final ClientDifferenceDao clientDifferenceDao;
     private final CurrencyDao currencyDao;
     private final OperationDao operationDao;
+    private final SellerDao sellerDao;
 
 
-    public SpringDependenciesConfiguration(BalanceDao balanceDao, CurrencyMultiBoxDao currencyMultiBoxDao, ClientDao clientDao, ClientDifferenceDao clientDifferenceDao, CurrencyDao currencyDao, OperationDao operationDao) {
+    public SpringDependenciesConfiguration(BalanceDao balanceDao, CurrencyMultiBoxDao currencyMultiBoxDao, ClientDao clientDao, ClientDifferenceDao clientDifferenceDao, CurrencyDao currencyDao, OperationDao operationDao, SellerDao sellerDao) {
         this.balanceDao = balanceDao;
         this.currencyMultiBoxDao = currencyMultiBoxDao;
         this.clientDao = clientDao;
         this.clientDifferenceDao = clientDifferenceDao;
         this.currencyDao = currencyDao;
         this.operationDao = operationDao;
+        this.sellerDao = sellerDao;
     }
 
+    /**
+     * =====================================
+     * Client
+     * =====================================
+     */
     /**
      * modelMapper
      */
@@ -177,5 +193,53 @@ public class SpringDependenciesConfiguration {
     @Bean
     public UpdateClientDifferenceDelivery updateClientDifferenceDelivery(){
         return new UpdateClientDifferenceDelivery(updateClientDifferenceService());
+    }
+    /**
+     * =====================================
+     * Seller
+     * =====================================
+     */
+    /**
+     * modelMapper
+     */
+
+    @Bean
+    SellerModelMapper sellerModelMapper(){
+        return new SellerModelMapper();
+    }
+
+    /**
+     * CreateSeller
+     */
+    @Bean
+    public CreateSellerAdapterRepository createSellerAdapterRepository(){
+        return new CreateSellerAdapterRepository(sellerDao,sellerModelMapper());
+    }
+
+    @Bean
+    public CreateSellerService createSellerService(){
+        return new CreateSellerService(createSellerAdapterRepository(), sellerModelMapper());
+    }
+
+    @Bean
+    public CreateSellerDelivery createSellerDelivery(){
+        return new CreateSellerDelivery(createSellerService());
+    }
+    /**
+     * GetSeller
+     */
+    @Bean
+    public GetSellerAdapterRepository getSellerAdapterRepository(){
+        return new GetSellerAdapterRepository(sellerDao,sellerModelMapper());
+    }
+
+    @Bean
+    public GetSellerService getSellerService(){
+        return new GetSellerService(getSellerAdapterRepository());
+    }
+
+    @Bean
+    public GetSellerDelivery getSellerDelivery(){
+        return new GetSellerDelivery(getSellerService());
     }
 }
