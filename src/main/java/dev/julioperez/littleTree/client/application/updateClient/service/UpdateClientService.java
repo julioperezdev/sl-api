@@ -24,7 +24,7 @@ public class UpdateClientService implements UpdateClient {
     @Override
     public Client updateClient(UpdateClientRequest updateClientRequest) throws Exception {
         Optional<Client> optionalClientById = getClients.getOptionalClientById(updateClientRequest.id());
-        if(optionalClientById.isEmpty()) return null;
+        if(optionalClientById.isEmpty()) throw new IllegalArgumentException(String.format("%s value dont exist as Client", updateClientRequest.id()));
         Client clientToUpdate = clientMapper.toClientModel(optionalClientById.get(), updateClientRequest);
         return updateClientOutputPort.updateClient(clientToUpdate);
     }

@@ -1,6 +1,7 @@
 package dev.julioperez.littleTree.seller.application.modelMapper;
 
 import dev.julioperez.littleTree.seller.domain.dto.CreateSellerRequest;
+import dev.julioperez.littleTree.seller.domain.dto.UpdateSellerRequest;
 import dev.julioperez.littleTree.seller.domain.model.Seller;
 import dev.julioperez.littleTree.seller.domain.port.mapper.SellerMapper;
 import dev.julioperez.littleTree.seller.infrastructure.repository.entity.SellerEntity;
@@ -15,6 +16,14 @@ public class SellerModelMapper implements SellerMapper {
                         UUID.randomUUID().toString(),
                         createSellerRequest.name(),
                         createSellerRequest.phone());
+        }
+
+        @Override
+        public Seller toSellerModel(Seller seller, UpdateSellerRequest updateSellerRequest){
+                return new Seller(
+                        seller.getId(),
+                        seller.getName(),
+                        updateSellerRequest.phone());
         }
 
         @Override

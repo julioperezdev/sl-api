@@ -33,6 +33,9 @@ import dev.julioperez.littleTree.seller.application.getSeller.adapter.GetSellerA
 import dev.julioperez.littleTree.seller.application.getSeller.delivery.GetSellerDelivery;
 import dev.julioperez.littleTree.seller.application.getSeller.service.GetSellerService;
 import dev.julioperez.littleTree.seller.application.modelMapper.SellerModelMapper;
+import dev.julioperez.littleTree.seller.application.updateSeller.adapter.UpdateSellerAdapterRepository;
+import dev.julioperez.littleTree.seller.application.updateSeller.delivery.UpdateSellerDelivery;
+import dev.julioperez.littleTree.seller.application.updateSeller.service.UpdateSellerService;
 import dev.julioperez.littleTree.seller.domain.port.mapper.SellerMapper;
 import dev.julioperez.littleTree.seller.infrastructure.repository.dao.SellerDao;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
@@ -234,12 +237,29 @@ public class SpringDependenciesConfiguration {
     }
 
     @Bean
-    public GetSellerService getSellerService(){
-        return new GetSellerService(getSellerAdapterRepository());
+    public GetSellerDelivery getSellerDelivery(){
+        return new GetSellerDelivery(getSellerService());
     }
 
     @Bean
-    public GetSellerDelivery getSellerDelivery(){
-        return new GetSellerDelivery(getSellerService());
+    public GetSellerService getSellerService(){
+        return new GetSellerService(getSellerAdapterRepository());
+    }
+    /**
+     * UpdateSeller
+     */
+    @Bean
+    public UpdateSellerAdapterRepository updateSellerAdapterRepository(){
+        return new UpdateSellerAdapterRepository(sellerDao,sellerModelMapper());
+    }
+
+    @Bean
+    public UpdateSellerDelivery updateSellerDelivery(){
+        return new UpdateSellerDelivery(updateSellerService());
+    }
+
+    @Bean
+    public UpdateSellerService updateSellerService(){
+        return new UpdateSellerService(updateSellerAdapterRepository(), getSellerService(), sellerModelMapper());
     }
 }
