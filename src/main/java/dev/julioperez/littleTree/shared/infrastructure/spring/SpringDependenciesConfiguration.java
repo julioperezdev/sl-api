@@ -26,6 +26,17 @@ import dev.julioperez.littleTree.client.infrastructure.repository.dao.ClientDao;
 import dev.julioperez.littleTree.client.infrastructure.repository.dao.ClientDifferenceDao;
 import dev.julioperez.littleTree.currency.infrastructure.repository.dao.CurrencyDao;
 import dev.julioperez.littleTree.operation.infrastructure.repository.dao.OperationDao;
+import dev.julioperez.littleTree.provider.application.createProvider.adapter.CreateProviderAdapterRepository;
+import dev.julioperez.littleTree.provider.application.createProvider.delivery.CreateProviderDelivery;
+import dev.julioperez.littleTree.provider.application.createProvider.service.CreateProviderService;
+import dev.julioperez.littleTree.provider.application.getProviders.adapter.GetProviderAdapterRepository;
+import dev.julioperez.littleTree.provider.application.getProviders.delivery.GetProviderDelivery;
+import dev.julioperez.littleTree.provider.application.getProviders.service.GetProviderService;
+import dev.julioperez.littleTree.provider.application.modelMapper.ProviderModelMapper;
+import dev.julioperez.littleTree.provider.application.updateProvider.adapter.UpdateProviderAdapterRepository;
+import dev.julioperez.littleTree.provider.application.updateProvider.delivery.UpdateProviderDelivery;
+import dev.julioperez.littleTree.provider.application.updateProvider.service.UpdateProviderService;
+import dev.julioperez.littleTree.provider.infrastructure.repository.dao.ProviderDao;
 import dev.julioperez.littleTree.seller.application.createSeller.adapter.CreateSellerAdapterRepository;
 import dev.julioperez.littleTree.seller.application.createSeller.delivery.CreateSellerDelivery;
 import dev.julioperez.littleTree.seller.application.createSeller.service.CreateSellerService;
@@ -74,9 +85,10 @@ public class SpringDependenciesConfiguration {
     private final OperationDao operationDao;
     private final SellerDao sellerDao;
     private final SellerCommissionDao sellerCommissionDao;
+    private final ProviderDao providerDao;
 
 
-    public SpringDependenciesConfiguration(BalanceDao balanceDao, CurrencyMultiBoxDao currencyMultiBoxDao, ClientDao clientDao, ClientDifferenceDao clientDifferenceDao, CurrencyDao currencyDao, OperationDao operationDao, SellerDao sellerDao, SellerCommissionDao sellerCommissionDao) {
+    public SpringDependenciesConfiguration(BalanceDao balanceDao, CurrencyMultiBoxDao currencyMultiBoxDao, ClientDao clientDao, ClientDifferenceDao clientDifferenceDao, CurrencyDao currencyDao, OperationDao operationDao, SellerDao sellerDao, SellerCommissionDao sellerCommissionDao, ProviderDao providerDao) {
         this.balanceDao = balanceDao;
         this.currencyMultiBoxDao = currencyMultiBoxDao;
         this.clientDao = clientDao;
@@ -85,6 +97,7 @@ public class SpringDependenciesConfiguration {
         this.operationDao = operationDao;
         this.sellerDao = sellerDao;
         this.sellerCommissionDao = sellerCommissionDao;
+        this.providerDao = providerDao;
     }
 
     /**
@@ -328,5 +341,70 @@ public class SpringDependenciesConfiguration {
     @Bean
     public UpdateSellerCommissionService updateSellerCommissionService(){
         return new UpdateSellerCommissionService(updateSellerCommissionAdapterRepository(), getSellerCommissionService(), sellerCommissionModelMapper());
+    }
+    /**
+     * =====================================
+     * Provider
+     * =====================================
+     */
+    /**
+     * modelMapper
+     */
+
+    @Bean
+    ProviderModelMapper providerModelMapper(){
+        return new ProviderModelMapper();
+    }
+
+    /**
+     * CreateProvider
+     */
+    @Bean
+    public CreateProviderAdapterRepository createProviderAdapterRepository(){
+        return new CreateProviderAdapterRepository(providerDao,providerModelMapper());
+    }
+
+    @Bean
+    public CreateProviderService createProviderService(){
+        return new CreateProviderService(createProviderAdapterRepository(), providerModelMapper());
+    }
+
+    @Bean
+    public CreateProviderDelivery createProviderDelivery(){
+        return new CreateProviderDelivery(createProviderService());
+    }
+    /**
+     * GetProvider
+     */
+    @Bean
+    public GetProviderAdapterRepository getProviderAdapterRepository(){
+        return new GetProviderAdapterRepository(providerDao,providerModelMapper());
+    }
+
+    @Bean
+    public GetProviderDelivery getProviderDelivery(){
+        return new GetProviderDelivery(getProviderService());
+    }
+
+    @Bean
+    public GetProviderService getProviderService(){
+        return new GetProviderService(getProviderAdapterRepository());
+    }
+    /**
+     * UpdateProvider
+     */
+    @Bean
+    public UpdateProviderAdapterRepository updateProviderAdapterRepository(){
+        return new UpdateProviderAdapterRepository(providerDao,providerModelMapper());
+    }
+
+    @Bean
+    public UpdateProviderDelivery updateProviderDelivery(){
+        return new UpdateProviderDelivery(updateProviderService());
+    }
+
+    @Bean
+    public UpdateProviderService updateProviderService(){
+        return new UpdateProviderService(updateProviderAdapterRepository(), getProviderService(), providerModelMapper());
     }
 }
