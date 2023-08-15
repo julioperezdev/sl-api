@@ -1,0 +1,469 @@
+{
+	"info": {
+		"_postman_id": "41a8097b-1bc8-4de1-97da-8013e5fb388e",
+		"name": "Little Tree",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "10044648"
+	},
+	"item": [
+		{
+			"name": "client",
+			"item": [
+				{
+					"name": "createClient",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\":\"Pedro\",\n    \"phone\":\"1126354555\",\n    \"address\":\"Castro Luro 44\",\n    \"description\":\"Sin mucho dinero\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8081/api/v1/client/create",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"api",
+								"v1",
+								"client",
+								"create"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "updateClient",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"id\":\"ae9f7d05-46c9-4b2e-9ab2-1e014d1093e6\",\n    \"phone\":\"1569696969\",\n    \"address\":\"Corrientes 33\",\n    \"description\":\"Sin mucho dinero\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8081/api/v1/client/update",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"api",
+								"v1",
+								"client",
+								"update"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getClient",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8081/api/v1/client/get",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"api",
+								"v1",
+								"client",
+								"get"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "createDifferenceClient",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"clientId\":\"cdfe84d4-4096-4e25-b931-3ab808efbc42\",\n    \"amount\":\"5000\",\n    \"differenceType\":\"sobra\",\n    \"differenceStatus\":\"resuelto\",\n    \"description\":\"Le falta dinero de varios dias\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8081/api/v1/client/difference/create",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"api",
+								"v1",
+								"client",
+								"difference",
+								"create"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "updateDifferenceClient",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"id\":\"e1fd92cb-32f9-4f70-a946-ddf984dd7d4f\",\n    \"amount\":\"666\",\n    \"differenceType\":\"falta\",\n    \"differenceStatus\":\"resuelto\",\n    \"description\":\"Le falta dinero de varios dias\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8081/api/v1/client/difference/update",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"api",
+								"v1",
+								"client",
+								"difference",
+								"update"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getDifferenceClient",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\":\"Juan\",\n    \"phone\":\"1126555555\",\n    \"address\":\"Rivadavia 21\",\n    \"description\":\"Tiene dinero\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8081/api/v1/client/difference/get",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"api",
+								"v1",
+								"client",
+								"difference",
+								"get"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "seller",
+			"item": [
+				{
+					"name": "createSeller",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\":\"Paul\",\n    \"phone\":\"1122222233\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8081/api/v1/seller/create",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"api",
+								"v1",
+								"seller",
+								"create"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "updateSeller",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"sellerId\":\"a626bed3-65ac-41d0-9bfc-88daea2c3446\",\n    \"phone\":\"1111111111\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8081/api/v1/seller/update",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"api",
+								"v1",
+								"seller",
+								"update"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getSeller",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8081/api/v1/seller/get",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"api",
+								"v1",
+								"seller",
+								"get"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "createSellerCommission",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"pesos\":\"600\",\n    \"quantity\":\"1500\",\n    \"profit\":\"12\",\n    \"sellerId\":\"39acb3cb-0d61-47ee-b15d-938feb157d43\",\n    \"sellerCommissionStatus\":\"pendiente\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8081/api/v1/seller/commission/create",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"api",
+								"v1",
+								"seller",
+								"commission",
+								"create"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "updateSellerCommission",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"id\":\"45a4463e-d536-4451-b016-283a7c58486e\",\n    \"sellerCommissionStatus\":\"pagado\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8081/api/v1/seller/commission/update",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"api",
+								"v1",
+								"seller",
+								"commission",
+								"update"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getSellerCommission",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\":\"Juan\",\n    \"phone\":\"1126555555\",\n    \"address\":\"Rivadavia 21\",\n    \"description\":\"Tiene dinero\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8081/api/v1/seller/commission/get",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"api",
+								"v1",
+								"seller",
+								"commission",
+								"get"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "provider",
+			"item": [
+				{
+					"name": "createProvider",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\":\"Ramon\",\n    \"phone\":\"1544774444\",\n    \"address\":\"Rivadavia 633, CABA\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8081/api/v1/provider/create",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"api",
+								"v1",
+								"provider",
+								"create"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "updateProvider",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"id\":\"bf64a1b8-bc0c-4257-8bc0-6a084fddeafc\",\n    \"name\":\"Julio\",\n    \"phone\":\"1144773300\",\n    \"address\":\"Rivadavia 1005, CABA\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8081/api/v1/provider/update",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"api",
+								"v1",
+								"provider",
+								"update"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getProvider",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8081/api/v1/provider/get",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"api",
+								"v1",
+								"provider",
+								"get"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
