@@ -2,13 +2,18 @@ package dev.julioperez.littleTree.currency.infrastructure.repository.entity;
 
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.util.Date;
 
 @Entity
 @Table(name = "CURRENCY")
-@Data
+@Getter
+@AllArgsConstructor
+@NoArgsConstructor
 public class CurrencyEntity {
 
     @Id

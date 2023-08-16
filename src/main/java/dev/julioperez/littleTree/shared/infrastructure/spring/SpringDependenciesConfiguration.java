@@ -24,7 +24,28 @@ import dev.julioperez.littleTree.client.application.updateClientDifference.deliv
 import dev.julioperez.littleTree.client.application.updateClientDifference.service.UpdateClientDifferenceService;
 import dev.julioperez.littleTree.client.infrastructure.repository.dao.ClientDao;
 import dev.julioperez.littleTree.client.infrastructure.repository.dao.ClientDifferenceDao;
+import dev.julioperez.littleTree.currency.application.getCurrency.adapter.GetCurrencyAdapterRepository;
+import dev.julioperez.littleTree.currency.application.getCurrency.delivery.GetCurrencyDelivery;
+import dev.julioperez.littleTree.currency.application.getCurrency.service.GetCurrencyService;
+import dev.julioperez.littleTree.currency.application.modelMapper.CurrencyModelMapper;
+import dev.julioperez.littleTree.currency.application.updateCurrency.adapter.UpdateCurrencyAdapterRepository;
+import dev.julioperez.littleTree.currency.application.updateCurrency.delivery.UpdateCurrencyDelivery;
+import dev.julioperez.littleTree.currency.application.updateCurrency.service.UpdateCurrencyService;
 import dev.julioperez.littleTree.currency.infrastructure.repository.dao.CurrencyDao;
+import dev.julioperez.littleTree.note.application.createNote.adapter.CreateNoteAdapterRepository;
+import dev.julioperez.littleTree.note.application.createNote.delivery.CreateNoteDelivery;
+import dev.julioperez.littleTree.note.application.createNote.service.CreateNoteService;
+import dev.julioperez.littleTree.note.application.deleteNote.adapter.DeleteNoteAdapterRepository;
+import dev.julioperez.littleTree.note.application.deleteNote.delivery.DeleteNoteDelivery;
+import dev.julioperez.littleTree.note.application.deleteNote.service.DeleteNoteService;
+import dev.julioperez.littleTree.note.application.getNote.adapter.GetNoteAdapterRepository;
+import dev.julioperez.littleTree.note.application.getNote.delivery.GetNoteDelivery;
+import dev.julioperez.littleTree.note.application.getNote.service.GetNoteService;
+import dev.julioperez.littleTree.note.application.modelMapper.NoteModelMapper;
+import dev.julioperez.littleTree.note.application.updateNote.adapter.UpdateNoteAdapterRepository;
+import dev.julioperez.littleTree.note.application.updateNote.delivery.UpdateNoteDelivery;
+import dev.julioperez.littleTree.note.application.updateNote.service.UpdateNoteService;
+import dev.julioperez.littleTree.note.infrastructure.repository.dao.NoteDao;
 import dev.julioperez.littleTree.operation.infrastructure.repository.dao.OperationDao;
 import dev.julioperez.littleTree.provider.application.createProvider.adapter.CreateProviderAdapterRepository;
 import dev.julioperez.littleTree.provider.application.createProvider.delivery.CreateProviderDelivery;
@@ -86,9 +107,10 @@ public class SpringDependenciesConfiguration {
     private final SellerDao sellerDao;
     private final SellerCommissionDao sellerCommissionDao;
     private final ProviderDao providerDao;
+    private final NoteDao noteDao;
 
 
-    public SpringDependenciesConfiguration(BalanceDao balanceDao, CurrencyMultiBoxDao currencyMultiBoxDao, ClientDao clientDao, ClientDifferenceDao clientDifferenceDao, CurrencyDao currencyDao, OperationDao operationDao, SellerDao sellerDao, SellerCommissionDao sellerCommissionDao, ProviderDao providerDao) {
+    public SpringDependenciesConfiguration(BalanceDao balanceDao, CurrencyMultiBoxDao currencyMultiBoxDao, ClientDao clientDao, ClientDifferenceDao clientDifferenceDao, CurrencyDao currencyDao, OperationDao operationDao, SellerDao sellerDao, SellerCommissionDao sellerCommissionDao, ProviderDao providerDao, NoteDao noteDao) {
         this.balanceDao = balanceDao;
         this.currencyMultiBoxDao = currencyMultiBoxDao;
         this.clientDao = clientDao;
@@ -98,6 +120,7 @@ public class SpringDependenciesConfiguration {
         this.sellerDao = sellerDao;
         this.sellerCommissionDao = sellerCommissionDao;
         this.providerDao = providerDao;
+        this.noteDao = noteDao;
     }
 
     /**
@@ -406,5 +429,136 @@ public class SpringDependenciesConfiguration {
     @Bean
     public UpdateProviderService updateProviderService(){
         return new UpdateProviderService(updateProviderAdapterRepository(), getProviderService(), providerModelMapper());
+    }
+
+    /**
+     * =====================================
+     * Currency
+     * =====================================
+     */
+    /**
+     * modelMapper
+     */
+
+    @Bean
+    CurrencyModelMapper currencyModelMapper(){
+        return new CurrencyModelMapper();
+    }
+
+    /**
+     * GetCurrency
+     */
+    @Bean
+    public GetCurrencyAdapterRepository getCurrencyAdapterRepository(){
+        return new GetCurrencyAdapterRepository(currencyDao,currencyModelMapper());
+    }
+
+    @Bean
+    public GetCurrencyDelivery getCurrencyDelivery(){
+        return new GetCurrencyDelivery(getCurrencyService());
+    }
+
+    @Bean
+    public GetCurrencyService getCurrencyService(){
+        return new GetCurrencyService(getCurrencyAdapterRepository());
+    }
+    /**
+     * UpdateCurrency
+     */
+    @Bean
+    public UpdateCurrencyAdapterRepository updateCurrencyAdapterRepository(){
+        return new UpdateCurrencyAdapterRepository(currencyDao,currencyModelMapper());
+    }
+
+    @Bean
+    public UpdateCurrencyDelivery updateCurrencyDelivery(){
+        return new UpdateCurrencyDelivery(updateCurrencyService());
+    }
+
+    @Bean
+    public UpdateCurrencyService updateCurrencyService(){
+        return new UpdateCurrencyService(updateCurrencyAdapterRepository(), getCurrencyService(), currencyModelMapper());
+    }
+    /**
+     * =====================================
+     * Note
+     * =====================================
+     */
+    /**
+     * modelMapper
+     */
+
+    @Bean
+    NoteModelMapper noteModelMapper(){
+        return new NoteModelMapper();
+    }
+
+    /**
+     * CreateNote
+     */
+    @Bean
+    public CreateNoteAdapterRepository createNoteAdapterRepository(){
+        return new CreateNoteAdapterRepository(noteDao,noteModelMapper());
+    }
+
+    @Bean
+    public CreateNoteService createNoteService(){
+        return new CreateNoteService(createNoteAdapterRepository(), noteModelMapper());
+    }
+
+    @Bean
+    public CreateNoteDelivery createNoteDelivery(){
+        return new CreateNoteDelivery(createNoteService());
+    }
+    /**
+     * GetNote
+     */
+    @Bean
+    public GetNoteAdapterRepository getNoteAdapterRepository(){
+        return new GetNoteAdapterRepository(noteDao,noteModelMapper());
+    }
+
+    @Bean
+    public GetNoteDelivery getNoteDelivery(){
+        return new GetNoteDelivery(getNoteService());
+    }
+
+    @Bean
+    public GetNoteService getNoteService(){
+        return new GetNoteService(getNoteAdapterRepository());
+    }
+    /**
+     * UpdateNote
+     */
+    @Bean
+    public UpdateNoteAdapterRepository updateNoteAdapterRepository(){
+        return new UpdateNoteAdapterRepository(noteDao,noteModelMapper());
+    }
+
+    @Bean
+    public UpdateNoteDelivery updateNoteDelivery(){
+        return new UpdateNoteDelivery(updateNoteService());
+    }
+
+    @Bean
+    public UpdateNoteService updateNoteService(){
+        return new UpdateNoteService(updateNoteAdapterRepository(), getNoteService(), noteModelMapper());
+    }
+    /**
+     * DeleteNote
+     */
+    @Bean
+    public DeleteNoteAdapterRepository deleteNoteAdapterRepository(){
+        return new DeleteNoteAdapterRepository(noteDao);
+    }
+
+    @Bean
+    public DeleteNoteDelivery deleteNoteDelivery(){
+        return new DeleteNoteDelivery(deleteNoteService());
+    }
+
+    @Bean
+    public DeleteNoteService deleteNoteService(){
+        return new DeleteNoteService(deleteNoteAdapterRepository());
     }
 }
