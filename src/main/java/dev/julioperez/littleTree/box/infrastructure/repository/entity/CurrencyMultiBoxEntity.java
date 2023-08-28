@@ -1,19 +1,21 @@
 package dev.julioperez.littleTree.box.infrastructure.repository.entity;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.Date;
 
 @Entity
 @Table(name = "MULTIBOX")
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class CurrencyMultiBoxEntity {
 
     @Id
     private String id;
-    @Column(name = "CREATED_AT")
-    private Date createdAt;
     @Column(name = "UPDATED_AT")
     private Date updatedAt;
     private String currencyBox;

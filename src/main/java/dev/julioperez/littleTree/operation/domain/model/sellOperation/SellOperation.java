@@ -1,0 +1,97 @@
+package dev.julioperez.littleTree.operation.domain.model.sellOperation;
+
+
+import dev.julioperez.littleTree.box.domain.enums.CurrencyBox;
+import dev.julioperez.littleTree.box.domain.model.CurrencyMultiBoxId;
+import dev.julioperez.littleTree.client.domain.model.ClientId;
+import dev.julioperez.littleTree.operation.domain.enums.OperationStatus;
+import dev.julioperez.littleTree.operation.domain.model.operation.OperationId;
+import dev.julioperez.littleTree.seller.domain.model.SellerId;
+
+import java.util.Date;
+
+public final class SellOperation {
+
+    private final SellOperationId id;
+    private final SellOperationCreatedAt createdAt;
+    private final ClientId clientId;
+    private final SellOperationPhone phone;
+    private final CurrencyBox currencyMultiBox;
+    private final SellOperationPrice price;
+    private final SellOperationQuantity quantity;
+    private final SellOperationSubProfit subProfit;
+    private final SellOperationProfit profit;
+    private final SellOperationTotal total;
+    private final SellerId sellerId;
+    private OperationStatus operationStatus;
+
+    public SellOperation(String id, Date createdAt, String clientId, String phone, String currencyMultiBox, Float price, Float quantity, Float subProfit, Float profit, Float total, String sellerId, String operationStatus) {
+        this.id = new SellOperationId(id);
+        this.createdAt = new SellOperationCreatedAt(createdAt);
+        this.clientId = new ClientId(clientId);
+        this.phone = new SellOperationPhone(phone);
+        this.currencyMultiBox = CurrencyBox.returnCurrencyBoxByDescription(currencyMultiBox);
+        this.price = new SellOperationPrice(price);
+        this.quantity = new SellOperationQuantity(quantity);
+        this.subProfit = new SellOperationSubProfit(subProfit);
+        this.profit = new SellOperationProfit(profit);
+        this.total = new SellOperationTotal(total);
+        this.sellerId = new SellerId(sellerId);
+        this.operationStatus = OperationStatus.returnOperationStatusByDescription(operationStatus);
+    }
+
+    public String getId() {
+        return id.value();
+    }
+
+    public Date getCreatedAt() {
+        return createdAt.value();
+    }
+
+    public String getClientId() {
+        return clientId.value();
+    }
+
+    public String getPhone() {
+        return phone.value();
+    }
+
+    public String getCurrencyMultiBox() {
+        return currencyMultiBox.value();
+    }
+
+    public Float getPrice() {
+        return price.value();
+    }
+
+    public Float getQuantity() {
+        return quantity.value();
+    }
+
+    public Float getSubProfit() {
+        return subProfit.value();
+    }
+
+    public Float getProfit() {
+        return profit.value();
+    }
+
+    public Float getTotal() {
+        return total.value();
+    }
+
+    public String getSellerId() {
+        return sellerId.value();
+    }
+
+    public String getOperationStatus() {
+        return operationStatus.value();
+    }
+
+    public void updateOperationStatus(OperationStatus operationStatus){
+        this.operationStatus = operationStatus;
+    }
+    public boolean hasSeller(){
+        return this.sellerId.value() != null;
+    }
+}

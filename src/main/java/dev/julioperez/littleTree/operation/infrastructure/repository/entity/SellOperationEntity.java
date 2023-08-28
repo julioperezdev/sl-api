@@ -4,13 +4,17 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.Date;
 
 @Entity
-@Table(name = "SELLER_OPERATION")
+@Table(name = "SELL_OPERATION")
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class SellOperationEntity {
     @Id
     private String id;
@@ -18,13 +22,12 @@ public class SellOperationEntity {
     private Date createdAt;
     private String clientId;
     private String phone;
-    private String description;
-    private String currencyMultiBoxId;
+    private String currencyMultiBox;
     private Float price;
     private Float quantity;
     private Float subProfit;
     private Float profit;
     private Float total;
     private String sellerId;
-    private String operationId;
+    private String operationStatus;
 }

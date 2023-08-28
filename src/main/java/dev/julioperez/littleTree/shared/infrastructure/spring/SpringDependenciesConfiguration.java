@@ -1,7 +1,20 @@
 package dev.julioperez.littleTree.shared.infrastructure.spring;
 
+import dev.julioperez.littleTree.box.application.manageBalance.adapter.ManageBalanceAdapterRepository;
+import dev.julioperez.littleTree.box.application.manageBalance.service.ManageBalanceService;
+import dev.julioperez.littleTree.box.application.manageForeignExchange.service.ManageForeignExchangeService;
+import dev.julioperez.littleTree.box.application.manageOfficeDebt.service.ManageOfficeDebtService;
+import dev.julioperez.littleTree.box.application.managePesos.service.ManagePesosService;
+import dev.julioperez.littleTree.box.application.manageSellerBox.adapter.ManageSellerBoxAdapterRepository;
+import dev.julioperez.littleTree.box.application.manageSellerBox.service.ManageSellerBoxService;
+import dev.julioperez.littleTree.box.application.modelMapper.BalanceModelMapper;
+import dev.julioperez.littleTree.box.application.modelMapper.CurrencyMultiBoxModelMapper;
+import dev.julioperez.littleTree.box.application.modelMapper.SellerBoxModelMapper;
+import dev.julioperez.littleTree.box.application.updateCurrencyMultiBox.adapter.UpdateCurrencyMultiBoxAdapterRepository;
+import dev.julioperez.littleTree.box.application.updateCurrencyMultiBox.service.UpdateCurrencyMultiBoxService;
 import dev.julioperez.littleTree.box.infrastructure.repository.dao.BalanceDao;
 import dev.julioperez.littleTree.box.infrastructure.repository.dao.CurrencyMultiBoxDao;
+import dev.julioperez.littleTree.box.infrastructure.repository.dao.SellerBoxDao;
 import dev.julioperez.littleTree.client.application.createClient.adapter.CreateClientAdapterRepository;
 import dev.julioperez.littleTree.client.application.createClient.delivery.CreateClientDelivery;
 import dev.julioperez.littleTree.client.application.createClient.service.CreateClientService;
@@ -46,7 +59,25 @@ import dev.julioperez.littleTree.note.application.updateNote.adapter.UpdateNoteA
 import dev.julioperez.littleTree.note.application.updateNote.delivery.UpdateNoteDelivery;
 import dev.julioperez.littleTree.note.application.updateNote.service.UpdateNoteService;
 import dev.julioperez.littleTree.note.infrastructure.repository.dao.NoteDao;
-import dev.julioperez.littleTree.operation.infrastructure.repository.dao.OperationDao;
+import dev.julioperez.littleTree.operation.application.cancelOperation.adapter.CancelOperationAdapterRepository;
+import dev.julioperez.littleTree.operation.application.cancelOperation.delivery.CancelOperationDelivery;
+import dev.julioperez.littleTree.operation.application.cancelOperation.service.CancelOperationService;
+import dev.julioperez.littleTree.operation.application.createOperation.adapter.CreateOperationAdapterRepository;
+import dev.julioperez.littleTree.operation.application.createOperation.delivery.CreateOperationDelivery;
+import dev.julioperez.littleTree.operation.application.createOperation.service.CreateOperationService;
+import dev.julioperez.littleTree.operation.application.executeBuyOperation.adapter.ExecuteBuyOperationAdapterRepository;
+import dev.julioperez.littleTree.operation.application.executeBuyOperation.service.ExecuteBuyOperationService;
+import dev.julioperez.littleTree.operation.application.executeSellOperation.adapter.ExecuteSellOperationAdapterRepository;
+import dev.julioperez.littleTree.operation.application.executeSellOperation.service.ExecuteSellOperationService;
+import dev.julioperez.littleTree.operation.application.getOperations.adapter.GetOperationsAdapterRepository;
+import dev.julioperez.littleTree.operation.application.getOperations.delivery.GetOperationsDelivery;
+import dev.julioperez.littleTree.operation.application.getOperations.service.GetOperationsService;
+import dev.julioperez.littleTree.operation.application.modelMapper.BuyOperationModelMapper;
+import dev.julioperez.littleTree.operation.application.modelMapper.SellOperationModelMapper;
+import dev.julioperez.littleTree.operation.application.pendingOperation.delivery.PendingOperationDelivery;
+import dev.julioperez.littleTree.operation.application.pendingOperation.service.PendingOperationService;
+import dev.julioperez.littleTree.operation.infrastructure.repository.dao.BuyOperationDao;
+import dev.julioperez.littleTree.operation.infrastructure.repository.dao.SellOperationDao;
 import dev.julioperez.littleTree.provider.application.createProvider.adapter.CreateProviderAdapterRepository;
 import dev.julioperez.littleTree.provider.application.createProvider.delivery.CreateProviderDelivery;
 import dev.julioperez.littleTree.provider.application.createProvider.service.CreateProviderService;
@@ -103,21 +134,25 @@ public class SpringDependenciesConfiguration {
     private final ClientDao clientDao;
     private final ClientDifferenceDao clientDifferenceDao;
     private final CurrencyDao currencyDao;
-    private final OperationDao operationDao;
+    private final BuyOperationDao buyOperationDao;
+    private final SellOperationDao sellOperationDao;
     private final SellerDao sellerDao;
+    private final SellerBoxDao sellerBoxDao;
     private final SellerCommissionDao sellerCommissionDao;
     private final ProviderDao providerDao;
     private final NoteDao noteDao;
 
 
-    public SpringDependenciesConfiguration(BalanceDao balanceDao, CurrencyMultiBoxDao currencyMultiBoxDao, ClientDao clientDao, ClientDifferenceDao clientDifferenceDao, CurrencyDao currencyDao, OperationDao operationDao, SellerDao sellerDao, SellerCommissionDao sellerCommissionDao, ProviderDao providerDao, NoteDao noteDao) {
+    public SpringDependenciesConfiguration(BalanceDao balanceDao, CurrencyMultiBoxDao currencyMultiBoxDao, ClientDao clientDao, ClientDifferenceDao clientDifferenceDao, CurrencyDao currencyDao, BuyOperationDao buyOperationDao, SellOperationDao sellOperationDao, SellerDao sellerDao, SellerBoxDao sellerBoxDao, SellerCommissionDao sellerCommissionDao, ProviderDao providerDao, NoteDao noteDao) {
         this.balanceDao = balanceDao;
         this.currencyMultiBoxDao = currencyMultiBoxDao;
         this.clientDao = clientDao;
         this.clientDifferenceDao = clientDifferenceDao;
         this.currencyDao = currencyDao;
-        this.operationDao = operationDao;
+        this.buyOperationDao = buyOperationDao;
+        this.sellOperationDao = sellOperationDao;
         this.sellerDao = sellerDao;
+        this.sellerBoxDao = sellerBoxDao;
         this.sellerCommissionDao = sellerCommissionDao;
         this.providerDao = providerDao;
         this.noteDao = noteDao;
@@ -561,4 +596,191 @@ public class SpringDependenciesConfiguration {
     public DeleteNoteService deleteNoteService(){
         return new DeleteNoteService(deleteNoteAdapterRepository());
     }
+
+    /**
+     * =====================================
+     * Box
+     * =====================================
+     */
+    /**
+     * modelMapper
+     */
+
+    @Bean
+    BalanceModelMapper balanceModelMapper(){
+        return new BalanceModelMapper();
+    }
+    @Bean
+    CurrencyMultiBoxModelMapper currencyMultiBoxModelMapper(){
+        return new CurrencyMultiBoxModelMapper();
+    }
+
+    @Bean
+    SellerBoxModelMapper sellerBoxModelMapper(){
+        return new SellerBoxModelMapper();
+    }
+
+    /**
+     * ManageBalance
+     */
+    @Bean
+    public ManageBalanceAdapterRepository manageBalanceAdapterRepository(){
+        return new ManageBalanceAdapterRepository(balanceDao,balanceModelMapper());
+    }
+
+    @Bean
+    public ManageBalanceService manageBalanceService(){
+        return new ManageBalanceService(manageBalanceAdapterRepository());
+    }
+    /**
+     * ManageForeignExchange
+     */
+    @Bean
+    public ManageForeignExchangeService manageForeignExchangeService(){
+        return new ManageForeignExchangeService();
+    }
+
+    /**
+     * ManageOfficeDebt
+     */
+    @Bean
+    public ManageOfficeDebtService manageOfficeDebtService(){
+        return new ManageOfficeDebtService();
+    }
+
+    /**
+     * ManagePesos
+     */
+    @Bean
+    public ManagePesosService managePesosService(){
+        return new ManagePesosService();
+    }
+    /**
+     * ManageSellerBox
+     */
+    @Bean
+    public ManageSellerBoxAdapterRepository manageSellerBoxAdapterRepository(){
+        return new ManageSellerBoxAdapterRepository(sellerBoxDao,sellerBoxModelMapper());
+    }
+    @Bean
+    public ManageSellerBoxService manageSellerBoxService(){
+        return new ManageSellerBoxService(manageSellerBoxAdapterRepository());
+    }
+    /**
+     * UpdateCurrencyMultiBox
+     */
+    @Bean
+    public UpdateCurrencyMultiBoxAdapterRepository updateCurrencyMultiBoxAdapterRepository(){
+        return new UpdateCurrencyMultiBoxAdapterRepository(currencyMultiBoxDao,currencyMultiBoxModelMapper());
+    }
+    @Bean
+    public UpdateCurrencyMultiBoxService updateCurrencyMultiBoxService(){
+        return new UpdateCurrencyMultiBoxService(updateCurrencyMultiBoxAdapterRepository(), manageForeignExchangeService(), managePesosService(), manageOfficeDebtService());
+    }
+
+    /**
+     * =====================================
+     * Operation
+     * =====================================
+     */
+    /**
+     * modelMapper
+     */
+
+    @Bean
+    BuyOperationModelMapper buyOperationModelMapper(){
+        return new BuyOperationModelMapper();
+    }
+    @Bean
+    SellOperationModelMapper sellOperationModelMapper(){
+        return new SellOperationModelMapper();
+    }
+
+    /**
+     * CancelOperation
+     */
+    @Bean
+    public CancelOperationAdapterRepository cancelOperationAdapterRepository(){
+        return new CancelOperationAdapterRepository(buyOperationDao,sellOperationDao,buyOperationModelMapper(), sellOperationModelMapper());
+    }
+
+    @Bean
+    public CancelOperationService cancelOperationService(){
+        return new CancelOperationService(cancelOperationAdapterRepository(),getOperationsService() , updateCurrencyMultiBoxService());
+    }
+    @Bean
+    public CancelOperationDelivery cancelOperationDelivery(){
+        return new CancelOperationDelivery(cancelOperationService());
+    }
+    /**
+     * CreateOperation
+     */
+    @Bean
+    public CreateOperationAdapterRepository createOperationAdapterRepository(){
+        return new CreateOperationAdapterRepository(buyOperationDao,sellOperationDao,buyOperationModelMapper(), sellOperationModelMapper());
+    }
+
+    @Bean
+    public CreateOperationService createOperationService(){
+        return new CreateOperationService(createOperationAdapterRepository(),updateCurrencyMultiBoxService(), getOperationsService());
+    }
+    @Bean
+    public CreateOperationDelivery createOperationDelivery(){
+        return new CreateOperationDelivery(createOperationService());
+    }
+
+    /**
+     * ExecuteBuyOperation
+     */
+    @Bean
+    public ExecuteBuyOperationAdapterRepository executeBuyOperationAdapterRepository(){
+        return new ExecuteBuyOperationAdapterRepository(buyOperationDao,buyOperationModelMapper());
+    }
+
+    @Bean
+    public ExecuteBuyOperationService executeBuyOperationService(){
+        return new ExecuteBuyOperationService(executeBuyOperationAdapterRepository(), getOperationsService(), updateCurrencyMultiBoxService(),null );
+    }
+
+    /**
+     * ExecuteSellOperation
+     */
+    @Bean
+    public ExecuteSellOperationAdapterRepository executeSellOperationAdapterRepository(){
+        return new ExecuteSellOperationAdapterRepository(sellOperationDao,sellOperationModelMapper());
+    }
+
+    @Bean
+    public ExecuteSellOperationService executeSellOperationService(){
+        return new ExecuteSellOperationService(executeSellOperationAdapterRepository(), getOperationsService(), updateCurrencyMultiBoxService(), manageBalanceService(), createSellerCommissionService(), null);
+    }
+    /**
+     * GetOperations
+     */
+    @Bean
+    public GetOperationsAdapterRepository getOperationsAdapterRepository(){
+        return new GetOperationsAdapterRepository(buyOperationDao,sellOperationDao,buyOperationModelMapper(), sellOperationModelMapper());
+    }
+
+    @Bean
+    public GetOperationsService getOperationsService(){
+        return new GetOperationsService(getOperationsAdapterRepository());
+    }
+    @Bean
+    public GetOperationsDelivery getOperationsDelivery(){
+        return new GetOperationsDelivery(getOperationsService());
+    }
+    /**
+     * PendingOperation
+     */
+
+    @Bean
+    public PendingOperationService pendingOperationService(){
+        return new PendingOperationService(executeBuyOperationService(),executeSellOperationService());
+    }
+    @Bean
+    public PendingOperationDelivery pendingOperationDelivery(){
+        return new PendingOperationDelivery(pendingOperationService());
+    }
 }
+

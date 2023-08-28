@@ -9,7 +9,8 @@ import java.util.List;
 public enum SellerCommissionStatus {
 
     PENDING("pendiente"),
-    DONE("pagado");
+    DONE("pagado"),
+    CANCELED("cancelado");
 
     private final String value;
 
