@@ -82,15 +82,14 @@ public class CreateOperationService implements CreateOperation {
     private List<BuyOperation> generateBuyOperations(BuyOperationRequest buyOperationsRequest){
         return buyOperationsRequest.buyOperationData()
                 .stream()
-                .map(particular -> this.generateParticularBuyOperation(buyOperationsRequest.hasOfficeCheck(),buyOperationsRequest.clientId(),buyOperationsRequest.phone(), particular))
+                .map(particular -> this.generateParticularBuyOperation(buyOperationsRequest.hasOfficeCheck(),buyOperationsRequest.clientId(), particular))
                 .toList();
     }
-    private BuyOperation generateParticularBuyOperation(boolean hasOfficeCheck, String clientId, String phone, BuyOperationData buyOperationData){
+    private BuyOperation generateParticularBuyOperation(boolean hasOfficeCheck, String clientId, BuyOperationData buyOperationData){
         return new BuyOperation(
                 UUID.randomUUID().toString(),
                 Date.from(Instant.now()),
                 clientId,
-                phone,
                 buyOperationData.currencyMultiBox(),
                 buyOperationData.buyPrice(),
                 buyOperationData.quantity(),
@@ -101,10 +100,12 @@ public class CreateOperationService implements CreateOperation {
                 buyOperationData.quantity());
     }
     private Float calculateTotalPriceToBuyOperation(BuyOperationData buyOperationData){
-        float totalPriceInPesos = buyOperationData.buyPrice() * buyOperationData.quantity();
+        float totalPriceInPesos = 0f;
+        totalPriceInPesos = buyOperationData.buyPrice() * buyOperationData.quantity();
         if(buyOperationData.currencyMultiBox().equals(CurrencyBox.USD_LOW.value())){
-         Float percent = buyOperationData.percent();
-         totalPriceInPesos = ((totalPriceInPesos * percent)/100) + totalPriceInPesos;
+            Float percent = buyOperationData.percent();
+            Float newBuyPrice = buyOperationData.buyPrice() - ((buyOperationData.buyPrice() * percent)/100);
+            totalPriceInPesos = newBuyPrice * buyOperationData.quantity();
         }
         return totalPriceInPesos;
     }
@@ -145,7 +146,6 @@ public class CreateOperationService implements CreateOperation {
                 UUID.randomUUID().toString(),
                 Date.from(Instant.now()),
                 clientId,
-                phone,
                 sellOperationData.currencyMultiBox(),
                 sellOperationData.buyPrice(),
                 sellOperationData.quantityToSell(),
@@ -166,7 +166,6 @@ public class CreateOperationService implements CreateOperation {
                 buyOperation.getCreatedAt(),
                 //should be create a updateAt field to this case
                 buyOperation.getClientId(),
-                buyOperation.getPhone(),
                 buyOperation.getCurrencyMultiBox(),
                 buyOperation.getPrice(),
                 buyOperation.getQuantity(),

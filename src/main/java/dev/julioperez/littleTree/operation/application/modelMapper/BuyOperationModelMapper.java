@@ -1,15 +1,11 @@
 package dev.julioperez.littleTree.operation.application.modelMapper;
 
-import dev.julioperez.littleTree.operation.domain.dto.BuyOperationData;
-import dev.julioperez.littleTree.operation.domain.dto.BuyOperationRequest;
+
 import dev.julioperez.littleTree.operation.domain.model.buyOperation.BuyOperation;
 import dev.julioperez.littleTree.operation.domain.port.mapper.BuyOperationMapper;
 import dev.julioperez.littleTree.operation.infrastructure.repository.entity.BuyOperationEntity;
 
-import java.time.Instant;
-import java.util.Date;
 import java.util.List;
-import java.util.UUID;
 
 public class BuyOperationModelMapper implements BuyOperationMapper {
 
@@ -26,7 +22,6 @@ public class BuyOperationModelMapper implements BuyOperationMapper {
                 buyOperationEntity.getId(),
                 buyOperationEntity.getCreatedAt(),
                 buyOperationEntity.getClientId(),
-                buyOperationEntity.getPhone(),
                 buyOperationEntity.getCurrencyMultiBox(),
                 buyOperationEntity.getPrice(),
                 buyOperationEntity.getQuantity(),
@@ -43,7 +38,6 @@ public class BuyOperationModelMapper implements BuyOperationMapper {
                 buyOperation.getId(),
                 buyOperation.getCreatedAt(),
                 buyOperation.getClientId(),
-                buyOperation.getPhone(),
                 buyOperation.getCurrencyMultiBox(),
                 buyOperation.getPrice(),
                 buyOperation.getQuantity(),

@@ -16,7 +16,6 @@ public final class BuyOperation {
     private final BuyOperationId id;
     private final BuyOperationCreatedAt createdAt;
     private final ClientId clientId;
-    private final BuyOperationPhone phone;
     private final CurrencyBox currencyMultiBox;
     private final BuyOperationPrice price;
     private final BuyOperationQuantity quantity;
@@ -26,15 +25,14 @@ public final class BuyOperation {
     private OperationStatus operationStatus;
     private final BuyOperationReserve reserve;
 
-    public BuyOperation(String id, Date createdAt, String clientId, String phone, String currencyMultiBox, Float price, Float quantity, Float percent, Float total, boolean officeCheck, String operationStatus, Float reserve) {
+    public BuyOperation(String id, Date createdAt, String clientId, String currencyMultiBox, Float price, Float quantity, Float percent, Float total, boolean officeCheck, String operationStatus, Float reserve) {
         this.id = new BuyOperationId(id);
         this.createdAt = new BuyOperationCreatedAt(createdAt);
         this.clientId = new ClientId(clientId);
-        this.phone = new BuyOperationPhone(phone);
         this.currencyMultiBox = CurrencyBox.returnCurrencyBoxByDescription(currencyMultiBox);
         this.price = new BuyOperationPrice(price);
         this.quantity = new BuyOperationQuantity(quantity);
-        this.percent = new BuyOperationPercent(percent);
+        this.percent = ensureSetPercentValueOnUsdLowForeignCurrency(percent, this.currencyMultiBox);
         this.total = new BuyOperationTotal(total);
         this.officeCheck = new BuyOperationOfficeCheck(officeCheck);
         this.operationStatus = OperationStatus.returnOperationStatusByDescription(operationStatus);
@@ -52,10 +50,6 @@ public final class BuyOperation {
 
     public String getClientId() {
         return clientId.value();
-    }
-
-    public String getPhone() {
-        return phone.value();
     }
 
     public String getCurrencyMultiBox() {
@@ -99,4 +93,8 @@ public final class BuyOperation {
         return this.getReserve() - amount;
     }
 
+    private BuyOperationPercent ensureSetPercentValueOnUsdLowForeignCurrency(Float value, CurrencyBox currencyMultiBox){
+        Float percent = currencyMultiBox.equals(CurrencyBox.USD_LOW) ? value : 0;
+        return new BuyOperationPercent(percent);
+    }
 }

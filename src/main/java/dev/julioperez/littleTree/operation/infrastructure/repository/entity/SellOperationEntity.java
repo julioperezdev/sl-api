@@ -21,7 +21,6 @@ public class SellOperationEntity {
     @Column(name = "CREATED_AT", nullable = false)
     private Date createdAt;
     private String clientId;
-    private String phone;
     private String currencyMultiBox;
     private Float price;
     private Float quantity;

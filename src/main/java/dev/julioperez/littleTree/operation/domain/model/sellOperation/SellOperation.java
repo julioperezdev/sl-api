@@ -15,7 +15,6 @@ public final class SellOperation {
     private final SellOperationId id;
     private final SellOperationCreatedAt createdAt;
     private final ClientId clientId;
-    private final SellOperationPhone phone;
     private final CurrencyBox currencyMultiBox;
     private final SellOperationPrice price;
     private final SellOperationQuantity quantity;
@@ -25,11 +24,10 @@ public final class SellOperation {
     private final SellerId sellerId;
     private OperationStatus operationStatus;
 
-    public SellOperation(String id, Date createdAt, String clientId, String phone, String currencyMultiBox, Float price, Float quantity, Float subProfit, Float profit, Float total, String sellerId, String operationStatus) {
+    public SellOperation(String id, Date createdAt, String clientId, String currencyMultiBox, Float price, Float quantity, Float subProfit, Float profit, Float total, String sellerId, String operationStatus) {
         this.id = new SellOperationId(id);
         this.createdAt = new SellOperationCreatedAt(createdAt);
         this.clientId = new ClientId(clientId);
-        this.phone = new SellOperationPhone(phone);
         this.currencyMultiBox = CurrencyBox.returnCurrencyBoxByDescription(currencyMultiBox);
         this.price = new SellOperationPrice(price);
         this.quantity = new SellOperationQuantity(quantity);
@@ -52,9 +50,6 @@ public final class SellOperation {
         return clientId.value();
     }
 
-    public String getPhone() {
-        return phone.value();
-    }
 
     public String getCurrencyMultiBox() {
         return currencyMultiBox.value();
