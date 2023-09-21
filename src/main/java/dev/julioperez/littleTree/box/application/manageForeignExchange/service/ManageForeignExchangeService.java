@@ -44,15 +44,19 @@ public class ManageForeignExchangeService implements ManageForeignExchange {
     }
 
     @Override
-    public CurrencyMultiBox recordForeignExchangeBoxToReturnEgress(CurrencyMultiBox foreignExchangeBox, SellOperation sellOperation) {
+    public CurrencyMultiBox recordForeignExchangeBoxToReturnEgress(CurrencyMultiBox foreignExchangeBox, SellOperation sellOperation, Float actualQuantityByExchangeCurrencyBox) {
         return new CurrencyMultiBox(
                 UUID.randomUUID().toString(),
                 Date.from(Instant.now()),
                 foreignExchangeBox.getCurrencyBox(),
                 sellOperation.getId(),
-                foreignExchangeBox.addQuantity(sellOperation.getQuantity()),
+                calculateOfNewQuantityToForeignExchangeBoxByCanceledOperation(actualQuantityByExchangeCurrencyBox, sellOperation.getQuantity()),//foreignExchangeBox.addQuantity(sellOperation.getQuantity()),
                 sellOperation.getPrice(),
                 MultiBoxStatus.CANCELLED.value());
+    }
+
+    private Float calculateOfNewQuantityToForeignExchangeBoxByCanceledOperation(Float actualQuantityOfForeignExchangeBox, Float sellOperationTotal){
+        return actualQuantityOfForeignExchangeBox + sellOperationTotal;
     }
 
     @Override

@@ -37,10 +37,8 @@ public class UpdateCurrencyMultiBoxService implements UpdateCurrencyMultiBox {
         String egressBox = buyOperation.hasOfficeCheck() ? CurrencyBox.PESO_OFFICE.value() : CurrencyBox.PESO.value();
         CurrencyMultiBox pesosOrOfficeBox = getCurrencyBoxByValues(egressBox, currenciesMultiboxByOperationId);
 
-        Float actualQuantityByForeignExchangeBox = getActualQuantityOfCurrencyBox(foreignCurrencyBox.getCurrencyBox());
-        Float actualQuantityByPesosOrOfficeBox = getActualQuantityOfCurrencyBox(egressBox);
-
-
+        Float actualQuantityByForeignExchangeBox = getActualQuantityOfCurrencyBoxByDescription(foreignCurrencyBox.getCurrencyBox());
+        Float actualQuantityByPesosOrOfficeBox = getActualQuantityOfCurrencyBoxByDescription(egressBox);
 
         CurrencyMultiBox foreignExchangeToIngress = manageForeignExchange.recordForeignExchangeToConfirmIngress(foreignCurrencyBox, buyOperation, actualQuantityByForeignExchangeBox);
         CurrencyMultiBox pesosOrOfficeBoxToEgress =
@@ -84,7 +82,7 @@ public class UpdateCurrencyMultiBoxService implements UpdateCurrencyMultiBox {
         List<CurrencyMultiBox> currenciesMultiboxByOperationId = updateCurrencyMultiBoxOutputPort.getCurrenciesMultiboxByOperationId(buyOperation.getId());
         String egressBox = buyOperation.hasOfficeCheck() ? CurrencyBox.PESO_OFFICE.value() : CurrencyBox.PESO.value();
         CurrencyMultiBox pesosOrOfficeBox = getCurrencyBoxByValues(egressBox, currenciesMultiboxByOperationId);
-        Float actualQuantityByPesosOrOfficeBox = getActualQuantityOfCurrencyBox(egressBox);
+        Float actualQuantityByPesosOrOfficeBox = getActualQuantityOfCurrencyBoxByDescription(egressBox);
 
         CurrencyMultiBox pesosOrOfficeBoxToReturnEgress =
                 buyOperation.hasOfficeCheck()
@@ -96,17 +94,21 @@ public class UpdateCurrencyMultiBoxService implements UpdateCurrencyMultiBox {
         List<CurrencyMultiBox> multiBoxesUpdated = updateCurrencyMultiBoxOutputPort.currencyMultiBoxes(List.of(pesosOrOfficeBoxToReturnEgress));
         return multiBoxesUpdated.size() == 1;
     }
-    private Float getActualQuantityOfCurrencyBox(String currencyBox){
+    private Float getActualQuantityOfCurrencyBoxByDescription(String currencyBoxDescription){
+        CurrencyBox currencyBox = CurrencyBox.returnCurrencyBoxByDescription(currencyBoxDescription);
+        return getActualQuantityOfCurrencyBoxCaller(currencyBox);
+    }
+    private Float getActualQuantityOfCurrencyBoxCaller(CurrencyBox currencyBox){
         return updateCurrencyMultiBoxOutputPort
-                .getActualQuantityByCurrencyBox(CurrencyBox.returnCurrencyBoxByDescription(currencyBox))
+                .getActualQuantityByCurrencyBox(currencyBox)
                 .getQuantity();
     }
     @Override
     public boolean returnQuantityOnCurrencyBoxByCancelledSellOperation(SellOperation sellOperation) {
         List<CurrencyMultiBox> currenciesMultiboxByOperationId = updateCurrencyMultiBoxOutputPort.getCurrenciesMultiboxByOperationId(sellOperation.getId());
         CurrencyMultiBox foreignCurrencyBox = getCurrencyBoxByValues(sellOperation.getCurrencyMultiBox(), currenciesMultiboxByOperationId);
-
-        CurrencyMultiBox foreignCurrencyBoxToReturnEgress = manageForeignExchange.recordForeignExchangeBoxToReturnEgress(foreignCurrencyBox, sellOperation);
+        Float actualQuantityByExchangeCurrencyBox = getActualQuantityOfCurrencyBoxByDescription(foreignCurrencyBox.getCurrencyBox());
+        CurrencyMultiBox foreignCurrencyBoxToReturnEgress = manageForeignExchange.recordForeignExchangeBoxToReturnEgress(foreignCurrencyBox, sellOperation, actualQuantityByExchangeCurrencyBox);
 
         //todo: question, what happen if quantity of box is less of 0?
         if(foreignCurrencyBoxToReturnEgress.getQuantity() < 0) throw new IllegalArgumentException(String.format("Quantity of box %s cant be less of zero", foreignCurrencyBoxToReturnEgress.getCurrencyBox()));
