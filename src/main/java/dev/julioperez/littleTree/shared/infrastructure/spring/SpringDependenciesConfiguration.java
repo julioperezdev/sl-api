@@ -69,6 +69,8 @@ import dev.julioperez.littleTree.operation.application.executeBuyOperation.adapt
 import dev.julioperez.littleTree.operation.application.executeBuyOperation.service.ExecuteBuyOperationService;
 import dev.julioperez.littleTree.operation.application.executeSellOperation.adapter.ExecuteSellOperationAdapterRepository;
 import dev.julioperez.littleTree.operation.application.executeSellOperation.service.ExecuteSellOperationService;
+import dev.julioperez.littleTree.operation.application.generateTicket.adapter.GenerateTicketAdapterGateway;
+import dev.julioperez.littleTree.operation.application.generateTicket.service.GenerateTicketService;
 import dev.julioperez.littleTree.operation.application.getOperations.adapter.GetOperationsAdapterRepository;
 import dev.julioperez.littleTree.operation.application.getOperations.delivery.GetOperationsDelivery;
 import dev.julioperez.littleTree.operation.application.getOperations.service.GetOperationsService;
@@ -76,6 +78,7 @@ import dev.julioperez.littleTree.operation.application.modelMapper.BuyOperationM
 import dev.julioperez.littleTree.operation.application.modelMapper.SellOperationModelMapper;
 import dev.julioperez.littleTree.operation.application.pendingOperation.delivery.PendingOperationDelivery;
 import dev.julioperez.littleTree.operation.application.pendingOperation.service.PendingOperationService;
+import dev.julioperez.littleTree.operation.infrastructure.gateway.pdfBox.GenerateTicketPdfBox;
 import dev.julioperez.littleTree.operation.infrastructure.repository.dao.BuyOperationDao;
 import dev.julioperez.littleTree.operation.infrastructure.repository.dao.SellOperationDao;
 import dev.julioperez.littleTree.provider.application.createProvider.adapter.CreateProviderAdapterRepository;
@@ -141,9 +144,10 @@ public class SpringDependenciesConfiguration {
     private final SellerCommissionDao sellerCommissionDao;
     private final ProviderDao providerDao;
     private final NoteDao noteDao;
+    private final GenerateTicketPdfBox generateTicketPdfBox;
 
 
-    public SpringDependenciesConfiguration(BalanceDao balanceDao, CurrencyMultiBoxDao currencyMultiBoxDao, ClientDao clientDao, ClientDifferenceDao clientDifferenceDao, CurrencyDao currencyDao, BuyOperationDao buyOperationDao, SellOperationDao sellOperationDao, SellerDao sellerDao, SellerBoxDao sellerBoxDao, SellerCommissionDao sellerCommissionDao, ProviderDao providerDao, NoteDao noteDao) {
+    public SpringDependenciesConfiguration(BalanceDao balanceDao, CurrencyMultiBoxDao currencyMultiBoxDao, ClientDao clientDao, ClientDifferenceDao clientDifferenceDao, CurrencyDao currencyDao, BuyOperationDao buyOperationDao, SellOperationDao sellOperationDao, SellerDao sellerDao, SellerBoxDao sellerBoxDao, SellerCommissionDao sellerCommissionDao, ProviderDao providerDao, NoteDao noteDao, GenerateTicketPdfBox generateTicketPdfBox) {
         this.balanceDao = balanceDao;
         this.currencyMultiBoxDao = currencyMultiBoxDao;
         this.clientDao = clientDao;
@@ -156,6 +160,7 @@ public class SpringDependenciesConfiguration {
         this.sellerCommissionDao = sellerCommissionDao;
         this.providerDao = providerDao;
         this.noteDao = noteDao;
+        this.generateTicketPdfBox = generateTicketPdfBox;
     }
 
     /**
@@ -739,7 +744,7 @@ public class SpringDependenciesConfiguration {
 
     @Bean
     public ExecuteBuyOperationService executeBuyOperationService(){
-        return new ExecuteBuyOperationService(executeBuyOperationAdapterRepository(), getOperationsService(), updateCurrencyMultiBoxService(),null );
+        return new ExecuteBuyOperationService(executeBuyOperationAdapterRepository(), getOperationsService(), updateCurrencyMultiBoxService(),generateTicketService() );
     }
 
     /**
@@ -752,7 +757,7 @@ public class SpringDependenciesConfiguration {
 
     @Bean
     public ExecuteSellOperationService executeSellOperationService(){
-        return new ExecuteSellOperationService(executeSellOperationAdapterRepository(), getOperationsService(), updateCurrencyMultiBoxService(), manageBalanceService(), createSellerCommissionService(), null);
+        return new ExecuteSellOperationService(executeSellOperationAdapterRepository(), getOperationsService(), updateCurrencyMultiBoxService(), manageBalanceService(), createSellerCommissionService(), generateTicketService());
     }
     /**
      * GetOperations
@@ -781,6 +786,19 @@ public class SpringDependenciesConfiguration {
     @Bean
     public PendingOperationDelivery pendingOperationDelivery(){
         return new PendingOperationDelivery(pendingOperationService());
+    }
+
+    /**
+     * GenerateTicket
+     */
+
+    @Bean
+    public GenerateTicketAdapterGateway generateTicketAdapterGateway(){
+        return new GenerateTicketAdapterGateway(generateTicketPdfBox);
+    }
+    @Bean
+    public GenerateTicketService generateTicketService(){
+        return new GenerateTicketService(generateTicketAdapterGateway());
     }
 }
 
