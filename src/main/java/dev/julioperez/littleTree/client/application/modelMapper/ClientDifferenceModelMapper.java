@@ -15,13 +15,14 @@ public class ClientDifferenceModelMapper implements ClientDifferenceMapper {
 
     @Override
     public ClientDifference toClientDifferenceModel(CreateClientDifferenceRequest createClientDifferenceRequest) {
-        return new ClientDifference(UUID.randomUUID().toString(),
+        return new ClientDifference(
+                createClientDifferenceRequest.id(),
                 Date.from(Instant.now()),
                 createClientDifferenceRequest.clientId(),
                 createClientDifferenceRequest.amount(),
                 createClientDifferenceRequest.description(),
                 createClientDifferenceRequest.differenceType(),
-                createClientDifferenceRequest.differenceStatus());
+                "pendiente");
     }
 
     @Override

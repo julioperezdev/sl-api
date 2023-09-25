@@ -1,5 +1,5 @@
 package dev.julioperez.littleTree.client.domain.dto;
 
 
-public record CreateClientDifferenceRequest(String clientId,Float amount, String description, String differenceType, String differenceStatus) {
+public record CreateClientDifferenceRequest(String id, String clientId,Float amount, String description, String differenceType) {
 }

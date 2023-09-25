@@ -12,10 +12,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/v1/client")
 @Slf4j
+@CrossOrigin(origins = "http://localhost:3001")
 public class ClientController {
 
     private final CreateClientInputPort createClientInputPort;
@@ -41,6 +44,23 @@ public class ClientController {
                 ? HttpStatus.NO_CONTENT
                 : HttpStatus.FOUND;
         return new ResponseEntity<>(allClients, httpStatus);
+    }
+
+    @PutMapping("/get/{id}")
+    public ResponseEntity<Optional<Client>> getClientById(@PathVariable("id") String id) throws Exception {
+        Optional<Client> client = getClientsInputPort.getOptionalClientById(id);
+        HttpStatus httpStatus = client.isEmpty()
+                ? HttpStatus.NO_CONTENT
+                : HttpStatus.FOUND;
+        return new ResponseEntity<>(client, httpStatus);
+    }
+    @PutMapping("/get/name/{name}")
+    public ResponseEntity<Optional<Client>> getClientByName(@PathVariable("name") String name) throws Exception {
+        Optional<Client> client = getClientsInputPort.getOptionalClientByName(name);
+        HttpStatus httpStatus = client.isEmpty()
+                ? HttpStatus.NO_CONTENT
+                : HttpStatus.FOUND;
+        return new ResponseEntity<>(client, httpStatus);
     }
 
     @PutMapping("/update")

@@ -33,7 +33,7 @@ public class GetClientsService implements GetClients {
     public Optional<Client> getOptionalClientByName(String name) throws Exception {
         List<Client> allClients = getClients();
         return allClients.stream()
-                .filter(client -> client.getName().equals(name))
+                .filter(client -> client.getName().equalsIgnoreCase(name))
                 .findFirst();
     }
 }

@@ -16,7 +16,8 @@ public class ClientModelMapper implements ClientMapper {
     @Override
     public Client toClientModel(CreateClientRequest createClientRequest) {
         return new Client(
-                UUID.randomUUID().toString(),
+                //UUID.randomUUID().toString(),
+                createClientRequest.id(),
                 createClientRequest.name(),
                 createClientRequest.phone(),
                 createClientRequest.address(),

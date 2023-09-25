@@ -12,10 +12,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/v1/client/difference")
 @Slf4j
+@CrossOrigin(origins = "http://localhost:3001")
 public class ClientDifferenceController {
 
     private final GetClientDifferenceInputPort getClientDifferenceInputPort;
@@ -31,6 +33,15 @@ public class ClientDifferenceController {
     @PostMapping("/get")
     public ResponseEntity<List<ClientDifference>> getAllClientDifferences(){
         List<ClientDifference> clientDifferences = getClientDifferenceInputPort.getClientDifference();
+        HttpStatus httpStatus = clientDifferences.isEmpty()
+                ? HttpStatus.NO_CONTENT
+                : HttpStatus.FOUND;
+        return new ResponseEntity<>(clientDifferences, httpStatus);
+    }
+
+    @PutMapping("/get/{id}")
+    public ResponseEntity<Optional<ClientDifference>> getClientDifferenceById(@PathVariable String id){
+        Optional<ClientDifference> clientDifferences = getClientDifferenceInputPort.getOptionalClientDifferenceById(id);
         HttpStatus httpStatus = clientDifferences.isEmpty()
                 ? HttpStatus.NO_CONTENT
                 : HttpStatus.FOUND;

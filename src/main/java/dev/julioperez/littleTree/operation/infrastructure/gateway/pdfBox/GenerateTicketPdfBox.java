@@ -105,8 +105,8 @@ public class GenerateTicketPdfBox {
         contentStream.close();
         //return contentStream;
     }
-    /*
-    public static void main(String[] args) throws IOException {
+
+    public static void main(String[] args) {
         String idPDF = Instant.now().toString();//UUID.randomUUID().toString();
         ByteArrayOutputStream out = new ByteArrayOutputStream();
 
@@ -118,43 +118,76 @@ public class GenerateTicketPdfBox {
             pdDocumentInformation.setSubject("Venta de OPERACION ID");
             pdDocumentInformation.setCreationDate(Calendar.getInstance());
 
-            //PDRectangle pageSize = new PDRectangle(79.5f, 100);
-            PDPage page = new PDPage(PDRectangle.A6);
-            document.addPage(page);
-            PDPageContentStream contentStream = new PDPageContentStream(document, page);
-            //Standard14Fonts.FontName font = Standard14Fonts.FontName.HELVETICA;
-            contentStream.setFont(HELVETICA, 12);
+            PDRectangle pageSize = new PDRectangle(3.14961f, 1.9685f);
+            PDPage pageToClient = new PDPage(pageSize);
+            PDPage pageToSeller = new PDPage(pageSize);
+            document.addPage(pageToClient);
+            document.addPage(pageToSeller);
+            PDPageContentStream contentStream = new PDPageContentStream(document, pageToClient);
+            PDPageContentStream contentStream2 = new PDPageContentStream(document, pageToSeller);
+            contentStream.setFont(COURIER_BOLD, 12f);
             contentStream.setLeading(10);
             contentStream.beginText();
-            contentStream.newLineAtOffset( 10, page.getMediaBox().getHeight() - 10);
-            contentStream.showText("Fecha: 15-04-2023 09:24:44");
-            contentStream.newLine();
-            contentStream.showText("Apodo Cliente: Julio Perez");
-            contentStream.newLine();
+            contentStream.newLineAtOffset( 3.8f, pageToClient.getMediaBox().getHeight() - 10f);
+            contentStream.showText("*COMPROBANTE PARA CLIENTE*");
+            contentStream.setFont(COURIER, 12f);
+            contentStream.newLineAtOffset( 0, -10f);
+            contentStream.showText("Fecha: 15/04/2023 09:24:44");
+            contentStream.newLineAtOffset( 0, -10f);
+            contentStream.showText("Cliente: Marcelo Pedromo");
+            contentStream.newLineAtOffset( 0, -10f);
             contentStream.showText("Tipo Operación: Compra");
-            contentStream.newLine();
+            contentStream.newLineAtOffset( 0, -10f);
             contentStream.showText("Tipo de Divisa: Dolar Grande");
-            contentStream.newLine();
-            contentStream.showText("Importe: 550");
-            contentStream.newLine();
+            contentStream.newLineAtOffset( 0, -10f);
+            contentStream.showText("Importe: $550");
+            contentStream.newLineAtOffset( 0, -10f);
             //Operacion Venta:"Importe a Cobrar"
             //Operacion Compra:"Importe a Pagar"
-            contentStream.showText("Importe a Cobrar: 550000 Pesos");
+            contentStream.showText("Importe a Cobrar: $550.000");
             contentStream.endText();
             //El ticket para la oficina debe colocarse la direccion
             contentStream.close();
 
+            //======================================
+
+            contentStream2.setFont(COURIER_BOLD, 12f);
+            contentStream2.setLeading(10);
+            contentStream2.beginText();
+            contentStream2.newLineAtOffset( 3.8f, pageToClient.getMediaBox().getHeight() - 10f);
+            contentStream2.showText("*COMPROBANTE PARA OFICINA*");
+            contentStream2.setFont(COURIER, 12f);
+            contentStream2.newLineAtOffset( 0, -10f);
+            contentStream2.showText("Fecha: 15/04/2023 09:24:44");
+            contentStream2.newLineAtOffset( 0, -10f);
+            contentStream2.showText("Cliente: Marcelo Pedromo");
+            contentStream2.newLineAtOffset( 0, -10f);
+            contentStream2.showText("Dirección: Carlos Calvo 40");
+            contentStream2.newLineAtOffset( 0, -10f);
+            contentStream2.showText("Tipo Operación: Compra");
+            contentStream2.newLineAtOffset( 0, -10f);
+            contentStream2.showText("Tipo de Divisa: Dolar Grande");
+            contentStream2.newLineAtOffset( 0, -10f);
+            contentStream2.showText("Importe: $550");
+            contentStream2.newLineAtOffset( 0, -10f);
+            //Operacion Venta:"Importe a Cobrar"
+            //Operacion Compra:"Importe a Pagar"
+            contentStream2.showText("Importe a Cobrar: $550.000");
+            contentStream2.endText();
+            //El ticket para la oficina debe colocarse la direccion
+            contentStream2.close();
 
 
-            document.save(out);
+
+            document.save("z_"+idPDF+".pdf");
             document.close();
 
         }catch (Exception exception){
             System.out.println(exception.getMessage());
         }
-        System.out.println("se hice el pdf");
+        System.out.println("se hace el pdf");
         System.out.println(Arrays.toString(out.toByteArray()));
     }
 
-     */
+
 }

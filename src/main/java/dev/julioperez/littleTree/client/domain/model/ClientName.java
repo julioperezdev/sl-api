@@ -10,6 +10,6 @@ public final class ClientName extends StringValueObject {
     }
     private void ensureValueIsValid(String valueToValid){
         if(valueToValid == null || valueToValid.isEmpty() || valueToValid.isBlank()) throw new IllegalArgumentException(String.format("%s value must be define", valueToValid));
-        if(!valueToValid.matches("^[a-zA-Z]*$")) throw new IllegalArgumentException(String.format("%s value must contain only alphabetic characters",valueToValid));
+        if(!valueToValid.matches("^[a-zA-Z ]*$")) throw new IllegalArgumentException(String.format("%s value must contain only alphabetic characters",valueToValid));
     }
 }
