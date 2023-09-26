@@ -7,6 +7,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.Date;
+
 @Entity
 @Table(name = "SELLER")
 @Data
@@ -17,4 +19,5 @@ public class SellerEntity {
     private String id;
     private String name;
     private String phone;
+    private Date createdAt;
 }

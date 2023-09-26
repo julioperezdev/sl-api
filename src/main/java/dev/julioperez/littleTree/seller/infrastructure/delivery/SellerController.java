@@ -12,10 +12,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/v1/seller")
 @Slf4j
+@CrossOrigin(origins = "http://localhost:3001")
 public class SellerController {
     private final CreateSellerInputPort createSellerInputPort;
     private final GetSellerInputPort getSellerInputPort;
@@ -36,6 +38,15 @@ public class SellerController {
     @PostMapping("/get")
     public ResponseEntity<List<Seller>> getSeller(){
         List<Seller> sellers = getSellerInputPort.getSellers();
+        HttpStatus httpStatus = sellers.isEmpty()
+                ? HttpStatus.NO_CONTENT
+                : HttpStatus.FOUND;
+        return new ResponseEntity<>(sellers, httpStatus);
+    }
+
+    @PutMapping("/get/{id}")
+    public ResponseEntity<Optional<Seller>> getSellerById(@PathVariable String id){
+        Optional<Seller> sellers = getSellerInputPort.getSellerById(id);
         HttpStatus httpStatus = sellers.isEmpty()
                 ? HttpStatus.NO_CONTENT
                 : HttpStatus.FOUND;

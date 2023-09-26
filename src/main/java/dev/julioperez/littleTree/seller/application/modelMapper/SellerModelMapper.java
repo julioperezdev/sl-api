@@ -6,6 +6,8 @@ import dev.julioperez.littleTree.seller.domain.model.Seller;
 import dev.julioperez.littleTree.seller.domain.port.mapper.SellerMapper;
 import dev.julioperez.littleTree.seller.infrastructure.repository.entity.SellerEntity;
 
+import java.sql.Date;
+import java.time.Instant;
 import java.util.List;
 import java.util.UUID;
 
@@ -13,9 +15,11 @@ public class SellerModelMapper implements SellerMapper {
         @Override
         public Seller toSellerModel(CreateSellerRequest createSellerRequest) throws Exception{
                 return new Seller(
-                        UUID.randomUUID().toString(),
+                        //UUID.randomUUID().toString(),
+                        createSellerRequest.id(),
                         createSellerRequest.name(),
-                        createSellerRequest.phone());
+                        createSellerRequest.phone(),
+                        Date.from(Instant.now()));
         }
 
         @Override
@@ -23,7 +27,8 @@ public class SellerModelMapper implements SellerMapper {
                 return new Seller(
                         seller.getId(),
                         seller.getName(),
-                        updateSellerRequest.phone());
+                        updateSellerRequest.phone(),
+                        seller.getCreatedAt());
         }
 
         @Override
@@ -31,7 +36,8 @@ public class SellerModelMapper implements SellerMapper {
                 return new Seller(
                         sellerEntity.getId(),
                         sellerEntity.getName(),
-                        sellerEntity.getPhone());
+                        sellerEntity.getPhone(),
+                        sellerEntity.getCreatedAt());
         }
 
         @Override
@@ -44,6 +50,7 @@ public class SellerModelMapper implements SellerMapper {
                 return new SellerEntity(
                         seller.getId(),
                         seller.getName(),
-                        seller.getPhone());
+                        seller.getPhone(),
+                        seller.getCreatedAt());
         }
 }

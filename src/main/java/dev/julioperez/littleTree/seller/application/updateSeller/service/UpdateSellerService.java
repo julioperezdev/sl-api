@@ -22,8 +22,8 @@ public class UpdateSellerService implements UpdateSeller {
 
     @Override
     public Seller updateSeller(UpdateSellerRequest updateSellerRequest) {
-        Optional<Seller> sellerById = getSeller.getSellerById(updateSellerRequest.sellerId());
-        if(sellerById.isEmpty()) throw new IllegalArgumentException(String.format("%s value dont exist as Seller", updateSellerRequest.sellerId()));
+        Optional<Seller> sellerById = getSeller.getSellerById(updateSellerRequest.id());
+        if(sellerById.isEmpty()) throw new IllegalArgumentException(String.format("%s value dont exist as Seller", updateSellerRequest.id()));
         Seller seller = sellerMapper.toSellerModel(sellerById.get(), updateSellerRequest);
         return updateSellerOutputPort.updateSeller(seller);
     }
