@@ -7,14 +7,18 @@ import dev.julioperez.littleTree.provider.domain.model.Provider;
 import dev.julioperez.littleTree.provider.domain.port.createProvider.CreateProviderInputPort;
 import dev.julioperez.littleTree.provider.domain.port.getProvider.GetProviderInputPort;
 import dev.julioperez.littleTree.provider.domain.port.updateProvider.UpdateProviderInputPort;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/v1/provider")
+@Slf4j
+@CrossOrigin(origins = "http://localhost:3001")
 public class ProviderController {
 
     private final CreateProviderInputPort createProviderInputPort;
@@ -27,15 +31,24 @@ public class ProviderController {
         this.updateProviderInputPort = updateProviderInputPort;
     }
 
-    @PostMapping("/create")
+    @PutMapping("/create")
     public ResponseEntity<Provider> createProvider(@RequestBody CreateProviderRequest createProviderRequest){
         Provider provider = createProviderInputPort.createProvider(createProviderRequest);
         return new ResponseEntity<>(provider, HttpStatus.CREATED);
     }
 
-    @PostMapping("/get")
+    @PutMapping("/get")
     public ResponseEntity<List<Provider>> getAllProvider(){
         List<Provider> providers = getProviderInputPort.getProviders();
+        HttpStatus httpStatus = providers.isEmpty()
+                ? HttpStatus.NO_CONTENT
+                : HttpStatus.FOUND;
+        return new ResponseEntity<>(providers, httpStatus);
+    }
+
+    @PutMapping("/get/{id}")
+    public ResponseEntity<Optional<Provider>> getProviderById(@PathVariable String id){
+        Optional<Provider> providers = getProviderInputPort.getProviderById(id);
         HttpStatus httpStatus = providers.isEmpty()
                 ? HttpStatus.NO_CONTENT
                 : HttpStatus.FOUND;

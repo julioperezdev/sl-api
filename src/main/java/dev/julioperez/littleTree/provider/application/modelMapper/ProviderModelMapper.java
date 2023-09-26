@@ -16,7 +16,8 @@ public class ProviderModelMapper implements ProviderMapper {
     @Override
     public Provider toProviderModel(CreateProviderRequest createProviderRequest) {
         return new Provider(
-                UUID.randomUUID().toString(),
+                //UUID.randomUUID().toString(),
+                createProviderRequest.id(),
                 createProviderRequest.name(),
                 createProviderRequest.phone(),
                 createProviderRequest.address(),
@@ -27,7 +28,7 @@ public class ProviderModelMapper implements ProviderMapper {
     public Provider toProviderModel(Provider provider, UpdateProviderRequest updateProviderRequest) {
         return new Provider(
                 provider.getId(),
-                updateProviderRequest.name(),
+                provider.getName(),
                 updateProviderRequest.phone(),
                 updateProviderRequest.address(),
                 provider.getCreatedAt());
