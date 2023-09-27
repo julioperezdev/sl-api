@@ -1,8 +1,5 @@
 package dev.julioperez.littleTree.note.infrastructure.delivery;
 
-import dev.julioperez.littleTree.client.domain.dto.CreateClientRequest;
-import dev.julioperez.littleTree.client.domain.dto.UpdateClientRequest;
-import dev.julioperez.littleTree.client.domain.model.Client;
 import dev.julioperez.littleTree.note.domain.dto.CreateNoteRequest;
 import dev.julioperez.littleTree.note.domain.dto.UpdateNoteRequest;
 import dev.julioperez.littleTree.note.domain.model.Note;
@@ -36,7 +33,7 @@ public class NoteController {
     }
 
     @PutMapping("/get")
-    public ResponseEntity<List<Note>> getAllNotes() throws Exception {
+    public ResponseEntity<List<Note>> getAllNotes() {
         List<Note> notes = getNoteInputPort.getNotes();
         HttpStatus httpStatus = notes.isEmpty()
                 ? HttpStatus.NO_CONTENT
@@ -54,12 +51,12 @@ public class NoteController {
     }
 
     @PutMapping("/update")
-    public ResponseEntity<Note> updateNote(@RequestBody UpdateNoteRequest updateNoteRequest) throws Exception {
+    public ResponseEntity<Note> updateNote(@RequestBody UpdateNoteRequest updateNoteRequest) {
         Note note = updateNoteInputPort.updateNote(updateNoteRequest);
         return new ResponseEntity<>(note, HttpStatus.OK);
     }
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<Boolean> deleteNote(@PathVariable String id) throws Exception {
+    public ResponseEntity<Boolean> deleteNote(@PathVariable String id){
         boolean response = deleteNoteInputPort.deleteNoteById(id);
         HttpStatus httpStatus = response
                 ? HttpStatus.ACCEPTED

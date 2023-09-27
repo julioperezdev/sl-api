@@ -4,7 +4,6 @@ import dev.julioperez.littleTree.currency.domain.model.Currency;
 import dev.julioperez.littleTree.currency.domain.port.getCurrency.GetCurrency;
 import dev.julioperez.littleTree.currency.domain.port.getCurrency.GetCurrencyOutputPort;
 
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;

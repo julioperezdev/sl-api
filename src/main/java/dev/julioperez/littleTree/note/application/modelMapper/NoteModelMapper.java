@@ -9,7 +9,6 @@ import dev.julioperez.littleTree.note.infrastructure.repository.entity.NoteEntit
 import java.time.Instant;
 import java.util.Date;
 import java.util.List;
-import java.util.UUID;
 
 public class NoteModelMapper implements NoteMapper {
     @Override
