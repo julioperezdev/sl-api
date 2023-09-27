@@ -15,7 +15,8 @@ public class NoteModelMapper implements NoteMapper {
     @Override
     public Note toNoteModel(CreateNoteRequest createNoteRequest) {
         return new Note(
-                UUID.randomUUID().toString(),
+                //UUID.randomUUID().toString(),
+                createNoteRequest.id(),
                 createNoteRequest.description(),
                 createNoteRequest.color(),
                 Date.from(Instant.now()),

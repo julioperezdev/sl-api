@@ -1,4 +1,4 @@
 package dev.julioperez.littleTree.note.domain.dto;
 
-public record CreateNoteRequest(String description, String color){
+public record CreateNoteRequest(String id,String description, String color){
 }

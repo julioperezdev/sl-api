@@ -4,7 +4,10 @@ import dev.julioperez.littleTree.currency.domain.model.Currency;
 import dev.julioperez.littleTree.currency.domain.port.getCurrency.GetCurrency;
 import dev.julioperez.littleTree.currency.domain.port.getCurrency.GetCurrencyOutputPort;
 
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class GetCurrencyService implements GetCurrency {
     private final GetCurrencyOutputPort getCurrencyOutputPort;
@@ -15,8 +18,8 @@ public class GetCurrencyService implements GetCurrency {
 
     @Override
     public List<Currency> getHistoricalCurrencies() {
-        //Falta definir como se quiere retornar la informacion
-        return getCurrencyOutputPort.getCurrencies();
+        List<Currency> currencies = getCurrencyOutputPort.getCurrencies();
+        return currencies.stream().sorted(Comparator.comparing(Currency::getUpdateAt).reversed()).collect(Collectors.toList());
     }
 
     @Override

@@ -5,6 +5,7 @@ import dev.julioperez.littleTree.note.domain.port.getNote.GetNote;
 import dev.julioperez.littleTree.note.domain.port.getNote.GetNoteInputPort;
 
 import java.util.List;
+import java.util.Optional;
 
 public class GetNoteDelivery implements GetNoteInputPort {
     private final GetNote getNote;
@@ -16,5 +17,10 @@ public class GetNoteDelivery implements GetNoteInputPort {
     @Override
     public List<Note> getNotes() {
         return getNote.getNotes();
+    }
+
+    @Override
+    public Optional<Note> getNoteById(String id) {
+        return getNote.getNoteById(id);
     }
 }
