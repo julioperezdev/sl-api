@@ -22,4 +22,9 @@ public class GetCurrencyDelivery implements GetCurrencyInputPort {
     public List<Currency> getLastUpdateOfCurrencies() {
         return getCurrency.getLastUpdateOfCurrencies();
     }
+
+    @Override
+    public Currency getLastUpdatedByName(String name) {
+        return getCurrency.getLastUpdatedByName(name);
+    }
 }

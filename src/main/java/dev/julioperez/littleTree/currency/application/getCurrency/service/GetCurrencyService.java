@@ -27,6 +27,13 @@ public class GetCurrencyService implements GetCurrency {
         isValidLastUpdateOfCurrencies(lastUpdateOfCurrencies);
         return lastUpdateOfCurrencies;
     }
+
+    @Override
+    public Currency getLastUpdatedByName(String name) {
+        return getCurrencyOutputPort.getLastUpdatedByName(name);
+    }
+
+
     private void isValidLastUpdateOfCurrencies(List<Currency> lastUpdateOfCurrencies){
         if(lastUpdateOfCurrencies.size() != 4) throw new IllegalArgumentException("Dont have a same quantity of Currencies");
         boolean distinctCurrencies = lastUpdateOfCurrencies.stream().distinct().toList().size() == 4;

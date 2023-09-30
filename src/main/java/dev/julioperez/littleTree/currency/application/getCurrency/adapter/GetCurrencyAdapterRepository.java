@@ -28,4 +28,10 @@ public class GetCurrencyAdapterRepository implements GetCurrencyOutputPort {
         List<CurrencyEntity> lastUpdatedCurrencies = currencyDao.findLastUpdatedCurrencies();
         return currencyMapper.toCurrenciesModel(lastUpdatedCurrencies);
     }
+
+    @Override
+    public Currency getLastUpdatedByName(String name) {
+        CurrencyEntity lastUpdatedByName = currencyDao.getLastUpdatedByName(name).orElseThrow(() -> new IllegalArgumentException(String.format("Does not exist %s currency name", name)));
+        return currencyMapper.toCurrencyModel(lastUpdatedByName);
+    }
 }

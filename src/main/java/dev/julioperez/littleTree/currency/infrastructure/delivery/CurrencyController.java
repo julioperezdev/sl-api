@@ -11,7 +11,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/v1/currency")
@@ -41,12 +40,9 @@ public class CurrencyController {
     }
 
     @PutMapping("/get/name/usd")
-    ResponseEntity<Optional<Currency>> getCurrencyByName(){
-        Optional<Currency> historicalCurrencies = getCurrencyInputPort.getLastUpdateOfCurrencies().stream().findFirst();
-        HttpStatus httpStatus = historicalCurrencies.isEmpty()
-                ? HttpStatus.NO_CONTENT
-                : HttpStatus.FOUND;
-        return new ResponseEntity<>(historicalCurrencies, httpStatus);
+    ResponseEntity<Currency> getUsdCurrency(){
+        Currency dollarHighUpdated = getCurrencyInputPort.getLastUpdatedByName("Dolar grande");
+        return new ResponseEntity<>(dollarHighUpdated, HttpStatus.FOUND);
     }
 
     @PutMapping("/update")

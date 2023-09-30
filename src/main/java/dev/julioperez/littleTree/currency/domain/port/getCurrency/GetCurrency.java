@@ -7,4 +7,5 @@ import java.util.List;
 public interface GetCurrency {
     List<Currency> getHistoricalCurrencies();
     List<Currency> getLastUpdateOfCurrencies();
+    Currency getLastUpdatedByName(String name);
 }

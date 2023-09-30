@@ -7,4 +7,5 @@ import java.util.List;
 public interface GetCurrencyOutputPort {
     List<Currency> getCurrencies();
     List<Currency> getLastUpdateOfCurrencies();
+    Currency getLastUpdatedByName(String name);
 }
