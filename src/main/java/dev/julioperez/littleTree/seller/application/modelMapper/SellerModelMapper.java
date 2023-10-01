@@ -15,10 +15,10 @@ public class SellerModelMapper implements SellerMapper {
         @Override
         public Seller toSellerModel(CreateSellerRequest createSellerRequest) throws Exception{
                 return new Seller(
-                        //UUID.randomUUID().toString(),
                         createSellerRequest.id(),
                         createSellerRequest.name(),
                         createSellerRequest.phone(),
+                        createSellerRequest.description(),
                         Date.from(Instant.now()));
         }
 
@@ -28,6 +28,7 @@ public class SellerModelMapper implements SellerMapper {
                         seller.getId(),
                         seller.getName(),
                         updateSellerRequest.phone(),
+                        seller.getDescription(),
                         seller.getCreatedAt());
         }
 
@@ -37,6 +38,7 @@ public class SellerModelMapper implements SellerMapper {
                         sellerEntity.getId(),
                         sellerEntity.getName(),
                         sellerEntity.getPhone(),
+                        sellerEntity.getDescription(),
                         sellerEntity.getCreatedAt());
         }
 
@@ -51,6 +53,7 @@ public class SellerModelMapper implements SellerMapper {
                         seller.getId(),
                         seller.getName(),
                         seller.getPhone(),
+                        seller.getDescription(),
                         seller.getCreatedAt());
         }
 }

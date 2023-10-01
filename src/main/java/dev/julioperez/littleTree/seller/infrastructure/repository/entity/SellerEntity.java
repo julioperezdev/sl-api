@@ -19,5 +19,6 @@ public class SellerEntity {
     private String id;
     private String name;
     private String phone;
+    private String description;
     private Date createdAt;
 }
