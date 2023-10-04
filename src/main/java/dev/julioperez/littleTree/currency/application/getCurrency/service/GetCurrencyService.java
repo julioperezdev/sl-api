@@ -18,7 +18,7 @@ public class GetCurrencyService implements GetCurrency {
     @Override
     public List<Currency> getHistoricalCurrencies() {
         List<Currency> currencies = getCurrencyOutputPort.getCurrencies();
-        return currencies.stream().sorted(Comparator.comparing(Currency::getUpdateAt).reversed()).collect(Collectors.toList());
+        return currencies.stream().sorted(Comparator.comparing(Currency::getUpdatedAt).reversed()).collect(Collectors.toList());
     }
 
     @Override

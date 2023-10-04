@@ -11,14 +11,14 @@ public final class Currency {
     private final CurrencyName name;
     private final CurrencyBuyPrice buyPrice;
     private final CurrencySellPrice sellPrice;
-    private final CurrencyUpdateAt updateAt;
+    private final CurrencyUpdatedAt updatedAt;
 
-    public Currency(String id, String name, Float buyPrice, Float sellPrice, Date updateAt) {
+    public Currency(String id, String name, Float buyPrice, Float sellPrice, Date updatedAt) {
         this.id = new CurrencyId(id);
         this.name = CurrencyName.returnCurrencyNameByDescription(name);
         this.buyPrice = new CurrencyBuyPrice(buyPrice);
         this.sellPrice = new CurrencySellPrice(sellPrice);
-        this.updateAt = new CurrencyUpdateAt(updateAt);
+        this.updatedAt = new CurrencyUpdatedAt(updatedAt);
     }
 
     public String getId() {
@@ -37,7 +37,7 @@ public final class Currency {
         return sellPrice.value();
     }
 
-    public Date getUpdateAt() {
-        return updateAt.value();
+    public Date getUpdatedAt() {
+        return updatedAt.value();
     }
 }

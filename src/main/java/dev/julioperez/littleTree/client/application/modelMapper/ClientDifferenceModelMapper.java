@@ -18,6 +18,7 @@ public class ClientDifferenceModelMapper implements ClientDifferenceMapper {
         return new ClientDifference(
                 createClientDifferenceRequest.id(),
                 Date.from(Instant.now()),
+                Date.from(Instant.now()),
                 createClientDifferenceRequest.clientId(),
                 createClientDifferenceRequest.amount(),
                 createClientDifferenceRequest.description(),
@@ -29,6 +30,7 @@ public class ClientDifferenceModelMapper implements ClientDifferenceMapper {
     public ClientDifference toClientDifferenceModel(ClientDifference clientDifference, UpdateClientDifferenceRequest updateClientDifferenceRequest) {
         return new ClientDifference(clientDifference.getId(),
                 clientDifference.getCreatedAt(),
+                Date.from(Instant.now()),
                 clientDifference.getClientId(),
                 updateClientDifferenceRequest.amount(),
                 updateClientDifferenceRequest.description(),
@@ -41,6 +43,7 @@ public class ClientDifferenceModelMapper implements ClientDifferenceMapper {
         return new ClientDifference(
                 clientDifferenceEntity.getId(),
                 clientDifferenceEntity.getCreatedAt(),
+                clientDifferenceEntity.getUpdatedAt(),
                 clientDifferenceEntity.getClientId(),
                 clientDifferenceEntity.getAmount(),
                 clientDifferenceEntity.getDescription(),
@@ -60,11 +63,12 @@ public class ClientDifferenceModelMapper implements ClientDifferenceMapper {
     public ClientDifferenceEntity toClientDifferenceEntity(ClientDifference clientDifference) {
         return new ClientDifferenceEntity(
            clientDifference.getId(),
-           clientDifference.getCreatedAt(),
            clientDifference.getClientId(),
            clientDifference.getAmount(),
            clientDifference.getDescription(),
            clientDifference.getDifferenceType(),
-           clientDifference.getDifferenceStatus());
+           clientDifference.getDifferenceStatus(),
+           clientDifference.getCreatedAt(),
+           clientDifference.getUpdatedAt());
     }
 }

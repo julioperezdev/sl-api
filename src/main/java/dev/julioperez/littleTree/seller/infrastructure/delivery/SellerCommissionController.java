@@ -16,6 +16,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/v1/seller/commission")
 @Slf4j
+@CrossOrigin(origins = "*")
 public class SellerCommissionController {
     private final GetSellerCommissionInputPort getSellerCommissionInputPort;
     private final CreateSellerCommissionInputPort createSellerCommissionInputPort;

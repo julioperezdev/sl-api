@@ -89,6 +89,7 @@ public class CreateOperationService implements CreateOperation {
         return new BuyOperation(
                 UUID.randomUUID().toString(),
                 Date.from(Instant.now()),
+                Date.from(Instant.now()),
                 clientId,
                 buyOperationData.currencyMultiBox(),
                 buyOperationData.buyPrice(),
@@ -145,6 +146,7 @@ public class CreateOperationService implements CreateOperation {
         return new SellOperation(
                 UUID.randomUUID().toString(),
                 Date.from(Instant.now()),
+                Date.from(Instant.now()),
                 clientId,
                 sellOperationData.currencyMultiBox(),
                 sellOperationData.buyPrice(),
@@ -164,7 +166,7 @@ public class CreateOperationService implements CreateOperation {
         buyOperation = new BuyOperation(
                 buyOperation.getId(),
                 buyOperation.getCreatedAt(),
-                //should be create a updateAt field to this case
+                Date.from(Instant.now()),
                 buyOperation.getClientId(),
                 buyOperation.getCurrencyMultiBox(),
                 buyOperation.getPrice(),

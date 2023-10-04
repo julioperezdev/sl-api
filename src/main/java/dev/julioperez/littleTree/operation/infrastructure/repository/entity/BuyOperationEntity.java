@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 import java.util.Date;
 
 @Entity
-@Table(name = "BUY_OPERATION")
+@Table(name = "BUY_OPERATION", schema = "SL")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -19,8 +19,8 @@ public class BuyOperationEntity {
 
     @Id
     private String id;
-    @Column(name = "CREATED_AT", nullable = false)
     private Date createdAt;
+    private Date updatedAt;
     private String clientId;
     private String currencyMultiBox;
     private Float price;

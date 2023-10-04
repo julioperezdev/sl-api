@@ -12,6 +12,7 @@ public class SellOperationModelMapper implements SellOperationMapper {
         return new SellOperation(
                 sellOperationEntity.getId(),
                 sellOperationEntity.getCreatedAt(),
+                sellOperationEntity.getUpdatedAt(),
                 sellOperationEntity.getClientId(),
                 sellOperationEntity.getCurrencyMultiBox(),
                 sellOperationEntity.getPrice(),
@@ -35,6 +36,7 @@ public class SellOperationModelMapper implements SellOperationMapper {
         return new SellOperationEntity(
                 sellOperation.getId(),
                 sellOperation.getCreatedAt(),
+                sellOperation.getUpdatedAt(),
                 sellOperation.getClientId(),
                 sellOperation.getCurrencyMultiBox(),
                 sellOperation.getPrice(),

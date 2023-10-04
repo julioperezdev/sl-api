@@ -26,4 +26,12 @@ public class GetClientsAdapterRepository implements GetClientsOutputPort {
                 ? Collections.emptyList()
                 : clientMapper.toClientsModel(allEntityClients);
     }
+
+    @Override
+    public List<Client> getClientsById(List<String> id) {
+        List<ClientEntity> allById = clientDao.findAllById(id);
+        return allById.isEmpty()
+                ? Collections.emptyList()
+                : clientMapper.toClientsModel(allById);
+    }
 }

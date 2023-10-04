@@ -11,14 +11,16 @@ public final class Client {
     private final ClientAddress address;
     private final ClientDescription description;
     private final ClientCreatedAt createdAt;
+    private final ClientUpdatedAt updatedAt;
 
-    public Client(String id, String name, String phone, String address, String description, Date createdAt) {
+    public Client(String id, String name, String phone, String address, String description, Date createdAt, Date updatedAt) {
         this.id = new ClientId(id);
         this.name = new ClientName(name);
         this.phone = new ClientPhone(phone);
         this.address = new ClientAddress(address);
         this.description = new ClientDescription(description);
         this.createdAt = new ClientCreatedAt(createdAt);
+        this.updatedAt = new ClientUpdatedAt(updatedAt);
     }
 
     public String getId() {
@@ -43,5 +45,8 @@ public final class Client {
 
     public Date getCreatedAt() {
         return createdAt.value();
+    }
+    public Date getUpdatedAt() {
+        return updatedAt.value();
     }
 }

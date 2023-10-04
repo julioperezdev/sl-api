@@ -7,4 +7,5 @@ import java.util.Optional;
 
 public interface GetClientsOutputPort {
     List<Client> getClients();
+    List<Client> getClientsById(List<String> id);
 }

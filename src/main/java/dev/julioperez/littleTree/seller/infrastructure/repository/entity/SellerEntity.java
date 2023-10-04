@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 import java.util.Date;
 
 @Entity
-@Table(name = "SELLER")
+@Table(name = "SELLER", schema = "SL")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -21,4 +21,5 @@ public class SellerEntity {
     private String phone;
     private String description;
     private Date createdAt;
+    private Date updatedAt;
 }

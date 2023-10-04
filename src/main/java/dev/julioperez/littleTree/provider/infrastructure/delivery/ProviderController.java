@@ -18,7 +18,7 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/api/v1/provider")
 @Slf4j
-@CrossOrigin(origins = "http://localhost:3001")
+@CrossOrigin(origins = "*")
 public class ProviderController {
 
     private final CreateProviderInputPort createProviderInputPort;

@@ -1,6 +1,7 @@
 package dev.julioperez.littleTree.client.infrastructure.delivery;
 
 import dev.julioperez.littleTree.client.domain.dto.CreateClientDifferenceRequest;
+import dev.julioperez.littleTree.client.domain.dto.GetClientDifferenceResponse;
 import dev.julioperez.littleTree.client.domain.dto.UpdateClientDifferenceRequest;
 import dev.julioperez.littleTree.client.domain.model.ClientDifference;
 import dev.julioperez.littleTree.client.domain.port.createClientDifference.CreateClientDifferenceInputPort;
@@ -17,7 +18,7 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/api/v1/client/difference")
 @Slf4j
-@CrossOrigin(origins = "http://localhost:3001")
+@CrossOrigin(origins = "*")
 public class ClientDifferenceController {
 
     private final GetClientDifferenceInputPort getClientDifferenceInputPort;
@@ -31,8 +32,8 @@ public class ClientDifferenceController {
     }
 
     @PostMapping("/get")
-    public ResponseEntity<List<ClientDifference>> getAllClientDifferences(){
-        List<ClientDifference> clientDifferences = getClientDifferenceInputPort.getClientDifference();
+    public ResponseEntity<List<GetClientDifferenceResponse>> getAllClientDifferences() throws Exception {
+        List<GetClientDifferenceResponse> clientDifferences = getClientDifferenceInputPort.getClientDifferenceDto();
         HttpStatus httpStatus = clientDifferences.isEmpty()
                 ? HttpStatus.NO_CONTENT
                 : HttpStatus.FOUND;
@@ -40,8 +41,8 @@ public class ClientDifferenceController {
     }
 
     @PutMapping("/get/{id}")
-    public ResponseEntity<Optional<ClientDifference>> getClientDifferenceById(@PathVariable String id){
-        Optional<ClientDifference> clientDifferences = getClientDifferenceInputPort.getOptionalClientDifferenceById(id);
+    public ResponseEntity<Optional<GetClientDifferenceResponse>> getClientDifferenceById(@PathVariable String id) throws Exception {
+        Optional<GetClientDifferenceResponse> clientDifferences = getClientDifferenceInputPort.getClientDifferenceById(id);
         HttpStatus httpStatus = clientDifferences.isEmpty()
                 ? HttpStatus.NO_CONTENT
                 : HttpStatus.FOUND;

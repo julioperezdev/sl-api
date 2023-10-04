@@ -32,7 +32,8 @@ class ClientModelMapperTest {
                     "Pedro",
                     "1159232222",
                     "Corrientes 72, CABA",
-                    "Suele venir solo");
+                    "Suele venir solo",
+                    "description");
             //when
             Client client = clientMapper.toClientModel(input);
             //then
@@ -59,6 +60,7 @@ class ClientModelMapperTest {
                     "1159232222",
                     "Corrientes 72, CABA",
                     "Suele venir solo",
+                    Date.from(Instant.now()),
                     Date.from(Instant.now()));
             //when
             Client client = clientMapper.toClientModel(oldClient, updateClient);
@@ -85,6 +87,7 @@ class ClientModelMapperTest {
                     "1159232222",
                     "Rivadavia 22000, Moron",
                     "Viene con mucha gente",
+                    Date.from(Instant.now()),
                     Date.from(Instant.now()));
             ClientEntity clientEntityB = new ClientEntity(
                     UUID.randomUUID().toString(),
@@ -92,6 +95,7 @@ class ClientModelMapperTest {
                     "1187747711",
                     "Corrientes 444, CABA",
                     "Esta solo",
+                    Date.from(Instant.now()),
                     Date.from(Instant.now()));
             List<ClientEntity> clientEntities = List.of(clientEntityA, clientEntityB);
             //when
@@ -111,7 +115,8 @@ class ClientModelMapperTest {
                     "Pedro1",
                     "1159232222",
                     "Corrientes 72, CABA",
-                    "Suele venir solo");
+                    "Suele venir solo",
+                    "description");
             //when
             //then
             assertThrows(IllegalArgumentException.class, () -> clientMapper.toClientModel(input));
@@ -123,7 +128,8 @@ class ClientModelMapperTest {
                     "Pedro",
                     "11 59232222",
                     "Corrientes 72, CABA",
-                    "Suele venir solo");
+                    "Suele venir solo",
+                    "description");
             //when
             //then
             assertThrows(IllegalArgumentException.class, () -> clientMapper.toClientModel(input));
@@ -135,7 +141,8 @@ class ClientModelMapperTest {
                     "Pedro",
                     "a1159232222",
                     "Corrientes 72, CABA",
-                    "Suele venir solo");
+                    "Suele venir solo",
+                    "description");
             //when
             //then
             assertThrows(IllegalArgumentException.class, () -> clientMapper.toClientModel(input));
@@ -153,6 +160,7 @@ class ClientModelMapperTest {
                     "1159232222",
                     "Corrientes 72, CABA",
                     "Suele venir solo",
+                    Date.from(Instant.now()),
                     Date.from(Instant.now()));
             //when
             ClientEntity clientEntity = clientMapper.toClientEntity(client);

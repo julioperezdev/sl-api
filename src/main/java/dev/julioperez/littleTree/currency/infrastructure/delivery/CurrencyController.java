@@ -16,7 +16,7 @@ import java.util.List;
 @RequestMapping("/api/v1/currency")
 @AllArgsConstructor
 @Slf4j
-@CrossOrigin(origins = "http://localhost:3001")
+@CrossOrigin(origins = "*")
 public class CurrencyController {
     private final GetCurrencyInputPort getCurrencyInputPort;
     private final UpdateCurrencyInputPort updateCurrencyInputPort;

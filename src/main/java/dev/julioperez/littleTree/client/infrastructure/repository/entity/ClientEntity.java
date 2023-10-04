@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 import java.util.Date;
 
 @Entity
-@Table(name = "CLIENT")
+@Table(name = "CLIENT", schema = "SL")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -23,7 +23,6 @@ public class ClientEntity {
     private String phone;
     private String address;
     private String description;
-    @Column(name = "CREATED_AT", nullable = false)
     private Date createdAt;
-
+    private Date updatedAt;
 }

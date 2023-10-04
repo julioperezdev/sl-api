@@ -242,7 +242,7 @@ public class SpringDependenciesConfiguration {
 
     @Bean
     public GetClientDifferenceService getClientDifferenceService(){
-        return new GetClientDifferenceService(getClientDifferenceAdapterRepository());
+        return new GetClientDifferenceService(getClientDifferenceAdapterRepository(), getClientsService());
     }
 
     @Bean

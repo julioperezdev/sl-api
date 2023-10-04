@@ -29,7 +29,7 @@ public class CurrencyModelMapper implements CurrencyMapper {
                 currencyEntity.getName(),
                 currencyEntity.getBuyPrice(),
                 currencyEntity.getSellPrice(),
-                currencyEntity.getUpdateAt());
+                currencyEntity.getUpdatedAt());
     }
 
     @Override
@@ -47,6 +47,6 @@ public class CurrencyModelMapper implements CurrencyMapper {
                 currency.getName(),
                 currency.getBuyPrice(),
                 currency.getSellPrice(),
-                currency.getUpdateAt());
+                currency.getUpdatedAt());
     }
 }

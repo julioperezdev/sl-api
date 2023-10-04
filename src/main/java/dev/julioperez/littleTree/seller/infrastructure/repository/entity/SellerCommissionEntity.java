@@ -9,13 +9,12 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name = "SELLER_COMMISSION")
+@Table(name = "SELLER_COMMISSION", schema = "SL")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 public class SellerCommissionEntity {
     @Id
-    @Column(name = "UUID")
     private String id;
     private String sellerId;
     private String sellerCommissionStatus;

@@ -2,12 +2,8 @@ package dev.julioperez.littleTree.operation.domain.model.buyOperation;
 
 
 import dev.julioperez.littleTree.box.domain.enums.CurrencyBox;
-import dev.julioperez.littleTree.box.domain.model.CurrencyMultiBox;
-import dev.julioperez.littleTree.box.domain.model.CurrencyMultiBoxId;
 import dev.julioperez.littleTree.client.domain.model.ClientId;
 import dev.julioperez.littleTree.operation.domain.enums.OperationStatus;
-import dev.julioperez.littleTree.operation.domain.model.operation.OperationId;
-import dev.julioperez.littleTree.seller.domain.model.SellerId;
 
 import java.util.Date;
 
@@ -15,6 +11,7 @@ public final class BuyOperation {
 
     private final BuyOperationId id;
     private final BuyOperationCreatedAt createdAt;
+    private final BuyOperationUpdatedAt updatedAt;
     private final ClientId clientId;
     private final CurrencyBox currencyMultiBox;
     private final BuyOperationPrice price;
@@ -25,9 +22,10 @@ public final class BuyOperation {
     private OperationStatus operationStatus;
     private final BuyOperationReserve reserve;
 
-    public BuyOperation(String id, Date createdAt, String clientId, String currencyMultiBox, Float price, Float quantity, Float percent, Float total, boolean officeCheck, String operationStatus, Float reserve) {
+    public BuyOperation(String id, Date createdAt,Date updatedAt, String clientId, String currencyMultiBox, Float price, Float quantity, Float percent, Float total, boolean officeCheck, String operationStatus, Float reserve) {
         this.id = new BuyOperationId(id);
         this.createdAt = new BuyOperationCreatedAt(createdAt);
+        this.updatedAt = new BuyOperationUpdatedAt(updatedAt);
         this.clientId = new ClientId(clientId);
         this.currencyMultiBox = CurrencyBox.returnCurrencyBoxByDescription(currencyMultiBox);
         this.price = new BuyOperationPrice(price);
@@ -46,6 +44,9 @@ public final class BuyOperation {
 
     public Date getCreatedAt() {
         return createdAt.value();
+    }
+    public Date getUpdatedAt() {
+        return updatedAt.value();
     }
 
     public String getClientId() {

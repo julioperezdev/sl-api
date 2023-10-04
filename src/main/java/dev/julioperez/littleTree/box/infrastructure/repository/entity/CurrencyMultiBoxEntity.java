@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 import java.util.Date;
 
 @Entity
-@Table(name = "MULTIBOX")
+@Table(name = "MULTIBOX", schema = "SL")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -16,7 +16,6 @@ public class CurrencyMultiBoxEntity {
 
     @Id
     private String id;
-    @Column(name = "UPDATED_AT")
     private Date updatedAt;
     private String currencyBox;
     private String operationId;

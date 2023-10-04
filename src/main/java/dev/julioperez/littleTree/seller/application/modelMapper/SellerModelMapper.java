@@ -19,6 +19,7 @@ public class SellerModelMapper implements SellerMapper {
                         createSellerRequest.name(),
                         createSellerRequest.phone(),
                         createSellerRequest.description(),
+                        Date.from(Instant.now()),
                         Date.from(Instant.now()));
         }
 
@@ -28,8 +29,9 @@ public class SellerModelMapper implements SellerMapper {
                         seller.getId(),
                         seller.getName(),
                         updateSellerRequest.phone(),
-                        seller.getDescription(),
-                        seller.getCreatedAt());
+                        updateSellerRequest.description(),
+                        seller.getCreatedAt(),
+                        Date.from(Instant.now()));
         }
 
         @Override
@@ -39,7 +41,8 @@ public class SellerModelMapper implements SellerMapper {
                         sellerEntity.getName(),
                         sellerEntity.getPhone(),
                         sellerEntity.getDescription(),
-                        sellerEntity.getCreatedAt());
+                        sellerEntity.getCreatedAt(),
+                        sellerEntity.getUpdatedAt());
         }
 
         @Override
@@ -54,6 +57,7 @@ public class SellerModelMapper implements SellerMapper {
                         seller.getName(),
                         seller.getPhone(),
                         seller.getDescription(),
-                        seller.getCreatedAt());
+                        seller.getCreatedAt(),
+                        seller.getUpdatedAt());
         }
 }

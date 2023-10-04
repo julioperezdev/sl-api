@@ -20,7 +20,7 @@ import java.util.Optional;
 @RequestMapping("/api/v1/note")
 @AllArgsConstructor
 @Slf4j
-@CrossOrigin(origins = "http://localhost:3001")
+@CrossOrigin(origins = "*")
 public class NoteController {
     private final GetNoteInputPort getNoteInputPort;
     private final CreateNoteInputPort createNoteInputPort;

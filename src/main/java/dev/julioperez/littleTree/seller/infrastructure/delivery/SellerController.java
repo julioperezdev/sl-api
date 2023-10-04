@@ -17,7 +17,7 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/api/v1/seller")
 @Slf4j
-@CrossOrigin(origins = "http://localhost:3001")
+@CrossOrigin(origins = "*")
 public class SellerController {
     private final CreateSellerInputPort createSellerInputPort;
     private final GetSellerInputPort getSellerInputPort;

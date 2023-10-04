@@ -9,19 +9,18 @@ import dev.julioperez.littleTree.client.infrastructure.repository.entity.ClientE
 import java.time.Instant;
 import java.util.Date;
 import java.util.List;
-import java.util.UUID;
 
 public class ClientModelMapper implements ClientMapper {
 
     @Override
     public Client toClientModel(CreateClientRequest createClientRequest) {
         return new Client(
-                //UUID.randomUUID().toString(),
                 createClientRequest.id(),
                 createClientRequest.name(),
                 createClientRequest.phone(),
                 createClientRequest.address(),
                 createClientRequest.description(),
+                Date.from(Instant.now()),
                 Date.from(Instant.now()));
     }
 
@@ -33,7 +32,8 @@ public class ClientModelMapper implements ClientMapper {
                 updateClientRequest.phone(),
                 updateClientRequest.address(),
                 updateClientRequest.description(),
-                client.getCreatedAt());
+                client.getCreatedAt(),
+                Date.from(Instant.now()));
     }
 
     @Override
@@ -49,7 +49,8 @@ public class ClientModelMapper implements ClientMapper {
                 clientEntity.getPhone(),
                 clientEntity.getAddress(),
                 clientEntity.getDescription(),
-                clientEntity.getCreatedAt());
+                clientEntity.getCreatedAt(),
+                clientEntity.getUpdatedAt());
     }
 
     @Override
@@ -60,6 +61,7 @@ public class ClientModelMapper implements ClientMapper {
                 client.getPhone(),
                 client.getAddress(),
                 client.getDescription(),
-                client.getCreatedAt());
+                client.getCreatedAt(),
+                client.getUpdatedAt());
     }
 }

@@ -1,7 +1,6 @@
 package dev.julioperez.littleTree.operation.application.pendingOperation.service;
 
 import dev.julioperez.littleTree.operation.domain.enums.OperationType;
-import dev.julioperez.littleTree.operation.domain.model.operation.Operation;
 import dev.julioperez.littleTree.operation.domain.port.executeBuyOperation.ExecuteBuyOperation;
 import dev.julioperez.littleTree.operation.domain.port.executeSellOperation.ExecuteSellOperation;
 import dev.julioperez.littleTree.operation.domain.port.pendingOperation.PendingOperation;

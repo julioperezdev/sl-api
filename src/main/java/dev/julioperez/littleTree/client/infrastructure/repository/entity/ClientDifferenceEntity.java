@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 import java.util.Date;
 
 @Entity
-@Table(name = "CLIENT_DIFFERENCE")
+@Table(name = "CLIENT_DIFFERENCE", schema = "SL")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -16,12 +16,12 @@ public class ClientDifferenceEntity {
 
     @Id
     private String id;
-    @Column(name = "CREATED_AT", nullable = false)
-    private Date createdAt;
     private String clientId;
     private Float amount;
     private String description;
     private String differenceType;
     private String differenceStatus;
+    private Date createdAt;
+    private Date updatedAt;
 
 }

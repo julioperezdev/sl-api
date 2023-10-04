@@ -2,10 +2,8 @@ package dev.julioperez.littleTree.operation.domain.model.sellOperation;
 
 
 import dev.julioperez.littleTree.box.domain.enums.CurrencyBox;
-import dev.julioperez.littleTree.box.domain.model.CurrencyMultiBoxId;
 import dev.julioperez.littleTree.client.domain.model.ClientId;
 import dev.julioperez.littleTree.operation.domain.enums.OperationStatus;
-import dev.julioperez.littleTree.operation.domain.model.operation.OperationId;
 import dev.julioperez.littleTree.seller.domain.model.SellerId;
 
 import java.util.Date;
@@ -14,6 +12,7 @@ public final class SellOperation {
 
     private final SellOperationId id;
     private final SellOperationCreatedAt createdAt;
+    private final SellOperationUpdatedAt updatedAt;
     private final ClientId clientId;
     private final CurrencyBox currencyMultiBox;
     private final SellOperationPrice price;
@@ -24,9 +23,10 @@ public final class SellOperation {
     private final SellerId sellerId;
     private OperationStatus operationStatus;
 
-    public SellOperation(String id, Date createdAt, String clientId, String currencyMultiBox, Float price, Float quantity, Float subProfit, Float profit, Float total, String sellerId, String operationStatus) {
+    public SellOperation(String id, Date createdAt, Date updatedAt, String clientId, String currencyMultiBox, Float price, Float quantity, Float subProfit, Float profit, Float total, String sellerId, String operationStatus) {
         this.id = new SellOperationId(id);
         this.createdAt = new SellOperationCreatedAt(createdAt);
+        this.updatedAt = new SellOperationUpdatedAt(updatedAt);
         this.clientId = new ClientId(clientId);
         this.currencyMultiBox = CurrencyBox.returnCurrencyBoxByDescription(currencyMultiBox);
         this.price = new SellOperationPrice(price);
@@ -44,6 +44,10 @@ public final class SellOperation {
 
     public Date getCreatedAt() {
         return createdAt.value();
+    }
+
+    public Date getUpdatedAt() {
+        return updatedAt.value();
     }
 
     public String getClientId() {

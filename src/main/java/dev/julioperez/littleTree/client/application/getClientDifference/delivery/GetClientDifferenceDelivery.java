@@ -1,5 +1,6 @@
 package dev.julioperez.littleTree.client.application.getClientDifference.delivery;
 
+import dev.julioperez.littleTree.client.domain.dto.GetClientDifferenceResponse;
 import dev.julioperez.littleTree.client.domain.model.ClientDifference;
 import dev.julioperez.littleTree.client.domain.port.getClientDifference.GetClientDifference;
 import dev.julioperez.littleTree.client.domain.port.getClientDifference.GetClientDifferenceInputPort;
@@ -19,9 +20,19 @@ public class GetClientDifferenceDelivery implements GetClientDifferenceInputPort
         return getClientDifference.getClientDifference();
     }
 
+    @Override
+    public List<GetClientDifferenceResponse> getClientDifferenceDto() throws Exception {
+        return getClientDifference.getClientDifferenceDto();
+    }
+
 
     @Override
     public Optional<ClientDifference> getOptionalClientDifferenceById(String id) {
         return getClientDifference.getOptionalClientDifferenceById(id);
+    }
+
+    @Override
+    public Optional<GetClientDifferenceResponse> getClientDifferenceById(String id) throws Exception {
+        return getClientDifference.getClientDifferenceById(id);
     }
 }

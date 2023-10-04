@@ -2,7 +2,6 @@ package dev.julioperez.littleTree.operation.application.createOperation.delivery
 
 import dev.julioperez.littleTree.operation.domain.dto.BuyOperationRequest;
 import dev.julioperez.littleTree.operation.domain.dto.SellOperationRequest;
-import dev.julioperez.littleTree.operation.domain.model.operation.Operation;
 import dev.julioperez.littleTree.operation.domain.port.createOperation.CreateOperation;
 import dev.julioperez.littleTree.operation.domain.port.createOperation.CreateOperationInputPort;
 

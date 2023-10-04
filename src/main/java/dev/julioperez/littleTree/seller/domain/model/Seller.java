@@ -8,13 +8,15 @@ public final class Seller {
     private final SellerPhone phone;
     private final SellerDescription description;
     private final SellerCreatedAt createdAt;
+    private final SellerUpdatedAt updatedAt;
 
-    public Seller(String id, String name, String phone, String description, Date createdAt) {
+    public Seller(String id, String name, String phone, String description, Date createdAt, Date updatedAt) {
         this.id = new SellerId(id);
         this.name = new SellerName(name);
         this.phone = new SellerPhone(phone);
         this.description = new SellerDescription(description);
         this.createdAt = new SellerCreatedAt(createdAt);
+        this.updatedAt = new SellerUpdatedAt(updatedAt);
     }
 
     public String getId() {
@@ -33,5 +35,8 @@ public final class Seller {
     }
     public Date getCreatedAt() {
         return createdAt.value();
+    }
+    public Date getUpdatedAt() {
+        return updatedAt.value();
     }
 }

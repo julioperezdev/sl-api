@@ -4,8 +4,8 @@ import dev.julioperez.littleTree.shared.domain.model.DateValueObject;
 
 import java.util.Date;
 
-public final class CurrencyUpdateAt extends DateValueObject {
-    public CurrencyUpdateAt(Date value) {
+public final class CurrencyUpdatedAt extends DateValueObject {
+    public CurrencyUpdatedAt(Date value) {
         super(value);
     }
 }

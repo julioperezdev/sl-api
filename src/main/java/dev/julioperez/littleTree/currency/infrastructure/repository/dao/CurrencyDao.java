@@ -12,9 +12,9 @@ import java.util.Optional;
 @Repository
 public interface CurrencyDao extends JpaRepository<CurrencyEntity,String> {
 
-    @Query(value = "SELECT DISTINCT ON(NAME) NAME, ID, BUY_PRICE, SELL_PRICE, UPDATE_AT FROM CURRENCY WHERE UPDATE_AT IS NOT NULL ORDER BY NAME, UPDATE_AT desc", nativeQuery = true)
+    @Query(value = "SELECT DISTINCT ON(NAME) NAME, ID, BUY_PRICE, SELL_PRICE, UPDATED_AT FROM SL.CURRENCY WHERE UPDATED_AT IS NOT NULL ORDER BY NAME, UPDATED_AT desc", nativeQuery = true)
     List<CurrencyEntity> findLastUpdatedCurrencies();
 
-    @Query(value = "SELECT DISTINCT ON(NAME) NAME, ID, BUY_PRICE, SELL_PRICE, UPDATE_AT FROM CURRENCY WHERE UPDATE_AT IS NOT NULL AND NAME = :name ORDER BY NAME, UPDATE_AT desc", nativeQuery = true)
+    @Query(value = "SELECT DISTINCT ON(NAME) NAME, ID, BUY_PRICE, SELL_PRICE, UPDATED_AT FROM SL.CURRENCY WHERE UPDATED_AT IS NOT NULL AND NAME = :name ORDER BY NAME, UPDATED_AT desc", nativeQuery = true)
     Optional<CurrencyEntity> getLastUpdatedByName(@Param("name") String name);
 }

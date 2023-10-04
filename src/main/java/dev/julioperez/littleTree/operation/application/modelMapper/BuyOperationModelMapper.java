@@ -21,6 +21,7 @@ public class BuyOperationModelMapper implements BuyOperationMapper {
         return new BuyOperation(
                 buyOperationEntity.getId(),
                 buyOperationEntity.getCreatedAt(),
+                buyOperationEntity.getUpdatedAt(),
                 buyOperationEntity.getClientId(),
                 buyOperationEntity.getCurrencyMultiBox(),
                 buyOperationEntity.getPrice(),
@@ -37,6 +38,7 @@ public class BuyOperationModelMapper implements BuyOperationMapper {
         return new BuyOperationEntity(
                 buyOperation.getId(),
                 buyOperation.getCreatedAt(),
+                buyOperation.getUpdatedAt(),
                 buyOperation.getClientId(),
                 buyOperation.getCurrencyMultiBox(),
                 buyOperation.getPrice(),

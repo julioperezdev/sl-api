@@ -2,7 +2,7 @@ package dev.julioperez.littleTree.box.domain.model;
 
 import dev.julioperez.littleTree.box.domain.enums.CurrencyBox;
 import dev.julioperez.littleTree.box.domain.enums.MultiBoxStatus;
-import dev.julioperez.littleTree.operation.domain.model.operation.OperationId;
+import dev.julioperez.littleTree.seller.domain.model.CurrencyMultiBoxOperationId;
 
 import java.util.Date;
 
@@ -12,7 +12,7 @@ public final class CurrencyMultiBox {
     private final CurrencyMultiBoxId id;
     private final CurrencyMultiBoxUpdatedAt updatedAt;
     private final CurrencyBox currencyBox;
-    private final OperationId operationId;
+    private final CurrencyMultiBoxOperationId operationId;
     private final CurrencyMultiBoxQuantity quantity;
     private final CurrencyMultiBoxPriceOperation priceOperation;
     private final MultiBoxStatus multiBoxStatus;
@@ -21,7 +21,7 @@ public final class CurrencyMultiBox {
         this.id = new CurrencyMultiBoxId(id);
         this.updatedAt = new CurrencyMultiBoxUpdatedAt(updatedAt);
         this.currencyBox = CurrencyBox.returnCurrencyBoxByDescription(currencyBox);
-        this.operationId = new OperationId(operationId);
+        this.operationId = new CurrencyMultiBoxOperationId(operationId);
         this.quantity = new CurrencyMultiBoxQuantity(quantity);
         this.priceOperation = new CurrencyMultiBoxPriceOperation(priceOperation);
         this.multiBoxStatus = MultiBoxStatus.returnMultiBoxStatusByDescription(multiBoxStatus);

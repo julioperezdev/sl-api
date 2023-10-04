@@ -10,13 +10,15 @@ public final class Provider {
     private final ProviderPhone phone;
     private final ProviderAddress address;
     private final ProviderCreatedAt createdAt;
+    private final ProviderUpdatedAt updatedAt;
 
-    public Provider(String id, String name, String phone, String address, Date createdAt) {
+    public Provider(String id, String name, String phone, String address, Date createdAt, Date updatedAt) {
         this.id = new ProviderId(id);
         this.name = new ProviderName(name);
         this.phone = new ProviderPhone(phone);
         this.address = new ProviderAddress(address);
         this.createdAt = new ProviderCreatedAt(createdAt);
+        this.updatedAt = new ProviderUpdatedAt(updatedAt);
     }
 
     public String getId() {
@@ -37,5 +39,8 @@ public final class Provider {
 
     public Date getCreatedAt() {
         return createdAt.value();
+    }
+    public Date getUpdatedAt() {
+        return updatedAt.value();
     }
 }

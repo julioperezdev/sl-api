@@ -9,18 +9,17 @@ import dev.julioperez.littleTree.provider.infrastructure.repository.entity.Provi
 import java.sql.Date;
 import java.time.Instant;
 import java.util.List;
-import java.util.UUID;
 
 public class ProviderModelMapper implements ProviderMapper {
 
     @Override
     public Provider toProviderModel(CreateProviderRequest createProviderRequest) {
         return new Provider(
-                //UUID.randomUUID().toString(),
                 createProviderRequest.id(),
                 createProviderRequest.name(),
                 createProviderRequest.phone(),
                 createProviderRequest.address(),
+                Date.from(Instant.now()),
                 Date.from(Instant.now()));
     }
 
@@ -31,7 +30,8 @@ public class ProviderModelMapper implements ProviderMapper {
                 provider.getName(),
                 updateProviderRequest.phone(),
                 updateProviderRequest.address(),
-                provider.getCreatedAt());
+                provider.getCreatedAt(),
+                Date.from(Instant.now()));
     }
 
     @Override
@@ -46,7 +46,8 @@ public class ProviderModelMapper implements ProviderMapper {
                 providerEntity.getName(),
                 providerEntity.getPhone(),
                 providerEntity.getAddress(),
-                providerEntity.getCreatedAt());
+                providerEntity.getCreatedAt(),
+                providerEntity.getUpdatedAt());
     }
 
     @Override
@@ -56,6 +57,7 @@ public class ProviderModelMapper implements ProviderMapper {
                 provider.getName(),
                 provider.getPhone(),
                 provider.getAddress(),
-                provider.getCreatedAt());
+                provider.getCreatedAt(),
+                provider.getUpdatedAt());
     }
 }

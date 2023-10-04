@@ -1,18 +1,16 @@
 package dev.julioperez.littleTree.box.domain.model;
 
-import dev.julioperez.littleTree.operation.domain.model.operation.OperationId;
-
 
 public final class Balance {
 
     private final BalanceId id;
     private final BalanceProfit profit;
-    private final OperationId operationId;
+    private final BalanceOperationId operationId;
 
     public Balance(String id, Float profit, String operationId) {
         this.id = new BalanceId(id);
         this.profit = new BalanceProfit(profit);
-        this.operationId = new OperationId(operationId);
+        this.operationId = new BalanceOperationId(operationId);
     }
 
     public String getId() {

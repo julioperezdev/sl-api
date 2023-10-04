@@ -18,8 +18,8 @@ import java.util.Date;
 public class SellOperationEntity {
     @Id
     private String id;
-    @Column(name = "CREATED_AT", nullable = false)
     private Date createdAt;
+    private Date updatedAt;
     private String clientId;
     private String currencyMultiBox;
     private Float price;

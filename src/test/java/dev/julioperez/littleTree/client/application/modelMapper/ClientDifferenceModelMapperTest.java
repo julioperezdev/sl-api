@@ -31,10 +31,10 @@ class ClientDifferenceModelMapperTest {
             //given
             CreateClientDifferenceRequest input = new CreateClientDifferenceRequest(
                     UUID.randomUUID().toString(),
+                    UUID.randomUUID().toString(),
                     5000f,
                     "Se le queda en la casa",
-                    "sobra",
-                    "resuelto");
+                    "sobra");
             //when
             ClientDifference clientDifference = clientDifferenceMapper.toClientDifferenceModel(input);
             //then
@@ -45,7 +45,6 @@ class ClientDifferenceModelMapperTest {
             assertEquals(input.amount(), clientDifference.getAmount());
             assertEquals(input.description(), clientDifference.getDescription());
             assertEquals(input.differenceType(), clientDifference.getDifferenceType());
-            assertEquals(input.differenceStatus(), clientDifference.getDifferenceStatus());
         }
         @Test
         void itShouldMapToClientDifferenceModelByUpdateClientDifferenceRequestHappyCase(){
@@ -59,6 +58,7 @@ class ClientDifferenceModelMapperTest {
                     "resuelto");
             ClientDifference clientDifference = new ClientDifference(
                     clientDifferenceId,
+                    Date.from(Instant.now()),
                     Date.from(Instant.now()),
                     UUID.randomUUID().toString(),
                     5000f,
@@ -82,12 +82,13 @@ class ClientDifferenceModelMapperTest {
             //given
             ClientDifferenceEntity clientDifferenceEntity = new ClientDifferenceEntity(
                     UUID.randomUUID().toString(),
-                    Date.from(Instant.now()),
                     UUID.randomUUID().toString(),
                     5000f,
                     "Se le queda en la casa",
                     "sobra",
-                    "pendiente");
+                    "pendiente",
+                    Date.from(Instant.now()),
+                    Date.from(Instant.now()));
             //when
             ClientDifference clientDifference = clientDifferenceMapper.toClientDifferenceModel(clientDifferenceEntity);
             //then
@@ -105,20 +106,22 @@ class ClientDifferenceModelMapperTest {
             //given
             ClientDifferenceEntity clientDifferenceEntityA = new ClientDifferenceEntity(
                     UUID.randomUUID().toString(),
-                    Date.from(Instant.now()),
                     UUID.randomUUID().toString(),
                     5000f,
                     "Se le queda en la casa",
                     "sobra",
-                    "pendiente");
+                    "pendiente",
+                    Date.from(Instant.now()),
+                    Date.from(Instant.now()));
             ClientDifferenceEntity clientDifferenceEntityB = new ClientDifferenceEntity(
                     UUID.randomUUID().toString(),
-                    Date.from(Instant.now()),
                     UUID.randomUUID().toString(),
                     1500f,
                     "Se ha equivocado en la operacion",
                     "sobra",
-                    "resuelto");
+                    "resuelto",
+                    Date.from(Instant.now()),
+                    Date.from(Instant.now()));
             List<ClientDifferenceEntity> clientDifferenceEntities = List.of(clientDifferenceEntityA, clientDifferenceEntityB);
             //when
             List<ClientDifference> clientDifferences = clientDifferenceMapper.toClientDifferencesModel(clientDifferenceEntities);
@@ -139,6 +142,7 @@ class ClientDifferenceModelMapperTest {
             //given
             ClientDifference clientDifference = new ClientDifference(
                     UUID.randomUUID().toString(),
+                    Date.from(Instant.now()),
                     Date.from(Instant.now()),
                     UUID.randomUUID().toString(),
                     5000f,
