@@ -4,7 +4,6 @@ import dev.julioperez.littleTree.box.domain.dto.CurrencyMultiboxToList;
 import dev.julioperez.littleTree.box.domain.model.CurrencyMultiBox;
 import dev.julioperez.littleTree.box.domain.port.getCurrencyMultibox.GetCurrencyMultibox;
 import dev.julioperez.littleTree.box.domain.port.getCurrencyMultibox.GetCurrencyMultiboxOutputPort;
-import dev.julioperez.littleTree.operation.domain.port.getOperations.GetOperations;
 
 import java.util.List;
 

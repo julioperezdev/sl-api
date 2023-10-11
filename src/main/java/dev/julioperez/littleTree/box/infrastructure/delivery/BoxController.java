@@ -2,7 +2,6 @@ package dev.julioperez.littleTree.box.infrastructure.delivery;
 
 import dev.julioperez.littleTree.box.domain.dto.CurrencyMultiboxToList;
 import dev.julioperez.littleTree.box.domain.port.getCurrencyMultibox.GetCurrencyMultiboxInputPort;
-import dev.julioperez.littleTree.client.domain.model.Client;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

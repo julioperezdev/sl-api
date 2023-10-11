@@ -1,6 +1,5 @@
 package dev.julioperez.littleTree.operation.infrastructure.delivery;
 
-import dev.julioperez.littleTree.box.domain.dto.CurrencyMultiboxToList;
 import dev.julioperez.littleTree.operation.domain.dto.BuyOperationRequest;
 import dev.julioperez.littleTree.operation.domain.dto.ChangePendingOperationRequest;
 import dev.julioperez.littleTree.operation.domain.dto.SellOperationRequest;

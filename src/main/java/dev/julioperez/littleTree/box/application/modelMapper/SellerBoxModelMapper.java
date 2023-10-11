@@ -4,8 +4,6 @@ import dev.julioperez.littleTree.box.domain.model.SellerBox;
 import dev.julioperez.littleTree.box.domain.port.mapper.SellerBoxMapper;
 import dev.julioperez.littleTree.box.infrastructure.repository.entity.SellerBoxEntity;
 
-import java.sql.Date;
-import java.time.Instant;
 import java.util.List;
 
 public class SellerBoxModelMapper implements SellerBoxMapper {

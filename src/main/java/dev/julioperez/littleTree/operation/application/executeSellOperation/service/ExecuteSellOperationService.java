@@ -14,7 +14,6 @@ import dev.julioperez.littleTree.seller.domain.port.createSellerCommission.Creat
 
 import java.sql.Date;
 import java.time.Instant;
-import java.util.Arrays;
 import java.util.UUID;
 
 public class ExecuteSellOperationService implements ExecuteSellOperation {

@@ -3,7 +3,6 @@ package dev.julioperez.littleTree.box.application.manageOfficeDebt.service;
 import dev.julioperez.littleTree.box.domain.enums.MultiBoxStatus;
 import dev.julioperez.littleTree.box.domain.model.CurrencyMultiBox;
 import dev.julioperez.littleTree.box.domain.port.manageOfficeDebt.ManageOfficeDebt;
-import dev.julioperez.littleTree.box.domain.port.updateCurrencyMultiBox.UpdateCurrencyMultiBox;
 import dev.julioperez.littleTree.operation.domain.enums.OperationType;
 import dev.julioperez.littleTree.operation.domain.model.buyOperation.BuyOperation;
 

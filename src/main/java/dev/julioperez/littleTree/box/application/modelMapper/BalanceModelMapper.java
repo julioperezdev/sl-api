@@ -3,9 +3,6 @@ package dev.julioperez.littleTree.box.application.modelMapper;
 import dev.julioperez.littleTree.box.domain.model.Balance;
 import dev.julioperez.littleTree.box.domain.port.mapper.BalanceMapper;
 import dev.julioperez.littleTree.box.infrastructure.repository.entity.BalanceEntity;
-
-import java.sql.Date;
-import java.time.Instant;
 import java.util.List;
 
 public class BalanceModelMapper implements BalanceMapper {

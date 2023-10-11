@@ -14,7 +14,6 @@ import dev.julioperez.littleTree.operation.domain.port.getOperations.GetOperatio
 import java.time.Instant;
 import java.util.Date;
 import java.util.List;
-import java.util.UUID;
 
 public class CreateOperationService implements CreateOperation {
     private final CreateOperationOutputPort createOperationOutputPort;
