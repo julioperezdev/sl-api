@@ -4,6 +4,8 @@ import dev.julioperez.littleTree.box.application.manageSellerBox.adapter.ManageS
 import dev.julioperez.littleTree.box.domain.model.BalanceId;
 import dev.julioperez.littleTree.box.domain.model.SellerBox;
 
+import java.sql.Date;
+import java.time.Instant;
 import java.util.UUID;
 
 public class ManageSellerBoxService {
@@ -16,7 +18,7 @@ public class ManageSellerBoxService {
     public SellerBox asignSellerBox(BalanceId balanceId){
         //aca falta a cual de las cajas corresponde la ganancia
         //hay que agregarlo en el entity, model, en everything
-        SellerBox sellerBox = new SellerBox(UUID.randomUUID().toString(), balanceId.value());
+        SellerBox sellerBox = new SellerBox(UUID.randomUUID().toString(), balanceId.value(),"", "", Date.from(Instant.now()), Date.from(Instant.now()));
         return manageSellerBoxAdapterRepository.saveOrUpdateSellerBox(sellerBox);
     }
 }

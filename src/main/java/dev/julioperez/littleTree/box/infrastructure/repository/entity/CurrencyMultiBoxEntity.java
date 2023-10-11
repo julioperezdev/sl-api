@@ -19,8 +19,9 @@ public class CurrencyMultiBoxEntity {
     private Date updatedAt;
     private String currencyBox;
     private String operationId;
+    private String operationType;
     private Float quantity;
-    private Float priceOperation;
+    private Float quantityOperation;
     private String multiBoxStatus;
 
 }

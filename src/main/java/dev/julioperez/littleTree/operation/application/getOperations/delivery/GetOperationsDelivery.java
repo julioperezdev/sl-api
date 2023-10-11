@@ -20,6 +20,11 @@ public class GetOperationsDelivery implements GetOperationsInputPort {
     }
 
     @Override
+    public List<BuyOperation> getPendingBuyOperations() {
+        return getOperations.getPendingBuyOperations();
+    }
+
+    @Override
     public List<SellOperation> getSellOperations() {
         return getOperations.getSellOperations();
     }

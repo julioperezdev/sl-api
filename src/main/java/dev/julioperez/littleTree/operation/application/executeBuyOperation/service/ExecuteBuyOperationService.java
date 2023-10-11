@@ -37,8 +37,8 @@ public class ExecuteBuyOperationService implements ExecuteBuyOperation {
         //CurrencyMultiBox pesosBoxResponse = updateCurrencyMultiBox.updateCurrencyMultiBox(currencyMultiBox);
         //call to print PDF for client and user
         // todo  -> printOperation.printTicket();
-        byte[] ticketGenerated = generateTicket.generateBuyOperationTicket(buyOperation);
-        System.out.println(Arrays.toString(ticketGenerated));
+        //byte[] ticketGenerated = generateTicket.generateBuyOperationTicket(buyOperation);
+        //System.out.println(Arrays.toString(ticketGenerated));
         return true;
     }
 }

@@ -82,12 +82,12 @@ public class CreateOperationService implements CreateOperation {
     private List<BuyOperation> generateBuyOperations(BuyOperationRequest buyOperationsRequest){
         return buyOperationsRequest.buyOperationData()
                 .stream()
-                .map(particular -> this.generateParticularBuyOperation(buyOperationsRequest.hasOfficeCheck(),buyOperationsRequest.clientId(), particular))
+                .map(particular -> this.generateParticularBuyOperation(buyOperationsRequest.id(),buyOperationsRequest.hasOfficeCheck(),buyOperationsRequest.clientId(), particular))
                 .toList();
     }
-    private BuyOperation generateParticularBuyOperation(boolean hasOfficeCheck, String clientId, BuyOperationData buyOperationData){
+    private BuyOperation generateParticularBuyOperation(String id,boolean hasOfficeCheck, String clientId, BuyOperationData buyOperationData){
         return new BuyOperation(
-                UUID.randomUUID().toString(),
+                id,
                 Date.from(Instant.now()),
                 Date.from(Instant.now()),
                 clientId,
@@ -137,14 +137,14 @@ public class CreateOperationService implements CreateOperation {
     private List<SellOperation> generateSellOperations(SellOperationRequest sellOperationsRequest){
         return sellOperationsRequest.sellOperationData()
                 .stream()
-                .map(particular -> this.generateParticularSellOperation(sellOperationsRequest.clientId(),sellOperationsRequest.phone(),sellOperationsRequest.sellerId(),sellOperationsRequest.hasSeller(), sellOperationsRequest.sellerCommission(), particular))
+                .map(particular -> this.generateParticularSellOperation(sellOperationsRequest.id(),sellOperationsRequest.clientId(),sellOperationsRequest.sellerId(),sellOperationsRequest.hasSeller(), sellOperationsRequest.sellerCommission(), particular))
                 .toList();
     }
-    private SellOperation generateParticularSellOperation(String clientId, String phone, String sellerId, boolean hasSeller, Float sellerCommission,SellOperationData sellOperationData){
+    private SellOperation generateParticularSellOperation(String id,String clientId, String sellerId, boolean hasSeller, Float sellerCommission,SellOperationData sellOperationData){
         boolean isReducedSuccess = reduceReserveOfBuyOperationById(sellOperationData);
         if(!isReducedSuccess) throw new IllegalArgumentException("cant be completed because need a reduce reserve to create a sell operation");
         return new SellOperation(
-                UUID.randomUUID().toString(),
+                id,
                 Date.from(Instant.now()),
                 Date.from(Instant.now()),
                 clientId,

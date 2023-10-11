@@ -1,5 +1,6 @@
 package dev.julioperez.littleTree.operation.infrastructure.delivery;
 
+import dev.julioperez.littleTree.box.domain.dto.CurrencyMultiboxToList;
 import dev.julioperez.littleTree.operation.domain.dto.BuyOperationRequest;
 import dev.julioperez.littleTree.operation.domain.dto.ChangePendingOperationRequest;
 import dev.julioperez.littleTree.operation.domain.dto.SellOperationRequest;
@@ -30,18 +31,21 @@ public class OperationController {
         this.cancelOperationInputPort = cancelOperationInputPort;
     }
 
-    @PostMapping("/get")
-    public ResponseEntity<?> getOperations(){
-        List<BuyOperation> buyOperations = getOperationsInputPort.getBuyOperations();
-        return null;
+    @PutMapping("/get")
+    public ResponseEntity<List<BuyOperation>> getOperations(){
+        List<BuyOperation> buyOperations = getOperationsInputPort.getPendingBuyOperations();
+        HttpStatus httpStatus = buyOperations.isEmpty()
+                ? HttpStatus.NO_CONTENT
+                : HttpStatus.FOUND;
+        return new ResponseEntity<>(buyOperations, httpStatus);
     }
 
-    @PostMapping("/create/buy")
+    @PutMapping("/create/buy")
     public ResponseEntity<Boolean> createBuyOperation(@RequestBody BuyOperationRequest buyOperationRequest){
         boolean buyOperation = createOperationInputPort.createBuyOperation(buyOperationRequest);
         return new ResponseEntity<>(buyOperation, HttpStatus.CREATED);
     }
-    @PostMapping("/create/sell")
+    @PutMapping("/create/sell")
     public ResponseEntity<Boolean> createSellOperation(@RequestBody SellOperationRequest sellOperationRequest){
         boolean sellOperation = createOperationInputPort.createSellOperation(sellOperationRequest);
         return new ResponseEntity<>(sellOperation, HttpStatus.CREATED);

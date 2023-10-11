@@ -15,6 +15,7 @@ import java.util.Optional;
 public interface CurrencyMultiBoxDao extends JpaRepository<CurrencyMultiBoxEntity,String> {
     @Query(value = "SELECT DISTINCT ON (CURRENCY_BOX) * from SL.MULTIBOX where CURRENCY_BOX in(:currencyBoxParam) order by CURRENCY_BOX, UPDATED_AT DESC ;", nativeQuery = true)
     Optional<List<CurrencyMultiBoxEntity>> getDistinctByCurrencyBoxInOrderByUpdatedAtDesc(@Param("currencyBoxParam") Collection<String> currencyBoxParam);
+    Optional<List<CurrencyMultiBoxEntity>> getCurrencyMultiBoxEntitiesByCurrencyBoxOrderByUpdatedAtDesc(String currencyBox);
     Optional<List<CurrencyMultiBoxEntity>> getByOperationId(String operationId);
     Optional<CurrencyMultiBoxEntity> getFirstByCurrencyBoxOrderByUpdatedAtDesc(String currencyBox);
 }

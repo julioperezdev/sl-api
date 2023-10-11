@@ -8,6 +8,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.Date;
+
 @Entity
 @Table(name = "SELLER_BOX", schema = "SL")
 @Data
@@ -18,4 +20,8 @@ public class SellerBoxEntity {
     @Id
     private String id;
     private String balanceId;
+    private String name;
+    private String description;
+    private Date createdAt;
+    private Date updatedAt;
 }

@@ -3,6 +3,7 @@ package dev.julioperez.littleTree.box.application.manageForeignExchange.service;
 import dev.julioperez.littleTree.box.domain.enums.MultiBoxStatus;
 import dev.julioperez.littleTree.box.domain.model.CurrencyMultiBox;
 import dev.julioperez.littleTree.box.domain.port.manageForeignExchange.ManageForeignExchange;
+import dev.julioperez.littleTree.operation.domain.enums.OperationType;
 import dev.julioperez.littleTree.operation.domain.model.buyOperation.BuyOperation;
 import dev.julioperez.littleTree.operation.domain.model.sellOperation.SellOperation;
 
@@ -22,9 +23,10 @@ public class ManageForeignExchangeService implements ManageForeignExchange {
                 Date.from(Instant.now()),
                 foreignExchangeBox.getCurrencyBox(),
                 buyOperation.getId(),
+                OperationType.BUY.value(),
                 //todo:does not add foreignExchange because does not have a confirmation of operation, then should be added, buy not now
                 foreignExchangeBox.getQuantity(),//todo:.addQuantity(buyOperation.getQuantity()),
-                buyOperation.getPrice(),
+                buyOperation.getQuantity(),
                 MultiBoxStatus.PENDING.value());
     }
 
@@ -35,11 +37,12 @@ public class ManageForeignExchangeService implements ManageForeignExchange {
                 Date.from(Instant.now()),
                 foreignExchangeBox.getCurrencyBox(),
                 sellOperation.getId(),
+                OperationType.SELL.value(),
                 //todo:OLD COMMENT, does not add foreignExchange because does not have a confirmation of operation, then should be added, buy not now
                 //foreignExchangeBox.getQuantity(),//todo:.addQuantity(buyOperation.getQuantity()),
                 //todo 27 Aug comment, should reserve foreign exchange on sell operation
                 foreignExchangeBox.reduceQuantity(sellOperation.getQuantity()),
-                sellOperation.getPrice(),
+                sellOperation.getQuantity(),
                 MultiBoxStatus.PENDING.value());
     }
 
@@ -50,8 +53,9 @@ public class ManageForeignExchangeService implements ManageForeignExchange {
                 Date.from(Instant.now()),
                 foreignExchangeBox.getCurrencyBox(),
                 sellOperation.getId(),
+                OperationType.SELL.value(),
                 calculateOfNewQuantityToForeignExchangeBoxByCanceledOperation(actualQuantityByExchangeCurrencyBox, sellOperation.getQuantity()),//foreignExchangeBox.addQuantity(sellOperation.getQuantity()),
-                sellOperation.getPrice(),
+                sellOperation.getQuantity(),
                 MultiBoxStatus.CANCELLED.value());
     }
 
@@ -66,8 +70,9 @@ public class ManageForeignExchangeService implements ManageForeignExchange {
                 Date.from(Instant.now()),
                 foreignExchangeBox.getCurrencyBox(),
                 buyOperation.getId(),
+                OperationType.BUY.value(),
                 calculateOfNewQuantityToForeignExchangeByConfirmOperation(actualQuantityByForeignExchangeBox, buyOperation.getQuantity()),
-                buyOperation.getPrice(),
+                buyOperation.getQuantity(),
                 MultiBoxStatus.DONE.value());
     }
     private Float calculateOfNewQuantityToForeignExchangeByConfirmOperation(Float actualQuantityByForeignExchangeBox, Float buyOperationQuantity){
@@ -81,8 +86,9 @@ public class ManageForeignExchangeService implements ManageForeignExchange {
                 Date.from(Instant.now()),
                 foreignExchangeBox.getCurrencyBox(),
                 sellOperation.getId(),
+                OperationType.SELL.value(),
                 foreignExchangeBox.reduceQuantity(sellOperation.getQuantity()),
-                sellOperation.getPrice(),
+                sellOperation.getQuantity(),
                 MultiBoxStatus.DONE.value());
     }
 }

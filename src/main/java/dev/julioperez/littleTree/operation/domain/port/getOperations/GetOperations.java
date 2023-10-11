@@ -8,6 +8,7 @@ import java.util.Optional;
 
 public interface GetOperations {
     List<BuyOperation> getBuyOperations();
+    List<BuyOperation> getPendingBuyOperations();
     Optional<BuyOperation> getBuyOperationById(String operationId);
     List<SellOperation> getSellOperations();
     Optional<SellOperation> getSellOperationById(String operationId);

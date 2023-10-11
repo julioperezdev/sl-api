@@ -4,6 +4,7 @@ import dev.julioperez.littleTree.box.domain.enums.MultiBoxStatus;
 import dev.julioperez.littleTree.box.domain.model.CurrencyMultiBox;
 import dev.julioperez.littleTree.box.domain.port.manageOfficeDebt.ManageOfficeDebt;
 import dev.julioperez.littleTree.box.domain.port.updateCurrencyMultiBox.UpdateCurrencyMultiBox;
+import dev.julioperez.littleTree.operation.domain.enums.OperationType;
 import dev.julioperez.littleTree.operation.domain.model.buyOperation.BuyOperation;
 
 import java.time.Instant;
@@ -22,8 +23,9 @@ public class ManageOfficeDebtService implements ManageOfficeDebt {
                 Date.from(Instant.now()),
                 officeBox.getCurrencyBox(),
                 buyOperation.getId(),
+                OperationType.BUY.value(),
                 officeBox.addQuantity(buyOperation.getTotal()),
-                buyOperation.getPrice(),
+                buyOperation.getTotal(),
                 MultiBoxStatus.PENDING.value());
     }
 
@@ -34,8 +36,9 @@ public class ManageOfficeDebtService implements ManageOfficeDebt {
                 Date.from(Instant.now()),
                 officeBox.getCurrencyBox(),
                 buyOperation.getId(),
+                OperationType.BUY.value(),
                 calculateOfNewQuantityToOfficeBoxByCanceledOperation(actualQuantityOfOfficeBox, buyOperation.getTotal()),
-                buyOperation.getPrice(),
+                buyOperation.getTotal(),
                 MultiBoxStatus.CANCELLED.value());
     }
     private Float calculateOfNewQuantityToOfficeBoxByCanceledOperation(Float actualQuantityOfOfficeBox, Float buyOperationTotal){
@@ -49,8 +52,9 @@ public class ManageOfficeDebtService implements ManageOfficeDebt {
                 Date.from(Instant.now()),
                 officeBox.getCurrencyBox(),
                 buyOperation.getId(),
+                OperationType.BUY.value(),
                 actualQuantityOfOfficeBox,
-                buyOperation.getPrice(),
+                buyOperation.getTotal(),
                 MultiBoxStatus.DONE.value());
     }
 /*

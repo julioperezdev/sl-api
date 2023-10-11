@@ -13,17 +13,19 @@ public final class CurrencyMultiBox {
     private final CurrencyMultiBoxUpdatedAt updatedAt;
     private final CurrencyBox currencyBox;
     private final CurrencyMultiBoxOperationId operationId;
+    private final CurrencyMultiBoxOperationType operationType;
     private final CurrencyMultiBoxQuantity quantity;
-    private final CurrencyMultiBoxPriceOperation priceOperation;
+    private final CurrencyMultiBoxQuantityOperation quantityOperation;
     private final MultiBoxStatus multiBoxStatus;
 
-    public CurrencyMultiBox(String id, Date updatedAt, String currencyBox, String operationId, Float quantity, Float priceOperation, String multiBoxStatus) {
+    public CurrencyMultiBox(String id, Date updatedAt, String currencyBox, String operationId,String operationType, Float quantity, Float quantityOperation, String multiBoxStatus) {
         this.id = new CurrencyMultiBoxId(id);
         this.updatedAt = new CurrencyMultiBoxUpdatedAt(updatedAt);
         this.currencyBox = CurrencyBox.returnCurrencyBoxByDescription(currencyBox);
         this.operationId = new CurrencyMultiBoxOperationId(operationId);
+        this.operationType = new CurrencyMultiBoxOperationType(operationType);
         this.quantity = new CurrencyMultiBoxQuantity(quantity);
-        this.priceOperation = new CurrencyMultiBoxPriceOperation(priceOperation);
+        this.quantityOperation = new CurrencyMultiBoxQuantityOperation(quantityOperation);
         this.multiBoxStatus = MultiBoxStatus.returnMultiBoxStatusByDescription(multiBoxStatus);
     }
 
@@ -51,12 +53,16 @@ public final class CurrencyMultiBox {
         return operationId.value();
     }
 
+    public String getOperationType(){
+        return operationType.value();
+    }
+
     public Float getQuantity() {
         return quantity.value();
     }
 
-    public Float getPriceOperation() {
-        return priceOperation.value();
+    public Float getQuantityOperation() {
+        return quantityOperation.value();
     }
 
     public String getMultiBoxStatus() {

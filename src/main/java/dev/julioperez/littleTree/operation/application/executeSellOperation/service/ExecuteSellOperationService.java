@@ -12,6 +12,8 @@ import dev.julioperez.littleTree.operation.domain.port.getOperations.GetOperatio
 import dev.julioperez.littleTree.seller.domain.dto.CreateSellerCommissionRequest;
 import dev.julioperez.littleTree.seller.domain.port.createSellerCommission.CreateSellerCommission;
 
+import java.sql.Date;
+import java.time.Instant;
 import java.util.Arrays;
 import java.util.UUID;
 
@@ -41,18 +43,18 @@ public class ExecuteSellOperationService implements ExecuteSellOperation {
         //check if used valid values
         boolean updatedCurrencyMultiBox = updateCurrencyMultiBox.reserveDoneCurrencyBoxAfterOfConfirmSellOperation(sellOperation);
 
+        //here
         //create a balance record
-        Balance balance = new Balance(UUID.randomUUID().toString(), sellOperation.getProfit(), sellOperation.getId());
+        Balance balance = new Balance(UUID.randomUUID().toString(), sellOperation.getProfit(), sellOperation.getId(), Date.from(Instant.now()),Date.from(Instant.now()));
         //when save should have status with unassigned sellerBox
         manageBalance.createBalance(balance);
         //should call seller commission if required
-        if(!sellOperation.hasSeller()) return true;
-        createSellerCommission.createSellerCommission(createSellerCommissionRequest);
-        //return true;
-        //call to print PDF for client and user
+        if(sellOperation.hasSeller()){
+            createSellerCommission.createSellerCommission(createSellerCommissionRequest);
+        };
         // todo  -> printOperation.printTicket();
-        byte[] ticketGenerated = generateTicket.generateSellOperationTicket(sellOperation);
-        System.out.println(Arrays.toString(ticketGenerated));
+        //byte[] ticketGenerated = generateTicket.generateSellOperationTicket(sellOperation);
+        //System.out.println(Arrays.toString(ticketGenerated));
         return true;
     }
 }

@@ -3,6 +3,7 @@ package dev.julioperez.littleTree.box.application.managePesos.service;
 import dev.julioperez.littleTree.box.domain.enums.MultiBoxStatus;
 import dev.julioperez.littleTree.box.domain.model.CurrencyMultiBox;
 import dev.julioperez.littleTree.box.domain.port.managePesos.ManagePesos;
+import dev.julioperez.littleTree.operation.domain.enums.OperationType;
 import dev.julioperez.littleTree.operation.domain.model.buyOperation.BuyOperation;
 import dev.julioperez.littleTree.operation.domain.model.sellOperation.SellOperation;
 
@@ -19,8 +20,9 @@ public class ManagePesosService implements ManagePesos {
                 Date.from(Instant.now()),
                 pesosBox.getCurrencyBox(),
                 buyOperation.getId(),
+                OperationType.BUY.value(),
                 pesosBox.reduceQuantity(buyOperation.getTotal()),
-                buyOperation.getPrice(),
+                buyOperation.getTotal(),
                 MultiBoxStatus.PENDING.value());
     }
 
@@ -31,8 +33,9 @@ public class ManagePesosService implements ManagePesos {
                 Date.from(Instant.now()),
                 pesosBox.getCurrencyBox(),
                 sellOperation.getId(),
+                OperationType.SELL.value(),
                 pesosBox.getQuantity(),
-                sellOperation.getPrice(),
+                sellOperation.getTotal(),
                 MultiBoxStatus.PENDING.value());
     }
 
@@ -43,8 +46,9 @@ public class ManagePesosService implements ManagePesos {
                 Date.from(Instant.now()),
                 pesosBox.getCurrencyBox(),
                 buyOperation.getId(),
+                OperationType.BUY.value(),
                 calculateOfNewQuantityToPesosBoxByCanceledOperation(actualQuantityOfPesosBox, buyOperation.getTotal()),
-                buyOperation.getPrice(),
+                buyOperation.getTotal(),
                 MultiBoxStatus.CANCELLED.value());
     }
     private Float calculateOfNewQuantityToPesosBoxByCanceledOperation(Float actualQuantityOfPesosBox, Float buyOperationTotal){
@@ -58,8 +62,9 @@ public class ManagePesosService implements ManagePesos {
                 Date.from(Instant.now()),
                 pesosBox.getCurrencyBox(),
                 buyOperation.getId(),
+                OperationType.BUY.value(),
                 actualQuantityOfPesosBox,
-                buyOperation.getPrice(),
+                buyOperation.getTotal(),
                 MultiBoxStatus.DONE.value());
     }
 
@@ -70,8 +75,9 @@ public class ManagePesosService implements ManagePesos {
                 Date.from(Instant.now()),
                 pesosBox.getCurrencyBox(),
                 sellOperation.getId(),
+                OperationType.SELL.value(),
                 pesosBox.getQuantity(),
-                sellOperation.getPrice(),
+                sellOperation.getTotal(),
                 MultiBoxStatus.DONE.value());
     }
 }

@@ -4,12 +4,19 @@ import dev.julioperez.littleTree.box.domain.model.Balance;
 import dev.julioperez.littleTree.box.domain.port.mapper.BalanceMapper;
 import dev.julioperez.littleTree.box.infrastructure.repository.entity.BalanceEntity;
 
+import java.sql.Date;
+import java.time.Instant;
 import java.util.List;
 
 public class BalanceModelMapper implements BalanceMapper {
     @Override
     public Balance toBalanceModel(BalanceEntity balanceEntity) {
-        return new Balance(balanceEntity.getId(), balanceEntity.getProfit(), balanceEntity.getOperationId());
+        return new Balance(
+                balanceEntity.getId(),
+                balanceEntity.getProfit(),
+                balanceEntity.getOperationId(),
+                balanceEntity.getCreatedAt(),
+                balanceEntity.getUpdatedAt());
     }
 
     @Override
@@ -21,6 +28,11 @@ public class BalanceModelMapper implements BalanceMapper {
 
     @Override
     public BalanceEntity toBalanceEntity(Balance balance) {
-        return new BalanceEntity(balance.getId(),balance.getProfit(),balance.getOperationId());
+        return new BalanceEntity(
+                balance.getId(),
+                balance.getProfit(),
+                balance.getOperationId(),
+                balance.getCreatedAt(),
+                balance.getUpdatedAt());
     }
 }

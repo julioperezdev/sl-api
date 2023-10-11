@@ -15,8 +15,9 @@ public class CurrencyMultiBoxModelMapper implements CurrencyMultiBoxMapper {
                 currencyMultiBoxEntity.getUpdatedAt(),
                 currencyMultiBoxEntity.getCurrencyBox(),
                 currencyMultiBoxEntity.getOperationId(),
+                currencyMultiBoxEntity.getOperationType(),
                 currencyMultiBoxEntity.getQuantity(),
-                currencyMultiBoxEntity.getPriceOperation(),
+                currencyMultiBoxEntity.getQuantityOperation(),
                 currencyMultiBoxEntity.getMultiBoxStatus());
     }
 
@@ -34,8 +35,9 @@ public class CurrencyMultiBoxModelMapper implements CurrencyMultiBoxMapper {
                 currencyMultiBox.getUpdatedAt(),
                 currencyMultiBox.getCurrencyBox(),
                 currencyMultiBox.getOperationId(),
+                currencyMultiBox.getOperationType(),
                 currencyMultiBox.getQuantity(),
-                currencyMultiBox.getPriceOperation(),
+                currencyMultiBox.getQuantityOperation(),
                 currencyMultiBox.getMultiBoxStatus());
     }
 

@@ -1,5 +1,6 @@
 package dev.julioperez.littleTree.operation.application.getOperations.adapter;
 
+import dev.julioperez.littleTree.operation.domain.enums.OperationStatus;
 import dev.julioperez.littleTree.operation.domain.model.buyOperation.BuyOperation;
 import dev.julioperez.littleTree.operation.domain.model.sellOperation.SellOperation;
 import dev.julioperez.littleTree.operation.domain.port.getOperations.GetOperationsOutputPort;
@@ -29,6 +30,12 @@ public class GetOperationsAdapterRepository implements GetOperationsOutputPort {
     public List<BuyOperation> getBuyOperations() {
         List<BuyOperationEntity> buyOperationEntities = buyOperationDao.findAll();
         return buyOperationMapper.toBuyOperationsModel(buyOperationEntities);
+    }
+
+    @Override
+    public List<BuyOperation> getPendingBuyOperations() {
+        List<BuyOperationEntity> allPendingBuyOperation = buyOperationDao.getAllByOperationStatus(OperationStatus.PENDING.value());
+        return buyOperationMapper.toBuyOperationsModel(allPendingBuyOperation);
     }
 
     @Override

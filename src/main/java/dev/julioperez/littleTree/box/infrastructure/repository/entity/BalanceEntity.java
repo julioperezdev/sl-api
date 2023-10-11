@@ -7,6 +7,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.Date;
+
 @Entity
 @Table(name = "BALANCE", schema = "SL")
 @Data
@@ -18,4 +20,6 @@ public class BalanceEntity {
     private String id;
     private Float profit;
     private String operationId;
+    private Date createdAt;
+    private Date updatedAt;
 }

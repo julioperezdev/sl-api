@@ -7,5 +7,6 @@ import java.util.List;
 
 public interface GetOperationsInputPort {
     List<BuyOperation> getBuyOperations();
+    List<BuyOperation> getPendingBuyOperations();
     List<SellOperation> getSellOperations();
 }

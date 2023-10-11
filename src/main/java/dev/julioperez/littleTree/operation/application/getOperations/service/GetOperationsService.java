@@ -21,6 +21,11 @@ public class GetOperationsService implements GetOperations {
     }
 
     @Override
+    public List<BuyOperation> getPendingBuyOperations() {
+        return getOperationsOutputPort.getPendingBuyOperations();
+    }
+
+    @Override
     public Optional<BuyOperation> getBuyOperationById(String operationId) {
         return getBuyOperations().stream()
                 .filter(operation -> operation.getId().equals(operationId))

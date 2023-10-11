@@ -1,5 +1,8 @@
 package dev.julioperez.littleTree.shared.infrastructure.spring;
 
+import dev.julioperez.littleTree.box.application.getCurrencyMultibox.adapter.GetCurrencyMultiboxAdapterRepository;
+import dev.julioperez.littleTree.box.application.getCurrencyMultibox.delivery.GetCurrencyMultiboxDelivery;
+import dev.julioperez.littleTree.box.application.getCurrencyMultibox.service.GetCurrencyMultiboxService;
 import dev.julioperez.littleTree.box.application.manageBalance.adapter.ManageBalanceAdapterRepository;
 import dev.julioperez.littleTree.box.application.manageBalance.service.ManageBalanceService;
 import dev.julioperez.littleTree.box.application.manageForeignExchange.service.ManageForeignExchangeService;
@@ -623,6 +626,24 @@ public class SpringDependenciesConfiguration {
     @Bean
     SellerBoxModelMapper sellerBoxModelMapper(){
         return new SellerBoxModelMapper();
+    }
+
+    /**
+     * GetCurrencyMultibox
+     */
+    @Bean
+    public GetCurrencyMultiboxAdapterRepository getCurrencyMultiboxAdapterRepository(){
+        return new GetCurrencyMultiboxAdapterRepository(currencyMultiBoxDao,currencyMultiBoxModelMapper());
+    }
+
+    @Bean
+    public GetCurrencyMultiboxService getCurrencyMultiboxService(){
+        return new GetCurrencyMultiboxService(getCurrencyMultiboxAdapterRepository());
+    }
+
+    @Bean
+    public GetCurrencyMultiboxDelivery getCurrencyMultiboxDelivery(){
+        return new GetCurrencyMultiboxDelivery(getCurrencyMultiboxService());
     }
 
     /**
