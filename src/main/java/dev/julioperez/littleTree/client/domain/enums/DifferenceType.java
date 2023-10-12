@@ -4,8 +4,8 @@ import java.util.Arrays;
 import java.util.List;
 
 public enum DifferenceType {
-    LACK("falta"),
-    SPARE("sobra");
+    LACK("Faltante"),
+    SPARE("Sobrante");
 
     private final String value;
 

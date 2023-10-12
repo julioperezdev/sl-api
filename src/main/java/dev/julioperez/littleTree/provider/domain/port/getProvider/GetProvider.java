@@ -8,4 +8,5 @@ import java.util.Optional;
 public interface GetProvider {
     List<Provider> getProviders();
     Optional<Provider> getProviderById(String id);
+    Optional<Provider> getOptionalProviderByName(String name);
 }

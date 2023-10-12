@@ -16,7 +16,7 @@ public class SellerModelMapper implements SellerMapper {
         public Seller toSellerModel(CreateSellerRequest createSellerRequest) throws Exception{
                 return new Seller(
                         createSellerRequest.id(),
-                        createSellerRequest.name(),
+                        createSellerRequest.name().trim(),
                         createSellerRequest.phone(),
                         createSellerRequest.description(),
                         Date.from(Instant.now()),

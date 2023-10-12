@@ -16,7 +16,7 @@ public class ProviderModelMapper implements ProviderMapper {
     public Provider toProviderModel(CreateProviderRequest createProviderRequest) {
         return new Provider(
                 createProviderRequest.id(),
-                createProviderRequest.name(),
+                createProviderRequest.name().trim(),
                 createProviderRequest.phone(),
                 createProviderRequest.address(),
                 Date.from(Instant.now()),

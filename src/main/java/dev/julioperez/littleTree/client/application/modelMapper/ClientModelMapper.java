@@ -16,8 +16,8 @@ public class ClientModelMapper implements ClientMapper {
     public Client toClientModel(CreateClientRequest createClientRequest) {
         return new Client(
                 createClientRequest.id(),
-                createClientRequest.name(),
-                createClientRequest.phone(),
+                createClientRequest.name().trim(),
+                createClientRequest.phone().trim(),
                 createClientRequest.address(),
                 createClientRequest.description(),
                 Date.from(Instant.now()),

@@ -193,7 +193,7 @@ public class SpringDependenciesConfiguration {
 
     @Bean
     public CreateClientService createClientService(){
-        return new CreateClientService(createClientAdapterRepository(), clientModelMapper());
+        return new CreateClientService(createClientAdapterRepository(), clientModelMapper(), getClientsService());
     }
 
     @Bean
@@ -316,7 +316,7 @@ public class SpringDependenciesConfiguration {
 
     @Bean
     public CreateSellerService createSellerService(){
-        return new CreateSellerService(createSellerAdapterRepository(), sellerModelMapper());
+        return new CreateSellerService(createSellerAdapterRepository(), sellerModelMapper(), getSellerService());
     }
 
     @Bean
@@ -432,7 +432,7 @@ public class SpringDependenciesConfiguration {
 
     @Bean
     public CreateProviderService createProviderService(){
-        return new CreateProviderService(createProviderAdapterRepository(), providerModelMapper());
+        return new CreateProviderService(createProviderAdapterRepository(), providerModelMapper(), getProviderService());
     }
 
     @Bean

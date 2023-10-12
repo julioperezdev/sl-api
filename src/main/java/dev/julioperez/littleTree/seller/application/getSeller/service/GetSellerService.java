@@ -1,5 +1,6 @@
 package dev.julioperez.littleTree.seller.application.getSeller.service;
 
+import dev.julioperez.littleTree.client.domain.model.Client;
 import dev.julioperez.littleTree.seller.domain.model.Seller;
 import dev.julioperez.littleTree.seller.domain.port.getSeller.GetSeller;
 import dev.julioperez.littleTree.seller.domain.port.getSeller.GetSellerOutputPort;
@@ -23,6 +24,14 @@ public class GetSellerService implements GetSeller {
     public Optional<Seller> getSellerById(String id) {
         return getSellers().stream()
                 .filter(seller -> seller.getId().equals(id))
+                .findFirst();
+    }
+
+    @Override
+    public Optional<Seller> getSellerByName(String name) {
+        List<Seller> allSellers = getSellers();
+        return allSellers.stream()
+                .filter(seller -> seller.getName().equalsIgnoreCase(name))
                 .findFirst();
     }
 }
