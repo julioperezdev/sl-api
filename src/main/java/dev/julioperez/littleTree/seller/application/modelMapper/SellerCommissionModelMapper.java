@@ -6,6 +6,8 @@ import dev.julioperez.littleTree.seller.domain.model.SellerCommission;
 import dev.julioperez.littleTree.seller.domain.port.mapper.SellerCommissionMapper;
 import dev.julioperez.littleTree.seller.infrastructure.repository.entity.SellerCommissionEntity;
 
+import java.time.Instant;
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -19,7 +21,9 @@ public class SellerCommissionModelMapper implements SellerCommissionMapper {
                 createSellerCommissionRequest.quantity(),
                 createSellerCommissionRequest.profit(),
                 createSellerCommissionRequest.sellerId(),
-                createSellerCommissionRequest.sellerCommissionStatus());
+                createSellerCommissionRequest.sellerCommissionStatus(),
+                Date.from(Instant.now()),
+                Date.from(Instant.now()));
     }
 
     @Override
@@ -30,7 +34,9 @@ public class SellerCommissionModelMapper implements SellerCommissionMapper {
                 sellerCommission.getQuantity(),
                 sellerCommission.getProfit(),
                 sellerCommission.getSellerId(),
-                updateSellerCommissionRequest.sellerCommissionStatus());
+                updateSellerCommissionRequest.sellerCommissionStatus(),
+                sellerCommission.getSellerCommissionCreatedAt(),
+                Date.from(Instant.now()));
     }
 
     @Override
@@ -41,7 +47,9 @@ public class SellerCommissionModelMapper implements SellerCommissionMapper {
                 sellerCommissionEntity.getQuantity(),
                 sellerCommissionEntity.getProfit(),
                 sellerCommissionEntity.getSellerId(),
-                sellerCommissionEntity.getSellerCommissionStatus());
+                sellerCommissionEntity.getSellerCommissionStatus(),
+                sellerCommissionEntity.getCreatedAt(),
+                sellerCommissionEntity.getUpdatedAt());
     }
 
     @Override
@@ -57,6 +65,8 @@ public class SellerCommissionModelMapper implements SellerCommissionMapper {
                 sellerCommission.getSellerCommissionStatus(),
                 sellerCommission.getPesos(),
                 sellerCommission.getQuantity(),
-                sellerCommission.getProfit());
+                sellerCommission.getProfit(),
+                sellerCommission.getSellerCommissionCreatedAt(),
+                sellerCommission.getSellerCommissionUpdatedAt());
     }
 }

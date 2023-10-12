@@ -8,6 +8,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.Date;
+
 @Entity
 @Table(name = "SELLER_COMMISSION", schema = "SL")
 @Data
@@ -21,4 +23,6 @@ public class SellerCommissionEntity {
     private Float pesos;
     private Float quantity;
     private Float profit;
+    private Date createdAt;
+    private Date updatedAt;
 }
