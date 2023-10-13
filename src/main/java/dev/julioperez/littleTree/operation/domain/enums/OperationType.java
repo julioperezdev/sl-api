@@ -8,7 +8,10 @@ import java.util.List;
 public enum OperationType {
 
     BUY("comprar"),
-    SELL("vender");
+    SELL("vender"),
+    CASH_INCOME("ingreso efectivo"),
+    DEBT_PAYMENT("pago deuda");
+
 
     private final String value;
 

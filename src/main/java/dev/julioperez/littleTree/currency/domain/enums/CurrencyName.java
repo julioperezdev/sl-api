@@ -6,8 +6,8 @@ import java.util.Arrays;
 import java.util.List;
 
 public enum CurrencyName {
-    USD_BIG("Dolar grande"),
-    USD_SMALL("Dolar chico"),
+    USD_BIG("Dolar Grande"),
+    USD_SMALL("Dolar Chico y Cambio"),
     EURO("Euro"),
     REAL("Real");
 
