@@ -41,7 +41,7 @@ public class CurrencyController {
 
     @PutMapping("/get/name/usd")
     ResponseEntity<Currency> getUsdCurrency(){
-        Currency dollarHighUpdated = getCurrencyInputPort.getLastUpdatedByName("Dolar grande");
+        Currency dollarHighUpdated = getCurrencyInputPort.getLastUpdatedByName("Dolar Grande");
         return new ResponseEntity<>(dollarHighUpdated, HttpStatus.FOUND);
     }
 

@@ -5,8 +5,8 @@ import java.util.Arrays;
 import java.util.List;
 
 public enum CurrencyBox {
-    USD_HIGH("USD HIGH"),
-    USD_LOW("USD LOW"),
+    USD_HIGH("USD_HIGH"),
+    USD_LOW("USD_LOW"),
     EURO("EURO"),
     REAL("REAL"),
     PESO("PESO"),

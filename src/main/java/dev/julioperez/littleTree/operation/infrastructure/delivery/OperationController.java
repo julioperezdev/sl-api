@@ -2,8 +2,8 @@ package dev.julioperez.littleTree.operation.infrastructure.delivery;
 
 import dev.julioperez.littleTree.operation.domain.dto.BuyOperationRequest;
 import dev.julioperez.littleTree.operation.domain.dto.ChangePendingOperationRequest;
+import dev.julioperez.littleTree.operation.domain.dto.GetBuyOperationResponse;
 import dev.julioperez.littleTree.operation.domain.dto.SellOperationRequest;
-import dev.julioperez.littleTree.operation.domain.model.buyOperation.BuyOperation;
 import dev.julioperez.littleTree.operation.domain.port.cancelOperation.CancelOperationInputPort;
 import dev.julioperez.littleTree.operation.domain.port.createOperation.CreateOperationInputPort;
 import dev.julioperez.littleTree.operation.domain.port.getOperations.GetOperationsInputPort;
@@ -31,8 +31,8 @@ public class OperationController {
     }
 
     @PutMapping("/get")
-    public ResponseEntity<List<BuyOperation>> getOperations(){
-        List<BuyOperation> buyOperations = getOperationsInputPort.getPendingBuyOperations();
+    public ResponseEntity<List<GetBuyOperationResponse>> getOperations(){
+        List<GetBuyOperationResponse> buyOperations = getOperationsInputPort.getPendingBuyOperations();
         HttpStatus httpStatus = buyOperations.isEmpty()
                 ? HttpStatus.NO_CONTENT
                 : HttpStatus.FOUND;

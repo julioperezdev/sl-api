@@ -6,6 +6,8 @@ import java.util.Arrays;
 import java.util.List;
 
 public enum OperationStatus {
+    PENDING_PROCESS("proceso de pendiente"),
+    PENDING_DONE("proceso de resuelto"),
     PENDING("pendiente"),
     DONE("resuelto"),
     CANCELLED("cancelado");

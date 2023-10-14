@@ -790,7 +790,7 @@ public class SpringDependenciesConfiguration {
 
     @Bean
     public GetOperationsService getOperationsService(){
-        return new GetOperationsService(getOperationsAdapterRepository());
+        return new GetOperationsService(getOperationsAdapterRepository(), getClientsService());
     }
     @Bean
     public GetOperationsDelivery getOperationsDelivery(){

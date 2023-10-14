@@ -1,18 +1,22 @@
 package dev.julioperez.littleTree.operation.application.getOperations.service;
 
+import dev.julioperez.littleTree.client.domain.port.getClients.GetClients;
+import dev.julioperez.littleTree.operation.domain.dto.GetBuyOperationResponse;
 import dev.julioperez.littleTree.operation.domain.model.buyOperation.BuyOperation;
 import dev.julioperez.littleTree.operation.domain.model.sellOperation.SellOperation;
 import dev.julioperez.littleTree.operation.domain.port.getOperations.GetOperations;
 import dev.julioperez.littleTree.operation.domain.port.getOperations.GetOperationsOutputPort;
 
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class GetOperationsService implements GetOperations {
     private final GetOperationsOutputPort getOperationsOutputPort;
+    private final GetClients getClients;
 
-    public GetOperationsService(GetOperationsOutputPort getOperationsOutputPort) {
+    public GetOperationsService(GetOperationsOutputPort getOperationsOutputPort, GetClients getClients) {
         this.getOperationsOutputPort = getOperationsOutputPort;
+        this.getClients = getClients;
     }
 
     @Override
@@ -21,8 +25,29 @@ public class GetOperationsService implements GetOperations {
     }
 
     @Override
-    public List<BuyOperation> getPendingBuyOperations() {
-        return getOperationsOutputPort.getPendingBuyOperations();
+    public List<GetBuyOperationResponse> getPendingBuyOperations() {
+        List<BuyOperation> buyOperations = getOperationsOutputPort.getPendingBuyOperations().stream().sorted(Comparator.comparing(BuyOperation::getUpdatedAt).reversed()).toList();
+        List<String> clientIdList = buyOperations.stream().map(BuyOperation::getClientId).distinct().toList();
+        Map<String, String> clientsNameById = getClients.getClientsNameById(clientIdList);
+        List<GetBuyOperationResponse> getBuyOperationResponses = new ArrayList<>();
+        buyOperations.forEach(particular->{
+            String clientName = clientsNameById.get(particular.getClientId());
+            GetBuyOperationResponse getClientDifferenceDto = mapToGetBuyOperationResponses(particular, clientName);
+            getBuyOperationResponses.add(getClientDifferenceDto);
+        });
+        return getBuyOperationResponses;
+    }
+
+    private GetBuyOperationResponse mapToGetBuyOperationResponses(BuyOperation buyOperation, String clientName){
+        return new GetBuyOperationResponse(
+                buyOperation.getId(),
+                buyOperation.getCreatedAt(),
+                buyOperation.getUpdatedAt(),
+                clientName,
+                buyOperation.getCurrencyMultiBox(),
+                buyOperation.getPrice(),
+                buyOperation.getQuantity(),
+                buyOperation.getTotal());
     }
 
     @Override
@@ -34,7 +59,7 @@ public class GetOperationsService implements GetOperations {
 
     @Override
     public List<SellOperation> getSellOperations() {
-        return getOperationsOutputPort.getSellOperations();
+        return getOperationsOutputPort.getSellOperations().stream().sorted(Comparator.comparing(SellOperation::getUpdatedAt).reversed()).collect(Collectors.toList());
     }
 
     @Override

@@ -1,5 +1,6 @@
 package dev.julioperez.littleTree.operation.domain.port.getOperations;
 
+import dev.julioperez.littleTree.operation.domain.dto.GetBuyOperationResponse;
 import dev.julioperez.littleTree.operation.domain.model.buyOperation.BuyOperation;
 import dev.julioperez.littleTree.operation.domain.model.sellOperation.SellOperation;
 
@@ -8,7 +9,7 @@ import java.util.Optional;
 
 public interface GetOperations {
     List<BuyOperation> getBuyOperations();
-    List<BuyOperation> getPendingBuyOperations();
+    List<GetBuyOperationResponse> getPendingBuyOperations();
     Optional<BuyOperation> getBuyOperationById(String operationId);
     List<SellOperation> getSellOperations();
     Optional<SellOperation> getSellOperationById(String operationId);
