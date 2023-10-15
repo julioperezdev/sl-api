@@ -7,6 +7,7 @@ public record CurrencyMultiboxToList(
         Date updatedAt,
         String operationType,
         Float quantityOperation,
-        Float quantity
+        Float quantity,
+        String status
 ) {
 }

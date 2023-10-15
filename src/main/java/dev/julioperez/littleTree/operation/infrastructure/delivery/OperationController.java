@@ -49,7 +49,7 @@ public class OperationController {
         boolean sellOperation = createOperationInputPort.createSellOperation(sellOperationRequest);
         return new ResponseEntity<>(sellOperation, HttpStatus.CREATED);
     }
-    @PostMapping("/pending")
+    @PutMapping("/pending")
     public ResponseEntity<Boolean> pendingOperation(@RequestBody ChangePendingOperationRequest changePendingOperationRequest){
         boolean response = pendingOperationInputPort.changePendingToExecuteOperation(changePendingOperationRequest);
         return new ResponseEntity<>(response, HttpStatus.ACCEPTED);

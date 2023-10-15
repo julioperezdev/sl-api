@@ -28,6 +28,7 @@ public class GetCurrencyMultiboxService implements GetCurrencyMultibox {
                 currencyMultiBox.getUpdatedAt(),
                 currencyMultiBox.getOperationType(),
                 currencyMultiBox.getQuantityOperation(),
-                currencyMultiBox.getQuantity());
+                currencyMultiBox.getQuantity(),
+                currencyMultiBox.getMultiBoxStatus());
     }
 }
