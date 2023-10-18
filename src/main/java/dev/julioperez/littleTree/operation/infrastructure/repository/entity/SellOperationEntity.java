@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 import java.util.Date;
 
 @Entity
-@Table(name = "SELL_OPERATION")
+@Table(name = "SELL_OPERATION", schema = "SL")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor

@@ -136,10 +136,10 @@ public class CreateOperationService implements CreateOperation {
     private List<SellOperation> generateSellOperations(SellOperationRequest sellOperationsRequest){
         return sellOperationsRequest.sellOperationData()
                 .stream()
-                .map(particular -> this.generateParticularSellOperation(sellOperationsRequest.id(),sellOperationsRequest.clientId(),sellOperationsRequest.sellerId(),sellOperationsRequest.hasSeller(), sellOperationsRequest.sellerCommission(), particular))
+                .map(particular -> this.generateParticularSellOperation(sellOperationsRequest.id(),sellOperationsRequest.clientId(), particular))
                 .toList();
     }
-    private SellOperation generateParticularSellOperation(String id,String clientId, String sellerId, boolean hasSeller, Float sellerCommission,SellOperationData sellOperationData){
+    private SellOperation generateParticularSellOperation(String id,String clientId,SellOperationData sellOperationData){
         boolean isReducedSuccess = reduceReserveOfBuyOperationById(sellOperationData);
         if(!isReducedSuccess) throw new IllegalArgumentException("cant be completed because need a reduce reserve to create a sell operation");
         return new SellOperation(
@@ -148,14 +148,15 @@ public class CreateOperationService implements CreateOperation {
                 Date.from(Instant.now()),
                 clientId,
                 sellOperationData.currencyMultiBox(),
-                sellOperationData.buyPrice(),
+                sellOperationData.sellPrice(),
                 sellOperationData.quantityToSell(),
                 calculateSubProfitToSellOperation(sellOperationData),
-                calculateProfitToSellOperation(hasSeller, sellerCommission, sellOperationData),
+                calculateProfitToSellOperation(sellOperationData),
                 calculateTotalPriceToSellOperation(sellOperationData),
-                sellerId,//TODO: question, always is same seller?
+                sellOperationData.sellerId(),
                 OperationStatus.PENDING.value());
     }
+
     private boolean reduceReserveOfBuyOperationById(SellOperationData sellOperationData){
         BuyOperation buyOperation = getOperations.getBuyOperationById(sellOperationData.buyOperationId()).orElseThrow(()-> new IllegalArgumentException(String.format("%s buyOperation ID dont exist", sellOperationData.buyOperationId())));
         if(!sellOperationData.currencyMultiBox().equals(buyOperation.getCurrencyMultiBox())) throw new IllegalArgumentException(String.format("%s foreignExchange found should be same of %s foreign exchange box", buyOperation.getCurrencyMultiBox(), sellOperationData.currencyMultiBox()));
@@ -186,17 +187,17 @@ public class CreateOperationService implements CreateOperation {
     }
     private Float calculateSubProfitToSellOperation(SellOperationData sellOperationData){
         float totalPriceInPesos = calculateTotalPriceToSellOperation(sellOperationData);
-        float subProfit = (sellOperationData.buyPrice() * sellOperationData.sellPrice()) - totalPriceInPesos;
+        float subProfit =  totalPriceInPesos - (sellOperationData.buyPrice() * sellOperationData.quantityToSell());
         if(subProfit < 0) throw new IllegalArgumentException("Cant have negative result or is correct?");
         return subProfit;
     }
-    private Float calculateProfitToSellOperation(boolean hasSeller, Float sellerCommission, SellOperationData sellOperationData){
+    private Float calculateProfitToSellOperation(SellOperationData sellOperationData){
         //re check if necessary define one sellerCommission for all transactions or different commissions by operations
         //validate if correct analogy on profit and sub_profit
         float subProfit = calculateSubProfitToSellOperation(sellOperationData);
-        if(!hasSeller) return subProfit;
+        if(!sellOperationData.hasSeller()) return subProfit;
         //float profit = sellerCommission * sellOperationData.quantityToSell();
-        float profit = subProfit - (sellerCommission * sellOperationData.quantityToSell());
+        float profit = subProfit - (sellOperationData.sellerCommission() * sellOperationData.quantityToSell());
         if(profit < 0) throw new IllegalArgumentException("Cant have negative result or is correct? or some error");
         return profit;
     }
