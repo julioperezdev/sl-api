@@ -1,9 +1,6 @@
 package dev.julioperez.littleTree.operation.infrastructure.delivery;
 
-import dev.julioperez.littleTree.operation.domain.dto.BuyOperationRequest;
-import dev.julioperez.littleTree.operation.domain.dto.ChangePendingOperationRequest;
-import dev.julioperez.littleTree.operation.domain.dto.GetBuyOperationResponse;
-import dev.julioperez.littleTree.operation.domain.dto.SellOperationRequest;
+import dev.julioperez.littleTree.operation.domain.dto.*;
 import dev.julioperez.littleTree.operation.domain.port.cancelOperation.CancelOperationInputPort;
 import dev.julioperez.littleTree.operation.domain.port.createOperation.CreateOperationInputPort;
 import dev.julioperez.littleTree.operation.domain.port.getOperations.GetOperationsInputPort;
@@ -39,6 +36,23 @@ public class OperationController {
         return new ResponseEntity<>(buyOperations, httpStatus);
     }
 
+    @PutMapping("/get/done")
+    public ResponseEntity<List<GetBuyOperationResponse>> getDoneBuyOperations(){
+        List<GetBuyOperationResponse> buyOperations = getOperationsInputPort.getDoneBuyOperations();
+        HttpStatus httpStatus = buyOperations.isEmpty()
+                ? HttpStatus.NO_CONTENT
+                : HttpStatus.FOUND;
+        return new ResponseEntity<>(buyOperations, httpStatus);
+    }
+    @PutMapping("/get/done/{currency}")
+    public ResponseEntity<List<GetDoneOperationToShowReserve>> getDoneBuyOperationsByCurrency(@PathVariable String currency){
+        List<GetDoneOperationToShowReserve> buyOperations = getOperationsInputPort.getDoneBuyOperationsByCurrency(currency);
+        HttpStatus httpStatus = buyOperations.isEmpty()
+                ? HttpStatus.NO_CONTENT
+                : HttpStatus.FOUND;
+        return new ResponseEntity<>(buyOperations, httpStatus);
+    }
+
     @PutMapping("/create/buy")
     public ResponseEntity<Boolean> createBuyOperation(@RequestBody BuyOperationRequest buyOperationRequest){
         boolean buyOperation = createOperationInputPort.createBuyOperation(buyOperationRequest);
@@ -54,7 +68,7 @@ public class OperationController {
         boolean response = pendingOperationInputPort.changePendingToExecuteOperation(changePendingOperationRequest);
         return new ResponseEntity<>(response, HttpStatus.ACCEPTED);
     }
-    @PostMapping("/cancel")
+    @PutMapping("/cancel")
     public ResponseEntity<Boolean> cancelOperation(@RequestBody ChangePendingOperationRequest changePendingOperationRequest){
         boolean response = cancelOperationInputPort.changePendingToCancelOperation(changePendingOperationRequest);
         System.out.println(response);

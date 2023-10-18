@@ -2,6 +2,7 @@ package dev.julioperez.littleTree.operation.application.getOperations.service;
 
 import dev.julioperez.littleTree.client.domain.port.getClients.GetClients;
 import dev.julioperez.littleTree.operation.domain.dto.GetBuyOperationResponse;
+import dev.julioperez.littleTree.operation.domain.dto.GetDoneOperationToShowReserve;
 import dev.julioperez.littleTree.operation.domain.model.buyOperation.BuyOperation;
 import dev.julioperez.littleTree.operation.domain.model.sellOperation.SellOperation;
 import dev.julioperez.littleTree.operation.domain.port.getOperations.GetOperations;
@@ -38,6 +39,25 @@ public class GetOperationsService implements GetOperations {
         return getBuyOperationResponses;
     }
 
+    @Override
+    public List<GetBuyOperationResponse> getDoneBuyOperations() {
+        List<BuyOperation> buyOperations = getOperationsOutputPort.getDoneBuyOperations().stream().sorted(Comparator.comparing(BuyOperation::getUpdatedAt).reversed()).toList();
+        List<String> clientIdList = buyOperations.stream().map(BuyOperation::getClientId).distinct().toList();
+        Map<String, String> clientsNameById = getClients.getClientsNameById(clientIdList);
+        List<GetBuyOperationResponse> getBuyOperationResponses = new ArrayList<>();
+        buyOperations.forEach(particular->{
+            String clientName = clientsNameById.get(particular.getClientId());
+            GetBuyOperationResponse getClientDifferenceDto = mapToGetBuyOperationResponses(particular, clientName);
+            getBuyOperationResponses.add(getClientDifferenceDto);
+        });
+        return getBuyOperationResponses;
+    }
+
+    @Override
+    public List<GetDoneOperationToShowReserve> getDoneBuyOperationsByCurrency(String currency) {
+        return getOperationsOutputPort.getDoneBuyOperations().stream().sorted(Comparator.comparing(BuyOperation::getCreatedAt).reversed()).filter(particular -> particular.getCurrencyMultiBox().equalsIgnoreCase(currency)).map(this::mapToGetDoneOperationToShowReserve).toList();
+    }
+
     private GetBuyOperationResponse mapToGetBuyOperationResponses(BuyOperation buyOperation, String clientName){
         return new GetBuyOperationResponse(
                 buyOperation.getId(),
@@ -48,6 +68,15 @@ public class GetOperationsService implements GetOperations {
                 buyOperation.getPrice(),
                 buyOperation.getQuantity(),
                 buyOperation.getTotal());
+    }
+
+    private GetDoneOperationToShowReserve mapToGetDoneOperationToShowReserve(BuyOperation buyOperation){
+        return new GetDoneOperationToShowReserve(
+                buyOperation.getId(),
+                buyOperation.getCreatedAt(),
+                //buyOperation.getUpdatedAt(),
+                buyOperation.getPrice(),
+                buyOperation.getReserve());
     }
 
     @Override

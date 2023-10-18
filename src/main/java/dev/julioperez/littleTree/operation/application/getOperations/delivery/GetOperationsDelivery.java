@@ -1,6 +1,7 @@
 package dev.julioperez.littleTree.operation.application.getOperations.delivery;
 
 import dev.julioperez.littleTree.operation.domain.dto.GetBuyOperationResponse;
+import dev.julioperez.littleTree.operation.domain.dto.GetDoneOperationToShowReserve;
 import dev.julioperez.littleTree.operation.domain.model.buyOperation.BuyOperation;
 import dev.julioperez.littleTree.operation.domain.model.sellOperation.SellOperation;
 import dev.julioperez.littleTree.operation.domain.port.getOperations.GetOperations;
@@ -23,6 +24,16 @@ public class GetOperationsDelivery implements GetOperationsInputPort {
     @Override
     public List<GetBuyOperationResponse> getPendingBuyOperations() {
         return getOperations.getPendingBuyOperations();
+    }
+
+    @Override
+    public List<GetBuyOperationResponse> getDoneBuyOperations() {
+        return getOperations.getDoneBuyOperations();
+    }
+
+    @Override
+    public List<GetDoneOperationToShowReserve> getDoneBuyOperationsByCurrency(String currency) {
+        return getOperations.getDoneBuyOperationsByCurrency(currency);
     }
 
     @Override

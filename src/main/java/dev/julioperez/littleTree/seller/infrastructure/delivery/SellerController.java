@@ -52,6 +52,15 @@ public class SellerController {
                 : HttpStatus.FOUND;
         return new ResponseEntity<>(sellers, httpStatus);
     }
+
+    @PutMapping("/get/name/{name}")
+    public ResponseEntity<Optional<Seller>> getSellerByName(@PathVariable String name){
+        Optional<Seller> sellerByName = getSellerInputPort.getSellerByName(name);
+        HttpStatus httpStatus = sellerByName.isEmpty()
+                ? HttpStatus.NO_CONTENT
+                : HttpStatus.FOUND;
+        return new ResponseEntity<>(sellerByName, httpStatus);
+    }
     @PutMapping("/update")
     public ResponseEntity<Seller> updateSeller(@RequestBody UpdateSellerRequest updateSellerRequest){
         Seller seller = updateSellerInputPort.updateSeller(updateSellerRequest);

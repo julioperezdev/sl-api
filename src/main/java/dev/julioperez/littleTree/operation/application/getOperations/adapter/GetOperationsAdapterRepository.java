@@ -39,6 +39,12 @@ public class GetOperationsAdapterRepository implements GetOperationsOutputPort {
     }
 
     @Override
+    public List<BuyOperation> getDoneBuyOperations() {
+        List<BuyOperationEntity> allPendingBuyOperation = buyOperationDao.getAllByOperationStatus(OperationStatus.DONE.value());
+        return buyOperationMapper.toBuyOperationsModel(allPendingBuyOperation);
+    }
+
+    @Override
     public List<SellOperation> getSellOperations() {
         List<SellOperationEntity> sellOperationEntities = sellOperationDao.findAll();
         return sellOperationMapper.toSellOperationsModel(sellOperationEntities);

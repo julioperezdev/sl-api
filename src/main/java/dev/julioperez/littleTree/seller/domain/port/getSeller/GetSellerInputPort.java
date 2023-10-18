@@ -8,4 +8,5 @@ import java.util.Optional;
 public interface GetSellerInputPort {
     List<Seller> getSellers();
     Optional<Seller> getSellerById(String id);
+    Optional<Seller> getSellerByName(String name);
 }
