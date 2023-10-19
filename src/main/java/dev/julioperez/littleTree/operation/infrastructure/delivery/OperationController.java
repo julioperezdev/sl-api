@@ -27,24 +27,24 @@ public class OperationController {
         this.cancelOperationInputPort = cancelOperationInputPort;
     }
 
-    @PutMapping("/get")
-    public ResponseEntity<List<GetBuyOperationResponse>> getOperations(){
-        List<GetBuyOperationResponse> buyOperations = getOperationsInputPort.getPendingBuyOperations();
-        HttpStatus httpStatus = buyOperations.isEmpty()
+    @PutMapping("/get/pending")
+    public ResponseEntity<GetBuyAndSellOperationResponseDto> getPendingOperations(){
+        GetBuyAndSellOperationResponseDto pendingOperations = getOperationsInputPort.getPendingBuyAndSellOperations();
+        HttpStatus httpStatus = pendingOperations.buyOperation() == null && pendingOperations.sellOperation() == null
                 ? HttpStatus.NO_CONTENT
                 : HttpStatus.FOUND;
-        return new ResponseEntity<>(buyOperations, httpStatus);
+        return new ResponseEntity<>(pendingOperations, httpStatus);
     }
 
     @PutMapping("/get/done")
-    public ResponseEntity<List<GetBuyOperationResponse>> getDoneBuyOperations(){
-        List<GetBuyOperationResponse> buyOperations = getOperationsInputPort.getDoneBuyOperations();
-        HttpStatus httpStatus = buyOperations.isEmpty()
+    public ResponseEntity<GetBuyAndSellOperationResponseDto> getDoneBuyOperations(){
+        GetBuyAndSellOperationResponseDto doneOperations = getOperationsInputPort.getDoneBuyAndSellOperations();
+        HttpStatus httpStatus = doneOperations.buyOperation() == null && doneOperations.sellOperation() == null
                 ? HttpStatus.NO_CONTENT
                 : HttpStatus.FOUND;
-        return new ResponseEntity<>(buyOperations, httpStatus);
+        return new ResponseEntity<>(doneOperations, httpStatus);
     }
-    @PutMapping("/get/done/{currency}")
+    @PutMapping("/get/done/reserve/{currency}")
     public ResponseEntity<List<GetDoneOperationToShowReserve>> getDoneBuyOperationsByCurrency(@PathVariable String currency){
         List<GetDoneOperationToShowReserve> buyOperations = getOperationsInputPort.getDoneBuyOperationsByCurrency(currency);
         HttpStatus httpStatus = buyOperations.isEmpty()

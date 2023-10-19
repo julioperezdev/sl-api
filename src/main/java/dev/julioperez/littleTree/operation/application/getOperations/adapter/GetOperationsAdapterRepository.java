@@ -33,10 +33,28 @@ public class GetOperationsAdapterRepository implements GetOperationsOutputPort {
     }
 
     @Override
-    public List<BuyOperation> getPendingBuyOperations() {
-        List<BuyOperationEntity> allPendingBuyOperation = buyOperationDao.getAllByOperationStatus(OperationStatus.PENDING.value());
+    public List<BuyOperation> getBuyOperationsByStatus(OperationStatus operationStatus) {
+        List<BuyOperationEntity> allPendingBuyOperation = buyOperationDao.getAllByOperationStatus(operationStatus.value());
         return buyOperationMapper.toBuyOperationsModel(allPendingBuyOperation);
     }
+
+    @Override
+    public List<SellOperation> geSellOperationsByStatus(OperationStatus operationStatus) {
+        List<SellOperationEntity> allPendingSellOperation = sellOperationDao.getAllByOperationStatus(operationStatus.value());
+        return sellOperationMapper.toSellOperationsModel(allPendingSellOperation);
+    }
+
+//    @Override
+//    public List<BuyOperation> getPendingBuyOperations() {
+//        List<BuyOperationEntity> allPendingBuyOperation = buyOperationDao.getAllByOperationStatus(OperationStatus.PENDING.value());
+//        return buyOperationMapper.toBuyOperationsModel(allPendingBuyOperation);
+//    }
+
+//    @Override
+//    public List<SellOperation> getPendingSellOperations() {
+//        List<SellOperationEntity> allPendingSellOperation = sellOperationDao.getAllByOperationStatus(OperationStatus.PENDING.value());
+//        return sellOperationMapper.toSellOperationsModel(allPendingSellOperation);
+//    }
 
     @Override
     public List<BuyOperation> getDoneBuyOperations() {

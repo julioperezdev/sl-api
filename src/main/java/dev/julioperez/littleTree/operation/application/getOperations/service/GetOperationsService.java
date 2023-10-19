@@ -1,8 +1,11 @@
 package dev.julioperez.littleTree.operation.application.getOperations.service;
 
 import dev.julioperez.littleTree.client.domain.port.getClients.GetClients;
-import dev.julioperez.littleTree.operation.domain.dto.GetBuyOperationResponse;
+import dev.julioperez.littleTree.operation.domain.dto.GetBuyAndSellOperationResponseDto;
+import dev.julioperez.littleTree.operation.domain.dto.GetOperationResponseDto;
 import dev.julioperez.littleTree.operation.domain.dto.GetDoneOperationToShowReserve;
+import dev.julioperez.littleTree.operation.domain.enums.OperationStatus;
+import dev.julioperez.littleTree.operation.domain.enums.OperationType;
 import dev.julioperez.littleTree.operation.domain.model.buyOperation.BuyOperation;
 import dev.julioperez.littleTree.operation.domain.model.sellOperation.SellOperation;
 import dev.julioperez.littleTree.operation.domain.port.getOperations.GetOperations;
@@ -26,28 +29,54 @@ public class GetOperationsService implements GetOperations {
     }
 
     @Override
-    public List<GetBuyOperationResponse> getPendingBuyOperations() {
-        List<BuyOperation> buyOperations = getOperationsOutputPort.getPendingBuyOperations().stream().sorted(Comparator.comparing(BuyOperation::getUpdatedAt).reversed()).toList();
+    public GetBuyAndSellOperationResponseDto getPendingBuyAndSellOperations() {
+        List<GetOperationResponseDto> pendingBuyOperation = getPendingBuyOperation(OperationStatus.PENDING);
+        List<GetOperationResponseDto> pendingSellOperation = getPendingSellOperation(OperationStatus.PENDING);
+        return new GetBuyAndSellOperationResponseDto(pendingBuyOperation, pendingSellOperation);
+    }
+
+    @Override
+    public GetBuyAndSellOperationResponseDto getDoneBuyAndSellOperations() {
+        List<GetOperationResponseDto> pendingBuyOperation = getPendingBuyOperation(OperationStatus.DONE);
+        List<GetOperationResponseDto> pendingSellOperation = getPendingSellOperation(OperationStatus.DONE);
+        return new GetBuyAndSellOperationResponseDto(pendingBuyOperation, pendingSellOperation);
+    }
+
+    private List<GetOperationResponseDto> getPendingBuyOperation(OperationStatus operationStatus){
+        List<BuyOperation> buyOperations = getOperationsOutputPort.getBuyOperationsByStatus(operationStatus).stream().sorted(Comparator.comparing(BuyOperation::getUpdatedAt).reversed()).toList();
         List<String> clientIdList = buyOperations.stream().map(BuyOperation::getClientId).distinct().toList();
         Map<String, String> clientsNameById = getClients.getClientsNameById(clientIdList);
-        List<GetBuyOperationResponse> getBuyOperationResponses = new ArrayList<>();
+        List<GetOperationResponseDto> getBuyOperationResponses = new ArrayList<>();
         buyOperations.forEach(particular->{
             String clientName = clientsNameById.get(particular.getClientId());
-            GetBuyOperationResponse getClientDifferenceDto = mapToGetBuyOperationResponses(particular, clientName);
+            GetOperationResponseDto getClientDifferenceDto = mapToGetBuyOperationResponses(particular, clientName);
             getBuyOperationResponses.add(getClientDifferenceDto);
         });
         return getBuyOperationResponses;
     }
 
+    private List<GetOperationResponseDto> getPendingSellOperation(OperationStatus operationStatus){
+        List<SellOperation> sellOperations = getOperationsOutputPort.geSellOperationsByStatus(operationStatus).stream().sorted(Comparator.comparing(SellOperation::getUpdatedAt).reversed()).toList();
+        List<String> clientIdList = sellOperations.stream().map(SellOperation::getClientId).distinct().toList();
+        Map<String, String> clientsNameById = getClients.getClientsNameById(clientIdList);
+        List<GetOperationResponseDto> getSellOperationResponses = new ArrayList<>();
+        sellOperations.forEach(particular->{
+            String clientName = clientsNameById.get(particular.getClientId());
+            GetOperationResponseDto getClientDifferenceDto = mapToGetSellOperationResponses(particular, clientName);
+            getSellOperationResponses.add(getClientDifferenceDto);
+        });
+        return getSellOperationResponses;
+    }
+
     @Override
-    public List<GetBuyOperationResponse> getDoneBuyOperations() {
+    public List<GetOperationResponseDto> getDoneBuyOperations() {
         List<BuyOperation> buyOperations = getOperationsOutputPort.getDoneBuyOperations().stream().sorted(Comparator.comparing(BuyOperation::getUpdatedAt).reversed()).toList();
         List<String> clientIdList = buyOperations.stream().map(BuyOperation::getClientId).distinct().toList();
         Map<String, String> clientsNameById = getClients.getClientsNameById(clientIdList);
-        List<GetBuyOperationResponse> getBuyOperationResponses = new ArrayList<>();
+        List<GetOperationResponseDto> getBuyOperationResponses = new ArrayList<>();
         buyOperations.forEach(particular->{
             String clientName = clientsNameById.get(particular.getClientId());
-            GetBuyOperationResponse getClientDifferenceDto = mapToGetBuyOperationResponses(particular, clientName);
+            GetOperationResponseDto getClientDifferenceDto = mapToGetBuyOperationResponses(particular, clientName);
             getBuyOperationResponses.add(getClientDifferenceDto);
         });
         return getBuyOperationResponses;
@@ -55,11 +84,11 @@ public class GetOperationsService implements GetOperations {
 
     @Override
     public List<GetDoneOperationToShowReserve> getDoneBuyOperationsByCurrency(String currency) {
-        return getOperationsOutputPort.getDoneBuyOperations().stream().sorted(Comparator.comparing(BuyOperation::getCreatedAt).reversed()).filter(particular -> particular.getCurrencyMultiBox().equalsIgnoreCase(currency)).map(this::mapToGetDoneOperationToShowReserve).toList();
+        return getOperationsOutputPort.getDoneBuyOperations().stream().sorted(Comparator.comparing(BuyOperation::getCreatedAt).reversed()).filter(particular -> particular.getCurrencyMultiBox().equalsIgnoreCase(currency) && particular.getReserve() > 0).map(this::mapToGetDoneOperationToShowReserve).toList();
     }
 
-    private GetBuyOperationResponse mapToGetBuyOperationResponses(BuyOperation buyOperation, String clientName){
-        return new GetBuyOperationResponse(
+    private GetOperationResponseDto mapToGetBuyOperationResponses(BuyOperation buyOperation, String clientName){
+        return new GetOperationResponseDto(
                 buyOperation.getId(),
                 buyOperation.getCreatedAt(),
                 buyOperation.getUpdatedAt(),
@@ -68,6 +97,18 @@ public class GetOperationsService implements GetOperations {
                 buyOperation.getPrice(),
                 buyOperation.getQuantity(),
                 buyOperation.getTotal());
+    }
+
+    private GetOperationResponseDto mapToGetSellOperationResponses(SellOperation sellOperation, String clientName){
+        return new GetOperationResponseDto(
+                sellOperation.getId(),
+                sellOperation.getCreatedAt(),
+                sellOperation.getUpdatedAt(),
+                clientName,
+                sellOperation.getCurrencyMultiBox(),
+                sellOperation.getPrice(),
+                sellOperation.getQuantity(),
+                sellOperation.getTotal());
     }
 
     private GetDoneOperationToShowReserve mapToGetDoneOperationToShowReserve(BuyOperation buyOperation){
