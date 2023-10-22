@@ -35,4 +35,9 @@ public class GetClientDifferenceDelivery implements GetClientDifferenceInputPort
     public Optional<GetClientDifferenceResponse> getClientDifferenceById(String id) throws Exception {
         return getClientDifference.getClientDifferenceById(id);
     }
+
+    @Override
+    public boolean hasClientDifferenceByClientId(String clientId) {
+        return getClientDifference.hasClientDifferenceByClientId(clientId);
+    }
 }

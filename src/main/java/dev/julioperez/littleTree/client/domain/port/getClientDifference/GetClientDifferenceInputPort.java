@@ -11,4 +11,6 @@ public interface GetClientDifferenceInputPort {
     List<GetClientDifferenceResponse> getClientDifferenceDto() throws Exception;
     Optional<ClientDifference> getOptionalClientDifferenceById(String id);
     Optional<GetClientDifferenceResponse> getClientDifferenceById(String id) throws Exception;
+    boolean hasClientDifferenceByClientId(String clientId);
+
 }

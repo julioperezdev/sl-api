@@ -11,4 +11,6 @@ public interface GetClientDifference {
     List<GetClientDifferenceResponse> getClientDifferenceDto();
     Optional<ClientDifference> getOptionalClientDifferenceById(String id);
     Optional<GetClientDifferenceResponse> getClientDifferenceById(String id) throws Exception;
+
+    boolean hasClientDifferenceByClientId(String clientId);
 }

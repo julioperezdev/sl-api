@@ -60,4 +60,13 @@ public class ClientDifferenceController {
         ClientDifference clientDifferenceUpdated = updateClientDifferenceInputPort.updateClientDifference(updateClientDifferenceRequest);
         return new ResponseEntity<>(clientDifferenceUpdated, HttpStatus.OK);
     }
+
+    @PutMapping("/get/by/client/id/{clientId}")
+    public ResponseEntity<Boolean> hasClientDifferenceByClientId(@PathVariable String clientId){
+        boolean hasClientDifferencesByClientId = getClientDifferenceInputPort.hasClientDifferenceByClientId(clientId);
+        HttpStatus httpStatus = !hasClientDifferencesByClientId
+                ? HttpStatus.NO_CONTENT
+                : HttpStatus.FOUND;
+        return new ResponseEntity<>(hasClientDifferencesByClientId, httpStatus);
+    }
 }

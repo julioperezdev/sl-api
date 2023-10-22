@@ -61,6 +61,12 @@ public class GetClientDifferenceService implements GetClientDifference {
                 .findFirst();
     }
 
+    public boolean hasClientDifferenceByClientId(String clientId) {
+        List<ClientDifference> allClientDifference = getClientDifference();
+        return  allClientDifference.stream()
+                .anyMatch(particularClientDifference -> particularClientDifference.getClientId().equals(clientId));
+    }
+
     @Override
     public Optional<GetClientDifferenceResponse> getClientDifferenceById(String id) throws Exception {
         List<ClientDifference> allClientDifference = getClientDifference();
