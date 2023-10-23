@@ -197,8 +197,10 @@ public class CreateOperationService implements CreateOperation {
         float subProfit = calculateSubProfitToSellOperation(sellOperationData);
         if(!sellOperationData.hasSeller()) return subProfit;
         //float profit = sellerCommission * sellOperationData.quantityToSell();
-        float profit = subProfit - (sellOperationData.sellerCommission() * sellOperationData.quantityToSell());
-        if(profit < 0) throw new IllegalArgumentException("Cant have negative result or is correct? or some error");
-        return profit;
+        //float profit = subProfit - (sellOperationData.sellerCommission() * sellOperationData.quantityToSell());
+        //recordar que el profit puede ser negativo, hay que hacer pruebas para estos casos
+        return  subProfit - sellOperationData.sellerCommission();
+        //if(profit < 0) throw new IllegalArgumentException("Cant have negative result or is correct? or some error");
+        //return profit;
     }
 }
