@@ -20,8 +20,8 @@ public class SellerCommissionEntity {
     private String id;
     private String sellerId;
     private String sellerCommissionStatus;
-    private Float pesos;
-    private Float quantity;
+    private String operationId;
+    private Float total;
     private Float profit;
     private Date createdAt;
     private Date updatedAt;

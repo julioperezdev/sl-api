@@ -14,6 +14,6 @@ public class CreateSellerCommissionDelivery implements CreateSellerCommissionInp
 
     @Override
     public SellerCommission createSellerCommission(CreateSellerCommissionRequest createSellerCommissionRequest) {
-        return createSellerCommission.createSellerCommission(createSellerCommissionRequest);
+        return createSellerCommission.createSellerCommission(null);
     }
 }

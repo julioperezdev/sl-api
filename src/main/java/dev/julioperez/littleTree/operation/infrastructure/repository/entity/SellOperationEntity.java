@@ -29,4 +29,5 @@ public class SellOperationEntity {
     private Float total;
     private String sellerId;
     private String operationStatus;
+    private Float sellerProfit;
 }

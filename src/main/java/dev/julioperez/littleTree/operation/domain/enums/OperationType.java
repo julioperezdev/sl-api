@@ -10,7 +10,8 @@ public enum OperationType {
     BUY("comprar"),
     SELL("vender"),
     CASH_INCOME("ingreso efectivo"),
-    DEBT_PAYMENT("pago deuda");
+    DEBT_PAYMENT("pago deuda"),
+    BALANCE_PROFIT("ganancia final");
 
 
     private final String value;

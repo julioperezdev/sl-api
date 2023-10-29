@@ -22,4 +22,6 @@ public class BalanceEntity {
     private String operationId;
     private Date createdAt;
     private Date updatedAt;
+    private String operationType;
+    private Float quantityOperation;
 }

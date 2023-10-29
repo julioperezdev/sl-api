@@ -7,4 +7,5 @@ import java.util.List;
 public interface ManageBalanceOutputPort {
     Balance saveOrUpdateBalance(Balance balance);
     List<Balance> getBalances();
+    Balance getActualQuantity();
 }

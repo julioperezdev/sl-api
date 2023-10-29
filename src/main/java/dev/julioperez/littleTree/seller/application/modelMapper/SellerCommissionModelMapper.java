@@ -17,8 +17,8 @@ public class SellerCommissionModelMapper implements SellerCommissionMapper {
     public SellerCommission toSellerCommissionModel(CreateSellerCommissionRequest createSellerCommissionRequest) {
         return new SellerCommission(
                 UUID.randomUUID().toString(),
-                createSellerCommissionRequest.pesos(),
-                createSellerCommissionRequest.quantity(),
+                createSellerCommissionRequest.operationId(),
+                createSellerCommissionRequest.total(),
                 createSellerCommissionRequest.profit(),
                 createSellerCommissionRequest.sellerId(),
                 createSellerCommissionRequest.sellerCommissionStatus(),
@@ -30,12 +30,12 @@ public class SellerCommissionModelMapper implements SellerCommissionMapper {
     public SellerCommission toSellerCommissionModel(SellerCommission sellerCommission, UpdateSellerCommissionRequest updateSellerCommissionRequest) {
         return new SellerCommission(
                 sellerCommission.getId(),
-                sellerCommission.getPesos(),
-                sellerCommission.getQuantity(),
+                sellerCommission.getOperationId(),
+                sellerCommission.getTotal(),
                 sellerCommission.getProfit(),
                 sellerCommission.getSellerId(),
                 updateSellerCommissionRequest.sellerCommissionStatus(),
-                sellerCommission.getSellerCommissionCreatedAt(),
+                sellerCommission.getCreatedAt(),
                 Date.from(Instant.now()));
     }
 
@@ -43,8 +43,8 @@ public class SellerCommissionModelMapper implements SellerCommissionMapper {
     public SellerCommission toSellerCommissionModel(SellerCommissionEntity sellerCommissionEntity) {
         return new SellerCommission(
                 sellerCommissionEntity.getId(),
-                sellerCommissionEntity.getPesos(),
-                sellerCommissionEntity.getQuantity(),
+                sellerCommissionEntity.getOperationId(),
+                sellerCommissionEntity.getTotal(),
                 sellerCommissionEntity.getProfit(),
                 sellerCommissionEntity.getSellerId(),
                 sellerCommissionEntity.getSellerCommissionStatus(),
@@ -62,11 +62,11 @@ public class SellerCommissionModelMapper implements SellerCommissionMapper {
         return new SellerCommissionEntity(
                 sellerCommission.getId(),
                 sellerCommission.getSellerId(),
-                sellerCommission.getSellerCommissionStatus(),
-                sellerCommission.getPesos(),
-                sellerCommission.getQuantity(),
+                sellerCommission.getStatus(),
+                sellerCommission.getOperationId(),
+                sellerCommission.getTotal(),
                 sellerCommission.getProfit(),
-                sellerCommission.getSellerCommissionCreatedAt(),
-                sellerCommission.getSellerCommissionUpdatedAt());
+                sellerCommission.getCreatedAt(),
+                sellerCommission.getUpdatedAt());
     }
 }

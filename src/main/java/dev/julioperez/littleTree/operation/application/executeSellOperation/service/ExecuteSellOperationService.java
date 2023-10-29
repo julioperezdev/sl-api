@@ -10,6 +10,7 @@ import dev.julioperez.littleTree.operation.domain.port.executeSellOperation.Exec
 import dev.julioperez.littleTree.operation.domain.port.generateTicket.GenerateTicket;
 import dev.julioperez.littleTree.operation.domain.port.getOperations.GetOperations;
 import dev.julioperez.littleTree.seller.domain.dto.CreateSellerCommissionRequest;
+import dev.julioperez.littleTree.seller.domain.enums.SellerCommissionStatus;
 import dev.julioperez.littleTree.seller.domain.port.createSellerCommission.CreateSellerCommission;
 
 import java.sql.Date;
@@ -44,12 +45,15 @@ public class ExecuteSellOperationService implements ExecuteSellOperation {
 
         //here
         //create a balance record
-        Balance balance = new Balance(UUID.randomUUID().toString(), sellOperation.getProfit(), sellOperation.getId(), Date.from(Instant.now()),Date.from(Instant.now()));
+
+
         //when save should have status with unassigned sellerBox
-        manageBalance.createBalance(balance);
+        manageBalance.createBalance(sellOperation);
         //should call seller commission if required
         if(sellOperation.hasSeller()){
-            createSellerCommission.createSellerCommission(createSellerCommissionRequest);
+            //revisar el cantidad y considerar que puede haber perdidas en las ganancias
+            //la otra es que se pueda agregar una columna de sellerProfit en el sellOperation
+            createSellerCommission.createSellerCommission(sellOperation);
         };
         // todo  -> printOperation.printTicket();
         //byte[] ticketGenerated = generateTicket.generateSellOperationTicket(sellOperation);

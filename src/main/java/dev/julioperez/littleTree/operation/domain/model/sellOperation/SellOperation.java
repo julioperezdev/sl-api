@@ -25,7 +25,9 @@ public final class SellOperation {
     private final Optional<SellerId> sellerId;
     private OperationStatus operationStatus;
 
-    public SellOperation(String id, Date createdAt, Date updatedAt, String clientId, String currencyMultiBox, Float price, Float quantity, Float subProfit, Float profit, Float total, String sellerId, String operationStatus) {
+    private final SellOperationSellerProfit sellerProfit;
+
+    public SellOperation(String id, Date createdAt, Date updatedAt, String clientId, String currencyMultiBox, Float price, Float quantity, Float subProfit, Float profit, Float total, String sellerId, String operationStatus, Float sellerProfit) {
         this.id = new SellOperationId(id);
         this.createdAt = new SellOperationCreatedAt(createdAt);
         this.updatedAt = new SellOperationUpdatedAt(updatedAt);
@@ -38,6 +40,7 @@ public final class SellOperation {
         this.total = new SellOperationTotal(total);
         this.sellerId = sellerId != null ? Optional.of(new SellerId(sellerId)): Optional.empty();
         this.operationStatus = OperationStatus.returnOperationStatusByDescription(operationStatus);
+        this.sellerProfit = new SellOperationSellerProfit(sellerProfit);
     }
 
     public String getId() {
@@ -94,5 +97,8 @@ public final class SellOperation {
     }
     public boolean hasSeller(){
         return this.sellerId.isPresent();
+    }
+    public Float getSellerProfit(){
+        return sellerProfit.value();
     }
 }

@@ -8,4 +8,5 @@ import java.util.Optional;
 public interface GetSellerCommission {
     List<SellerCommission> getSellerCommission();
     Optional<SellerCommission> getSellerCommissionById(String id);
+    Optional<SellerCommission> getLastSellerCommissionBySellerId(String sellerId);
 }

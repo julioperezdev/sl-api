@@ -154,7 +154,8 @@ public class CreateOperationService implements CreateOperation {
                 calculateProfitToSellOperation(sellOperationData),
                 calculateTotalPriceToSellOperation(sellOperationData),
                 sellOperationData.sellerId(),
-                OperationStatus.PENDING.value());
+                OperationStatus.PENDING.value(),
+                sellOperationData.sellerCommission());
     }
 
     private boolean reduceReserveOfBuyOperationById(SellOperationData sellOperationData){

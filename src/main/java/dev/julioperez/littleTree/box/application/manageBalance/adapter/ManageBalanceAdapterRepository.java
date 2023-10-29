@@ -1,12 +1,17 @@
 package dev.julioperez.littleTree.box.application.manageBalance.adapter;
 
+import dev.julioperez.littleTree.box.domain.enums.CurrencyBox;
 import dev.julioperez.littleTree.box.domain.model.Balance;
+import dev.julioperez.littleTree.box.domain.model.CurrencyMultiBox;
 import dev.julioperez.littleTree.box.domain.port.manageBalance.ManageBalanceOutputPort;
 import dev.julioperez.littleTree.box.domain.port.mapper.BalanceMapper;
 import dev.julioperez.littleTree.box.infrastructure.repository.dao.BalanceDao;
 import dev.julioperez.littleTree.box.infrastructure.repository.entity.BalanceEntity;
+import dev.julioperez.littleTree.box.infrastructure.repository.entity.CurrencyMultiBoxEntity;
 
+import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 public class ManageBalanceAdapterRepository implements ManageBalanceOutputPort {
 
@@ -27,6 +32,15 @@ public class ManageBalanceAdapterRepository implements ManageBalanceOutputPort {
     @Override
     public List<Balance> getBalances() {
         List<BalanceEntity> balances = balanceDao.findAll();
-        return balanceMapper.toBalanceModel(balances);
+        return balances.isEmpty()
+                ? Collections.emptyList()
+                : balanceMapper.toBalanceModel(balances);
+    }
+
+    @Override
+    public Balance getActualQuantity() {
+        Optional<BalanceEntity> optionalBalance = balanceDao.getLastBalance();
+        if(optionalBalance.isEmpty()) throw new IllegalArgumentException("getActualQuantity does not return value");
+        return balanceMapper.toBalanceModel(optionalBalance.get());
     }
 }

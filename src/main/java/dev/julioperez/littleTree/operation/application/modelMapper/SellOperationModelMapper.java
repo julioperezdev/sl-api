@@ -21,7 +21,8 @@ public class SellOperationModelMapper implements SellOperationMapper {
                 sellOperationEntity.getProfit(),
                 sellOperationEntity.getTotal(),
                 sellOperationEntity.getSellerId(),
-                sellOperationEntity.getOperationStatus());
+                sellOperationEntity.getOperationStatus(),
+                sellOperationEntity.getSellerProfit());
     }
 
     @Override
@@ -45,7 +46,8 @@ public class SellOperationModelMapper implements SellOperationMapper {
                 sellOperation.getProfit(),
                 sellOperation.getTotal(),
                 sellOperation.getSellerId(),
-                sellOperation.getOperationStatus());
+                sellOperation.getOperationStatus(),
+                sellOperation.getSellerProfit());
     }
 
     @Override

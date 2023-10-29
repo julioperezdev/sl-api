@@ -4,11 +4,13 @@ import dev.julioperez.littleTree.box.application.getCurrencyMultibox.adapter.Get
 import dev.julioperez.littleTree.box.application.getCurrencyMultibox.delivery.GetCurrencyMultiboxDelivery;
 import dev.julioperez.littleTree.box.application.getCurrencyMultibox.service.GetCurrencyMultiboxService;
 import dev.julioperez.littleTree.box.application.manageBalance.adapter.ManageBalanceAdapterRepository;
+import dev.julioperez.littleTree.box.application.manageBalance.delivery.ManageBalanceDelivery;
 import dev.julioperez.littleTree.box.application.manageBalance.service.ManageBalanceService;
 import dev.julioperez.littleTree.box.application.manageForeignExchange.service.ManageForeignExchangeService;
 import dev.julioperez.littleTree.box.application.manageOfficeDebt.service.ManageOfficeDebtService;
 import dev.julioperez.littleTree.box.application.managePesos.service.ManagePesosService;
 import dev.julioperez.littleTree.box.application.manageSellerBox.adapter.ManageSellerBoxAdapterRepository;
+import dev.julioperez.littleTree.box.application.manageSellerBox.delivery.ManageSellerBoxDelivery;
 import dev.julioperez.littleTree.box.application.manageSellerBox.service.ManageSellerBoxService;
 import dev.julioperez.littleTree.box.application.modelMapper.BalanceModelMapper;
 import dev.julioperez.littleTree.box.application.modelMapper.CurrencyMultiBoxModelMapper;
@@ -384,7 +386,7 @@ public class SpringDependenciesConfiguration {
 
     @Bean
     public CreateSellerCommissionService createSellerCommissionService(){
-        return new CreateSellerCommissionService(createSellerCommissionAdapterRepository(), sellerCommissionModelMapper());
+        return new CreateSellerCommissionService(createSellerCommissionAdapterRepository(), sellerCommissionModelMapper(), getSellerCommissionService());
     }
 
     @Bean
@@ -658,6 +660,11 @@ public class SpringDependenciesConfiguration {
     public ManageBalanceService manageBalanceService(){
         return new ManageBalanceService(manageBalanceAdapterRepository());
     }
+
+    @Bean
+    public ManageBalanceDelivery manageBalanceDelivery(){
+        return new ManageBalanceDelivery(manageBalanceService());
+    }
     /**
      * ManageForeignExchange
      */
@@ -691,6 +698,10 @@ public class SpringDependenciesConfiguration {
     @Bean
     public ManageSellerBoxService manageSellerBoxService(){
         return new ManageSellerBoxService(manageSellerBoxAdapterRepository());
+    }
+    @Bean
+    public ManageSellerBoxDelivery manageSellerBoxDelivery(){
+        return new ManageSellerBoxDelivery(manageSellerBoxService());
     }
     /**
      * UpdateCurrencyMultiBox

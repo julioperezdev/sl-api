@@ -13,7 +13,9 @@ public class BalanceModelMapper implements BalanceMapper {
                 balanceEntity.getProfit(),
                 balanceEntity.getOperationId(),
                 balanceEntity.getCreatedAt(),
-                balanceEntity.getUpdatedAt());
+                balanceEntity.getUpdatedAt(),
+                balanceEntity.getOperationType(),
+                balanceEntity.getQuantityOperation());
     }
 
     @Override
@@ -30,6 +32,8 @@ public class BalanceModelMapper implements BalanceMapper {
                 balance.getProfit(),
                 balance.getOperationId(),
                 balance.getCreatedAt(),
-                balance.getUpdatedAt());
+                balance.getUpdatedAt(),
+                balance.getOperationType(),
+                balance.getQuantityOperation());
     }
 }
