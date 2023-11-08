@@ -1,25 +1,37 @@
 package dev.julioperez.littleTree.shared.infrastructure.spring;
 
-import dev.julioperez.littleTree.box.application.getCurrencyMultibox.adapter.GetCurrencyMultiboxAdapterRepository;
-import dev.julioperez.littleTree.box.application.getCurrencyMultibox.delivery.GetCurrencyMultiboxDelivery;
-import dev.julioperez.littleTree.box.application.getCurrencyMultibox.service.GetCurrencyMultiboxService;
-import dev.julioperez.littleTree.box.application.manageBalance.adapter.ManageBalanceAdapterRepository;
-import dev.julioperez.littleTree.box.application.manageBalance.delivery.ManageBalanceDelivery;
-import dev.julioperez.littleTree.box.application.manageBalance.service.ManageBalanceService;
-import dev.julioperez.littleTree.box.application.manageForeignExchange.service.ManageForeignExchangeService;
-import dev.julioperez.littleTree.box.application.manageOfficeDebt.service.ManageOfficeDebtService;
-import dev.julioperez.littleTree.box.application.managePesos.service.ManagePesosService;
-import dev.julioperez.littleTree.box.application.manageSellerBox.adapter.ManageSellerBoxAdapterRepository;
-import dev.julioperez.littleTree.box.application.manageSellerBox.delivery.ManageSellerBoxDelivery;
-import dev.julioperez.littleTree.box.application.manageSellerBox.service.ManageSellerBoxService;
-import dev.julioperez.littleTree.box.application.modelMapper.BalanceModelMapper;
-import dev.julioperez.littleTree.box.application.modelMapper.CurrencyMultiBoxModelMapper;
-import dev.julioperez.littleTree.box.application.modelMapper.SellerBoxModelMapper;
-import dev.julioperez.littleTree.box.application.updateCurrencyMultiBox.adapter.UpdateCurrencyMultiBoxAdapterRepository;
-import dev.julioperez.littleTree.box.application.updateCurrencyMultiBox.service.UpdateCurrencyMultiBoxService;
-import dev.julioperez.littleTree.box.infrastructure.repository.dao.BalanceDao;
-import dev.julioperez.littleTree.box.infrastructure.repository.dao.CurrencyMultiBoxDao;
-import dev.julioperez.littleTree.box.infrastructure.repository.dao.SellerBoxDao;
+import dev.julioperez.littleTree.box.balance.application.assignSellerBox.delivery.AssignSellerBoxDelivery;
+import dev.julioperez.littleTree.box.balance.application.assignSellerBox.service.AssignSellerBoxService;
+import dev.julioperez.littleTree.box.balance.application.saveOrUpdateBalance.adapter.SaveOrUpdateBalanceAdapterRepository;
+import dev.julioperez.littleTree.box.balance.application.saveOrUpdateBalance.service.SaveOrUpdateBalanceService;
+import dev.julioperez.littleTree.box.currencyBox.officeDebt.application.getOfficeDebt.delivery.GetOfficeDebtDelivery;
+import dev.julioperez.littleTree.box.currencyBox.officeDebt.application.getOfficeDebt.service.GetOfficeDebtService;
+import dev.julioperez.littleTree.box.currencyBox.officeDebt.application.payDebt.delivery.PayDebtDelivery;
+import dev.julioperez.littleTree.box.currencyBox.officeDebt.application.payDebt.service.PayDebtService;
+import dev.julioperez.littleTree.box.currencyBox.officeDebt.domain.port.getOfficeDebt.GetOfficeDebt;
+import dev.julioperez.littleTree.box.currencyBox.shared.application.getCurrencyMultibox.adapter.GetCurrencyMultiboxAdapterRepository;
+import dev.julioperez.littleTree.box.currencyBox.shared.application.getCurrencyMultibox.delivery.GetCurrencyMultiboxDelivery;
+import dev.julioperez.littleTree.box.currencyBox.shared.application.getCurrencyMultibox.service.GetCurrencyMultiboxService;
+import dev.julioperez.littleTree.box.balance.application.manageBalance.adapter.ManageBalanceAdapterRepository;
+import dev.julioperez.littleTree.box.balance.application.manageBalance.delivery.ManageBalanceDelivery;
+import dev.julioperez.littleTree.box.balance.application.manageBalance.service.ManageBalanceService;
+import dev.julioperez.littleTree.box.currencyBox.foreignExchange.application.manageForeignExchange.service.ManageForeignExchangeService;
+import dev.julioperez.littleTree.box.currencyBox.officeDebt.application.manageOfficeDebt.service.ManageOfficeDebtService;
+import dev.julioperez.littleTree.box.currencyBox.pesos.application.managePesos.service.ManagePesosService;
+import dev.julioperez.littleTree.box.sellerbox.application.manageSellerBox.adapter.ManageSellerBoxAdapterRepository;
+import dev.julioperez.littleTree.box.sellerbox.application.manageSellerBox.delivery.ManageSellerBoxDelivery;
+import dev.julioperez.littleTree.box.sellerbox.application.manageSellerBox.service.ManageSellerBoxService;
+import dev.julioperez.littleTree.box.balance.application.modelMapper.BalanceModelMapper;
+import dev.julioperez.littleTree.box.currencyBox.shared.application.modelMapper.CurrencyMultiBoxModelMapper;
+import dev.julioperez.littleTree.box.sellerbox.application.manualTransactionSellerBox.delivery.ManualTransactionSellerBoxDelivery;
+import dev.julioperez.littleTree.box.sellerbox.application.manualTransactionSellerBox.service.ManualTransactionSellerBoxService;
+import dev.julioperez.littleTree.box.sellerbox.application.modelMapper.SellerBoxModelMapper;
+import dev.julioperez.littleTree.box.currencyBox.shared.application.updateCurrencyMultiBox.adapter.UpdateCurrencyMultiBoxAdapterRepository;
+import dev.julioperez.littleTree.box.currencyBox.shared.application.updateCurrencyMultiBox.service.UpdateCurrencyMultiBoxService;
+import dev.julioperez.littleTree.box.balance.infrastructure.repository.dao.BalanceDao;
+import dev.julioperez.littleTree.box.currencyBox.shared.infrastructure.repository.dao.CurrencyMultiBoxDao;
+import dev.julioperez.littleTree.box.sellerbox.domain.port.manualTransactionSellerBox.ManualTransactionSellerBox;
+import dev.julioperez.littleTree.box.sellerbox.infrastructure.repository.dao.SellerBoxDao;
 import dev.julioperez.littleTree.client.application.createClient.adapter.CreateClientAdapterRepository;
 import dev.julioperez.littleTree.client.application.createClient.delivery.CreateClientDelivery;
 import dev.julioperez.littleTree.client.application.createClient.service.CreateClientService;
@@ -86,6 +98,8 @@ import dev.julioperez.littleTree.operation.application.pendingOperation.service.
 import dev.julioperez.littleTree.operation.infrastructure.gateway.pdfBox.GenerateTicketPdfBox;
 import dev.julioperez.littleTree.operation.infrastructure.repository.dao.BuyOperationDao;
 import dev.julioperez.littleTree.operation.infrastructure.repository.dao.SellOperationDao;
+import dev.julioperez.littleTree.box.currencyBox.shared.application.manualTransaction.delivery.ManualTransactionDelivery;
+import dev.julioperez.littleTree.box.currencyBox.shared.application.manualTransaction.service.ManualTransactionService;
 import dev.julioperez.littleTree.provider.application.createProvider.adapter.CreateProviderAdapterRepository;
 import dev.julioperez.littleTree.provider.application.createProvider.delivery.CreateProviderDelivery;
 import dev.julioperez.littleTree.provider.application.createProvider.service.CreateProviderService;
@@ -665,6 +679,32 @@ public class SpringDependenciesConfiguration {
     public ManageBalanceDelivery manageBalanceDelivery(){
         return new ManageBalanceDelivery(manageBalanceService());
     }
+
+    /**
+     * SaveOrUpdateBalance
+     */
+
+    @Bean
+    public SaveOrUpdateBalanceAdapterRepository saveOrUpdateBalanceAdapterRepository(){
+        return new SaveOrUpdateBalanceAdapterRepository(balanceDao,balanceModelMapper());
+    }
+
+    @Bean
+    public SaveOrUpdateBalanceService saveOrUpdateBalanceService(){
+        return new SaveOrUpdateBalanceService(saveOrUpdateBalanceAdapterRepository());
+    }
+    /**
+     * AssignSellerBox
+     */
+    @Bean
+    public AssignSellerBoxService assignSellerBoxService(){
+        return new AssignSellerBoxService(manageBalanceService(),saveOrUpdateBalanceService(), manageSellerBoxService());
+    }
+    @Bean
+    public AssignSellerBoxDelivery assignSellerBoxDelivery(){
+        return new AssignSellerBoxDelivery(assignSellerBoxService());
+    }
+
     /**
      * ManageForeignExchange
      */
@@ -681,6 +721,31 @@ public class SpringDependenciesConfiguration {
         return new ManageOfficeDebtService();
     }
 
+    /**
+     * PayDebt
+     */
+    @Bean
+    public PayDebtService payDebtService(){
+        return new PayDebtService(getCurrencyMultiboxService(),updateCurrencyMultiBoxService());
+    }
+
+    @Bean
+    public PayDebtDelivery payDebtDelivery(){
+        return new PayDebtDelivery(payDebtService());
+    }
+
+    /**
+     * GetOfficeDebt
+     */
+    @Bean
+    public GetOfficeDebtService getOfficeDebtService(){
+        return new GetOfficeDebtService(getCurrencyMultiboxService());
+    }
+
+    @Bean
+    public GetOfficeDebtDelivery getOfficeDebtDelivery(){
+        return new GetOfficeDebtDelivery(getOfficeDebtService());
+    }
     /**
      * ManagePesos
      */
@@ -703,6 +768,19 @@ public class SpringDependenciesConfiguration {
     public ManageSellerBoxDelivery manageSellerBoxDelivery(){
         return new ManageSellerBoxDelivery(manageSellerBoxService());
     }
+
+    /**
+     * ManualTransactionSellerBox
+     */
+    @Bean
+    public ManualTransactionSellerBoxService manualTransactionSellerBox(){
+        return new ManualTransactionSellerBoxService(manageSellerBoxService());
+    }
+    @Bean
+    public ManualTransactionSellerBoxDelivery manualTransactionSellerBoxDelivery(){
+        return new ManualTransactionSellerBoxDelivery(manualTransactionSellerBox());
+    }
+
     /**
      * UpdateCurrencyMultiBox
      */
@@ -831,6 +909,19 @@ public class SpringDependenciesConfiguration {
     @Bean
     public GenerateTicketService generateTicketService(){
         return new GenerateTicketService(generateTicketAdapterGateway());
+    }
+
+    /**
+     * ManualTransaction
+     */
+
+    @Bean
+    public ManualTransactionService manualTransactionService(){
+        return new ManualTransactionService(getCurrencyMultiboxService(),updateCurrencyMultiBoxService());
+    }
+    @Bean
+    public ManualTransactionDelivery manualTransactionDelivery(){
+        return new ManualTransactionDelivery(manualTransactionService());
     }
 }
 

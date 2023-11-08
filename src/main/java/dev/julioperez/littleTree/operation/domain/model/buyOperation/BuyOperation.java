@@ -1,7 +1,7 @@
 package dev.julioperez.littleTree.operation.domain.model.buyOperation;
 
 
-import dev.julioperez.littleTree.box.domain.enums.CurrencyBox;
+import dev.julioperez.littleTree.box.currencyBox.shared.domain.enums.CurrencyBox;
 import dev.julioperez.littleTree.client.domain.model.ClientId;
 import dev.julioperez.littleTree.operation.domain.enums.OperationStatus;
 

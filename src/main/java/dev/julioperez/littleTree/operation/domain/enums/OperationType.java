@@ -10,8 +10,10 @@ public enum OperationType {
     BUY("comprar"),
     SELL("vender"),
     CASH_INCOME("ingreso efectivo"),
+    CASH_EGRESS("egreso efectivo"),
     DEBT_PAYMENT("pago deuda"),
-    BALANCE_PROFIT("ganancia final");
+    BALANCE_PROFIT("ganancia final"),
+    ASSIGN_BOX("asignar caja");
 
 
     private final String value;
@@ -28,6 +30,15 @@ public enum OperationType {
     }
     public boolean isSellOperation(){
         return SELL.value.equals(this.value);
+    }
+    public static boolean isCashIncomeOperation(String operationType){
+        return CASH_INCOME.value.equals(operationType);
+    }
+    public static boolean isCashEgressOperation(String operationType){
+        return CASH_EGRESS.value.equals(operationType);
+    }
+    public static boolean isManualOperation(String operationType){
+        return CASH_INCOME.value.equals(operationType) || CASH_EGRESS.value.equals(operationType);
     }
     public static boolean hasOnlyBuyOperations(List<String> externalValues){
         return externalValues.stream().allMatch(OperationType.BUY.value::equals);

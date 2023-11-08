@@ -1,7 +1,7 @@
 package dev.julioperez.littleTree.operation.application.createOperation.service;
 
-import dev.julioperez.littleTree.box.domain.enums.CurrencyBox;
-import dev.julioperez.littleTree.box.domain.port.updateCurrencyMultiBox.UpdateCurrencyMultiBox;
+import dev.julioperez.littleTree.box.currencyBox.shared.domain.enums.CurrencyBox;
+import dev.julioperez.littleTree.box.currencyBox.shared.domain.port.updateCurrencyMultiBox.UpdateCurrencyMultiBox;
 import dev.julioperez.littleTree.operation.domain.dto.*;
 import dev.julioperez.littleTree.operation.domain.enums.OperationStatus;
 import dev.julioperez.littleTree.operation.domain.enums.OperationType;
@@ -28,8 +28,6 @@ public class CreateOperationService implements CreateOperation {
 
     @Override
     public boolean createBuyOperationToBePending(BuyOperationRequest buyOperationRequest){
-        //get data of client
-        //validate if client have DifferenceClient on frontend
         List<String> operationTypes = buyOperationRequest.buyOperationData().stream().map(BuyOperationData::operationType).toList();
         boolean isValidBuyOperation = OperationType.hasOnlyBuyOperations(operationTypes);
         if(!isValidBuyOperation) throw new IllegalArgumentException("every operation should be BUY operation, cant be different");
@@ -42,39 +40,10 @@ public class CreateOperationService implements CreateOperation {
         boolean isValidSellOperation = OperationType.hasOnlySellOperation(operationTypes);
         if(!isValidSellOperation) throw new IllegalArgumentException("every operation should be SELL operation, cant be different");
         List<SellOperation> sellOperationsSaved = startSellOperation(sellOperationRequest);
-        //should call foreignBox and PesosBox to manage quantity
         boolean currenciesReserved = updateCurrencyMultiBox.reservePendingCurrencyBoxAfterOfSellOperation(sellOperationsSaved);
-
-        //should call balance on this moment?
-        //show do an iteration of each sellOperation saved
-        //manageBalance.createBalance(new Balance(UUID.randomUUID().toString(),sellOperationsSaved.get(0).getProfit(),sellOperationsSaved.get(0).getId()));
-
-        //should call seller commission if required
-        //should call seller commission on this moment?
-//        if(!sellOperationRequest.hasSeller()) return true;
-//        SellOperation sellOperation = sellOperationsSaved.get(0);
-//        CreateSellerCommissionRequest createSellerCommissionRequest = new CreateSellerCommissionRequest(sellOperationRequest.sellerCommission(), sellOperation.getQuantity(), sellOperationRequest.sellerCommission(), sellOperationRequest.sellerId(), SellerCommissionStatus.PENDING.value());
-//        createSellerCommission.createSellerCommission(createSellerCommissionRequest);
         return true;
     }
-    //should be received a list with N Operations of same client,but also same seller and commissions?
     private List<BuyOperation> startBuyOperation(BuyOperationRequest buyOperationsRequest){
-        //This information should be used it with a ModelMapper
-        /**
-         *         define foreign currency
-         *         show a popup with the prices of foreign currencies on frontend
-         *         set buyPrice
-         *         set quantity to buy
-         *         total in pesos to pay
-         *         if Currency is DOLLAR_SMALL should use two fields more
-         *         set percent by DOLLAR_SMALL
-         *         set result of (total in pesos)X(percent)
-         *         -------------------
-         *         before to finalize can call the follow methods
-         *         to generateOtherOperation, can use client info to do other data operation
-         *         to officeCheck, should call officeDebt Box to use money here and not to Pesos Box
-         *         to executeOperation, should save operation with pending status to be close in a future by other useCase
-         */
         List<BuyOperation> buyOperations = generateBuyOperations(buyOperationsRequest);
         return createOperationOutputPort.saveBuyOperations(buyOperations);
     }
@@ -110,26 +79,6 @@ public class CreateOperationService implements CreateOperation {
         return totalPriceInPesos;
     }
     private List<SellOperation> startSellOperation(SellOperationRequest sellOperationsRequest){
-        /**
-         * when OJO select and set buyPrice of table with previous buyOperation
-         * each selection correspond to particular operation?
-         */
-        /**
-         *         This information should be used it with a ModelMapper
-         *         define foreign currency
-         *         show a popup with the prices of foreign currencies on frontend
-         *         OJO select and set buyPrice of table with previous buyOperation
-         *         set sellPrice
-         *         set quantity to sell
-         *         total in pesos, multiply sellQuantity and sellPrice
-         *         get profit multiply sellQuantity and selection of buyPrice
-         *         Optional assign seller(re-read to analyse this useCase)
-         *         if seller is selected, call method to add seller commission
-         *         and this information should be saved on SellOperation
-         *         sellerName, sellerProfit, finalProfit that is result of (profit in pesos)-(sellerProfit)
-         *         result of finalProfit should be sent to Balance Box
-         *         to executeOperation, should save operation with pending status to be close in a future by other useCase
-         */
         List<SellOperation> sellOperations = generateSellOperations(sellOperationsRequest);
         return createOperationOutputPort.saveSellOperations(sellOperations);
     }
@@ -193,15 +142,8 @@ public class CreateOperationService implements CreateOperation {
         return subProfit;
     }
     private Float calculateProfitToSellOperation(SellOperationData sellOperationData){
-        //re check if necessary define one sellerCommission for all transactions or different commissions by operations
-        //validate if correct analogy on profit and sub_profit
         float subProfit = calculateSubProfitToSellOperation(sellOperationData);
         if(!sellOperationData.hasSeller()) return subProfit;
-        //float profit = sellerCommission * sellOperationData.quantityToSell();
-        //float profit = subProfit - (sellOperationData.sellerCommission() * sellOperationData.quantityToSell());
-        //recordar que el profit puede ser negativo, hay que hacer pruebas para estos casos
         return  subProfit - sellOperationData.sellerCommission();
-        //if(profit < 0) throw new IllegalArgumentException("Cant have negative result or is correct? or some error");
-        //return profit;
     }
 }

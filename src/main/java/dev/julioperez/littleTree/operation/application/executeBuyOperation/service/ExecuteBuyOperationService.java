@@ -1,6 +1,6 @@
 package dev.julioperez.littleTree.operation.application.executeBuyOperation.service;
 
-import dev.julioperez.littleTree.box.domain.port.updateCurrencyMultiBox.UpdateCurrencyMultiBox;
+import dev.julioperez.littleTree.box.currencyBox.shared.domain.port.updateCurrencyMultiBox.UpdateCurrencyMultiBox;
 import dev.julioperez.littleTree.operation.domain.enums.OperationStatus;
 import dev.julioperez.littleTree.operation.domain.model.buyOperation.BuyOperation;
 import dev.julioperez.littleTree.operation.domain.port.executeBuyOperation.ExecuteBuyOperation;

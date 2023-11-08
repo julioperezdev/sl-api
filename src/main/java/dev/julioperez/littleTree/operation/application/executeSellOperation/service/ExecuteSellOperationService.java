@@ -1,8 +1,7 @@
 package dev.julioperez.littleTree.operation.application.executeSellOperation.service;
 
-import dev.julioperez.littleTree.box.domain.model.Balance;
-import dev.julioperez.littleTree.box.domain.port.manageBalance.ManageBalance;
-import dev.julioperez.littleTree.box.domain.port.updateCurrencyMultiBox.UpdateCurrencyMultiBox;
+import dev.julioperez.littleTree.box.balance.domain.port.manageBalance.ManageBalance;
+import dev.julioperez.littleTree.box.currencyBox.shared.domain.port.updateCurrencyMultiBox.UpdateCurrencyMultiBox;
 import dev.julioperez.littleTree.operation.domain.enums.OperationStatus;
 import dev.julioperez.littleTree.operation.domain.model.sellOperation.SellOperation;
 import dev.julioperez.littleTree.operation.domain.port.executeSellOperation.ExecuteSellOperation;
@@ -10,12 +9,7 @@ import dev.julioperez.littleTree.operation.domain.port.executeSellOperation.Exec
 import dev.julioperez.littleTree.operation.domain.port.generateTicket.GenerateTicket;
 import dev.julioperez.littleTree.operation.domain.port.getOperations.GetOperations;
 import dev.julioperez.littleTree.seller.domain.dto.CreateSellerCommissionRequest;
-import dev.julioperez.littleTree.seller.domain.enums.SellerCommissionStatus;
 import dev.julioperez.littleTree.seller.domain.port.createSellerCommission.CreateSellerCommission;
-
-import java.sql.Date;
-import java.time.Instant;
-import java.util.UUID;
 
 public class ExecuteSellOperationService implements ExecuteSellOperation {
     private final ExecuteSellOperationOutputPort executeSellOperationOutputPort;
