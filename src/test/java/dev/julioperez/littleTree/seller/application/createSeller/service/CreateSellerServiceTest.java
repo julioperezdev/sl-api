@@ -1,24 +1,5 @@
 package dev.julioperez.littleTree.seller.application.createSeller.service;
 
-import dev.julioperez.littleTree.seller.domain.dto.CreateSellerRequest;
-import dev.julioperez.littleTree.seller.domain.model.Seller;
-import dev.julioperez.littleTree.seller.domain.port.createSeller.CreateSellerOutputPort;
-import dev.julioperez.littleTree.seller.domain.port.mapper.SellerMapper;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Nested;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
-
-import java.util.UUID;
-
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.BDDMockito.given;
-import static org.mockito.BDDMockito.then;
-import static org.mockito.Mockito.*;
-
 //@ExtendWith(MockitoExtension.class)
 class CreateSellerServiceTest {
 /*

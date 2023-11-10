@@ -13,7 +13,8 @@ public enum OperationType {
     CASH_EGRESS("egreso efectivo"),
     DEBT_PAYMENT("pago deuda"),
     BALANCE_PROFIT("ganancia final"),
-    ASSIGN_BOX("asignar caja");
+    ASSIGN_BOX("asignar caja"),
+    COMMISSION_PAYMENT("pago comision");
 
 
     private final String value;

@@ -3,6 +3,7 @@ package dev.julioperez.littleTree.box.currencyBox.pesos.domain.port.managePesos;
 import dev.julioperez.littleTree.box.currencyBox.shared.domain.model.CurrencyMultiBox;
 import dev.julioperez.littleTree.operation.domain.model.buyOperation.BuyOperation;
 import dev.julioperez.littleTree.operation.domain.model.sellOperation.SellOperation;
+import dev.julioperez.littleTree.seller.sellerCommission.domain.model.SellerCommission;
 
 public interface ManagePesos {
     CurrencyMultiBox recordPendingPesosBoxToEgress(CurrencyMultiBox pesosBox, BuyOperation buyOperation);
@@ -10,4 +11,5 @@ public interface ManagePesos {
     CurrencyMultiBox recordPesosBoxToReturnEgress(CurrencyMultiBox pesosBox, BuyOperation buyOperation, Float actualQuantityOfPesosBox);
     CurrencyMultiBox recordPesosBoxToConfirmEgress(CurrencyMultiBox pesosBox, BuyOperation buyOperation, Float actualQuantityOfPesosBox);
     CurrencyMultiBox recordPesosBoxToConfirmIngress(CurrencyMultiBox pesosBox, SellOperation sellOperation);
+    CurrencyMultiBox recordPesosBoxToPayCommission(CurrencyMultiBox pesosBox, Float sellerCommissionQuantity);
 }

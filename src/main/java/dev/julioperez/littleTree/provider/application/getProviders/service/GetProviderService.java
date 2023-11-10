@@ -3,7 +3,6 @@ package dev.julioperez.littleTree.provider.application.getProviders.service;
 import dev.julioperez.littleTree.provider.domain.model.Provider;
 import dev.julioperez.littleTree.provider.domain.port.getProvider.GetProvider;
 import dev.julioperez.littleTree.provider.domain.port.getProvider.GetProviderOutputPort;
-import dev.julioperez.littleTree.seller.domain.model.Seller;
 
 import java.util.List;
 import java.util.Optional;

@@ -4,7 +4,7 @@ package dev.julioperez.littleTree.operation.domain.model.sellOperation;
 import dev.julioperez.littleTree.box.currencyBox.shared.domain.enums.CurrencyBox;
 import dev.julioperez.littleTree.client.domain.model.ClientId;
 import dev.julioperez.littleTree.operation.domain.enums.OperationStatus;
-import dev.julioperez.littleTree.seller.domain.model.SellerId;
+import dev.julioperez.littleTree.seller.seller.domain.model.SellerId;
 import dev.julioperez.littleTree.shared.domain.model.Identifier;
 
 import java.util.Date;

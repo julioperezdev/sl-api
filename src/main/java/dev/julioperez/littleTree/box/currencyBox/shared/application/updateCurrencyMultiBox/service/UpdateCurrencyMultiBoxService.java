@@ -5,6 +5,7 @@ import dev.julioperez.littleTree.box.currencyBox.shared.domain.model.CurrencyMul
 import dev.julioperez.littleTree.box.currencyBox.foreignExchange.domain.port.manageForeignExchange.ManageForeignExchange;
 import dev.julioperez.littleTree.box.currencyBox.officeDebt.domain.port.manageOfficeDebt.ManageOfficeDebt;
 import dev.julioperez.littleTree.box.currencyBox.pesos.domain.port.managePesos.ManagePesos;
+import dev.julioperez.littleTree.box.currencyBox.shared.domain.port.getCurrencyMultibox.GetCurrencyMultibox;
 import dev.julioperez.littleTree.box.currencyBox.shared.domain.port.updateCurrencyMultiBox.UpdateCurrencyMultiBox;
 import dev.julioperez.littleTree.box.currencyBox.shared.domain.port.updateCurrencyMultiBox.UpdateCurrencyMultiBoxOutputPort;
 import dev.julioperez.littleTree.operation.domain.model.buyOperation.BuyOperation;
@@ -15,12 +16,14 @@ import java.util.Objects;
 
 public class UpdateCurrencyMultiBoxService implements UpdateCurrencyMultiBox {
     private final UpdateCurrencyMultiBoxOutputPort updateCurrencyMultiBoxOutputPort;
+    private final GetCurrencyMultibox getCurrencyMultibox;
     private final ManageForeignExchange manageForeignExchange;
     private final ManagePesos managePesos;
     private final ManageOfficeDebt manageOfficeDebt;
 
-    public UpdateCurrencyMultiBoxService(UpdateCurrencyMultiBoxOutputPort updateCurrencyMultiBoxOutputPort, ManageForeignExchange manageForeignExchange, ManagePesos managePesos, ManageOfficeDebt manageOfficeDebt) {
+    public UpdateCurrencyMultiBoxService(UpdateCurrencyMultiBoxOutputPort updateCurrencyMultiBoxOutputPort, GetCurrencyMultibox getCurrencyMultibox, ManageForeignExchange manageForeignExchange, ManagePesos managePesos, ManageOfficeDebt manageOfficeDebt) {
         this.updateCurrencyMultiBoxOutputPort = updateCurrencyMultiBoxOutputPort;
+        this.getCurrencyMultibox = getCurrencyMultibox;
         this.manageForeignExchange = manageForeignExchange;
         this.managePesos = managePesos;
         this.manageOfficeDebt = manageOfficeDebt;
@@ -164,6 +167,17 @@ public class UpdateCurrencyMultiBoxService implements UpdateCurrencyMultiBox {
         if(foreignExchangeToEgress.getQuantity() < 0) throw new IllegalArgumentException(String.format("Quantity of box %s cant be less of zero", foreignExchangeToEgress.getCurrencyBox()));
         List<CurrencyMultiBox> multiBoxesUpdated = updateCurrencyMultiBoxOutputPort.currencyMultiBoxes(List.of(foreignExchangeToEgress, pesosOrOfficeBoxToIngress));
         return multiBoxesUpdated.size() == 2;
+    }
+
+    public boolean egressPesosBoxByCommissionPayment(Float sellerCommissionQuantity){
+        try {
+            CurrencyMultiBox lastCurrencyMultiboxByCurrencyBox = getCurrencyMultibox.getLastCurrencyMultiboxByCurrencyBox(CurrencyBox.PESO);
+            CurrencyMultiBox currencyMultiBox = managePesos.recordPesosBoxToPayCommission(lastCurrencyMultiboxByCurrencyBox, sellerCommissionQuantity);
+            updateCurrencyMultiBoxOutputPort.saveCurrencyMultiBox(List.of(currencyMultiBox));
+            return true;
+        }catch (Exception exception){
+            return false;
+        }
     }
 
 }

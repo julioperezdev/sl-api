@@ -15,4 +15,5 @@ public interface UpdateCurrencyMultiBox {
     boolean returnQuantityOnCurrencyBoxByCancelledBuyOperation(BuyOperation buyOperation);
     boolean returnQuantityOnCurrencyBoxByCancelledSellOperation(SellOperation sellOperation);
     boolean updateCurrenciesMultiboxBoxes(List<CurrencyMultiBox> newCurrenciesMultiBoxes);
+    boolean egressPesosBoxByCommissionPayment(Float sellerCommissionQuantity);
 }

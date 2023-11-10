@@ -6,12 +6,15 @@ import dev.julioperez.littleTree.box.currencyBox.pesos.domain.port.managePesos.M
 import dev.julioperez.littleTree.operation.domain.enums.OperationType;
 import dev.julioperez.littleTree.operation.domain.model.buyOperation.BuyOperation;
 import dev.julioperez.littleTree.operation.domain.model.sellOperation.SellOperation;
+import dev.julioperez.littleTree.seller.sellerCommission.domain.model.SellerCommission;
 
 import java.sql.Date;
 import java.time.Instant;
 import java.util.UUID;
 
 public class ManagePesosService implements ManagePesos {
+
+
 
     @Override
     public CurrencyMultiBox recordPendingPesosBoxToEgress(CurrencyMultiBox pesosBox, BuyOperation buyOperation) {
@@ -78,6 +81,19 @@ public class ManagePesosService implements ManagePesos {
                 OperationType.SELL.value(),
                 pesosBox.getQuantity(),
                 sellOperation.getTotal(),
+                MultiBoxStatus.DONE.value());
+    }
+
+    @Override
+    public CurrencyMultiBox recordPesosBoxToPayCommission(CurrencyMultiBox pesosBox, Float sellerCommissionQuantity) {
+        return new CurrencyMultiBox(
+                UUID.randomUUID().toString(),
+                Date.from(Instant.now()),
+                pesosBox.getCurrencyBox(),
+                null,
+                OperationType.COMMISSION_PAYMENT.value(),
+                pesosBox.reduceQuantity(sellerCommissionQuantity),
+                sellerCommissionQuantity,
                 MultiBoxStatus.DONE.value());
     }
 }

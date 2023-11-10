@@ -8,8 +8,8 @@ import dev.julioperez.littleTree.operation.domain.port.executeSellOperation.Exec
 import dev.julioperez.littleTree.operation.domain.port.executeSellOperation.ExecuteSellOperationOutputPort;
 import dev.julioperez.littleTree.operation.domain.port.generateTicket.GenerateTicket;
 import dev.julioperez.littleTree.operation.domain.port.getOperations.GetOperations;
-import dev.julioperez.littleTree.seller.domain.dto.CreateSellerCommissionRequest;
-import dev.julioperez.littleTree.seller.domain.port.createSellerCommission.CreateSellerCommission;
+import dev.julioperez.littleTree.seller.sellerCommission.domain.dto.CreateSellerCommissionRequest;
+import dev.julioperez.littleTree.seller.sellerCommission.domain.port.createSellerCommission.CreateSellerCommission;
 
 public class ExecuteSellOperationService implements ExecuteSellOperation {
     private final ExecuteSellOperationOutputPort executeSellOperationOutputPort;

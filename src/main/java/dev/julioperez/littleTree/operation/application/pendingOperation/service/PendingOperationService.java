@@ -4,7 +4,7 @@ import dev.julioperez.littleTree.operation.domain.enums.OperationType;
 import dev.julioperez.littleTree.operation.domain.port.executeBuyOperation.ExecuteBuyOperation;
 import dev.julioperez.littleTree.operation.domain.port.executeSellOperation.ExecuteSellOperation;
 import dev.julioperez.littleTree.operation.domain.port.pendingOperation.PendingOperation;
-import dev.julioperez.littleTree.seller.domain.dto.CreateSellerCommissionRequest;
+import dev.julioperez.littleTree.seller.sellerCommission.domain.dto.CreateSellerCommissionRequest;
 
 public class PendingOperationService implements PendingOperation {
 

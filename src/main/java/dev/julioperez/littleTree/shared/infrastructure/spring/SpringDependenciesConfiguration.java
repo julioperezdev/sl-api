@@ -109,28 +109,30 @@ import dev.julioperez.littleTree.provider.application.updateProvider.adapter.Upd
 import dev.julioperez.littleTree.provider.application.updateProvider.delivery.UpdateProviderDelivery;
 import dev.julioperez.littleTree.provider.application.updateProvider.service.UpdateProviderService;
 import dev.julioperez.littleTree.provider.infrastructure.repository.dao.ProviderDao;
-import dev.julioperez.littleTree.seller.application.createSeller.adapter.CreateSellerAdapterRepository;
-import dev.julioperez.littleTree.seller.application.createSeller.delivery.CreateSellerDelivery;
-import dev.julioperez.littleTree.seller.application.createSeller.service.CreateSellerService;
-import dev.julioperez.littleTree.seller.application.createSellerCommission.adapter.CreateSellerCommissionAdapterRepository;
-import dev.julioperez.littleTree.seller.application.createSellerCommission.delivery.CreateSellerCommissionDelivery;
-import dev.julioperez.littleTree.seller.application.createSellerCommission.service.CreateSellerCommissionService;
-import dev.julioperez.littleTree.seller.application.getSeller.adapter.GetSellerAdapterRepository;
-import dev.julioperez.littleTree.seller.application.getSeller.delivery.GetSellerDelivery;
-import dev.julioperez.littleTree.seller.application.getSeller.service.GetSellerService;
-import dev.julioperez.littleTree.seller.application.getSellerCommission.adapter.GetSellerCommissionAdapterRepository;
-import dev.julioperez.littleTree.seller.application.getSellerCommission.delivery.GetSellerCommissionDelivery;
-import dev.julioperez.littleTree.seller.application.getSellerCommission.service.GetSellerCommissionService;
-import dev.julioperez.littleTree.seller.application.modelMapper.SellerCommissionModelMapper;
-import dev.julioperez.littleTree.seller.application.modelMapper.SellerModelMapper;
-import dev.julioperez.littleTree.seller.application.updateSeller.adapter.UpdateSellerAdapterRepository;
-import dev.julioperez.littleTree.seller.application.updateSeller.delivery.UpdateSellerDelivery;
-import dev.julioperez.littleTree.seller.application.updateSeller.service.UpdateSellerService;
-import dev.julioperez.littleTree.seller.application.updateSellerCommission.adapter.UpdateSellerCommissionAdapterRepository;
-import dev.julioperez.littleTree.seller.application.updateSellerCommission.delivery.UpdateSellerCommissionDelivery;
-import dev.julioperez.littleTree.seller.application.updateSellerCommission.service.UpdateSellerCommissionService;
-import dev.julioperez.littleTree.seller.infrastructure.repository.dao.SellerCommissionDao;
-import dev.julioperez.littleTree.seller.infrastructure.repository.dao.SellerDao;
+import dev.julioperez.littleTree.seller.seller.application.createSeller.adapter.CreateSellerAdapterRepository;
+import dev.julioperez.littleTree.seller.seller.application.createSeller.delivery.CreateSellerDelivery;
+import dev.julioperez.littleTree.seller.seller.application.createSeller.service.CreateSellerService;
+import dev.julioperez.littleTree.seller.sellerCommission.application.createSellerCommission.adapter.CreateSellerCommissionAdapterRepository;
+import dev.julioperez.littleTree.seller.sellerCommission.application.createSellerCommission.delivery.CreateSellerCommissionDelivery;
+import dev.julioperez.littleTree.seller.sellerCommission.application.createSellerCommission.service.CreateSellerCommissionService;
+import dev.julioperez.littleTree.seller.seller.application.getSeller.adapter.GetSellerAdapterRepository;
+import dev.julioperez.littleTree.seller.seller.application.getSeller.delivery.GetSellerDelivery;
+import dev.julioperez.littleTree.seller.seller.application.getSeller.service.GetSellerService;
+import dev.julioperez.littleTree.seller.sellerCommission.application.getSellerCommission.adapter.GetSellerCommissionAdapterRepository;
+import dev.julioperez.littleTree.seller.sellerCommission.application.getSellerCommission.delivery.GetSellerCommissionDelivery;
+import dev.julioperez.littleTree.seller.sellerCommission.application.getSellerCommission.service.GetSellerCommissionService;
+import dev.julioperez.littleTree.seller.sellerCommission.application.modelMapper.SellerCommissionModelMapper;
+import dev.julioperez.littleTree.seller.seller.application.modelMapper.SellerModelMapper;
+import dev.julioperez.littleTree.seller.seller.application.updateSeller.adapter.UpdateSellerAdapterRepository;
+import dev.julioperez.littleTree.seller.seller.application.updateSeller.delivery.UpdateSellerDelivery;
+import dev.julioperez.littleTree.seller.seller.application.updateSeller.service.UpdateSellerService;
+import dev.julioperez.littleTree.seller.sellerCommission.application.paySellerCommission.delivery.PaySellerCommissionDelivery;
+import dev.julioperez.littleTree.seller.sellerCommission.application.paySellerCommission.service.PaySellerCommissionService;
+import dev.julioperez.littleTree.seller.sellerCommission.application.updateSellerCommission.adapter.UpdateSellerCommissionAdapterRepository;
+import dev.julioperez.littleTree.seller.sellerCommission.application.updateSellerCommission.delivery.UpdateSellerCommissionDelivery;
+import dev.julioperez.littleTree.seller.sellerCommission.application.updateSellerCommission.service.UpdateSellerCommissionService;
+import dev.julioperez.littleTree.seller.sellerCommission.infrastructure.repository.dao.SellerCommissionDao;
+import dev.julioperez.littleTree.seller.seller.infrastructure.repository.dao.SellerDao;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.context.annotation.Bean;
@@ -421,6 +423,19 @@ public class SpringDependenciesConfiguration {
     @Bean
     public UpdateSellerCommissionService updateSellerCommissionService(){
         return new UpdateSellerCommissionService(updateSellerCommissionAdapterRepository(), getSellerCommissionService(), sellerCommissionModelMapper());
+    }
+
+    /**
+     * PaySellerCommission
+     */
+
+    @Bean
+    public PaySellerCommissionService paySellerCommissionService(){
+        return new PaySellerCommissionService(updateSellerCommissionService(), updateCurrencyMultiBoxService());
+    }
+    @Bean
+    public PaySellerCommissionDelivery paySellerCommissionDelivery(){
+        return new PaySellerCommissionDelivery(paySellerCommissionService());
     }
     /**
      * =====================================
@@ -788,7 +803,7 @@ public class SpringDependenciesConfiguration {
     }
     @Bean
     public UpdateCurrencyMultiBoxService updateCurrencyMultiBoxService(){
-        return new UpdateCurrencyMultiBoxService(updateCurrencyMultiBoxAdapterRepository(), manageForeignExchangeService(), managePesosService(), manageOfficeDebtService());
+        return new UpdateCurrencyMultiBoxService(updateCurrencyMultiBoxAdapterRepository(), getCurrencyMultiboxService(), manageForeignExchangeService(), managePesosService(), manageOfficeDebtService());
     }
 
     /**

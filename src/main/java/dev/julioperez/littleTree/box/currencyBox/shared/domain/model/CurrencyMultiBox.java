@@ -2,7 +2,6 @@ package dev.julioperez.littleTree.box.currencyBox.shared.domain.model;
 
 import dev.julioperez.littleTree.box.currencyBox.shared.domain.enums.CurrencyBox;
 import dev.julioperez.littleTree.box.currencyBox.shared.domain.enums.MultiBoxStatus;
-import dev.julioperez.littleTree.seller.domain.model.CurrencyMultiBoxOperationId;
 
 import java.util.Date;
 
