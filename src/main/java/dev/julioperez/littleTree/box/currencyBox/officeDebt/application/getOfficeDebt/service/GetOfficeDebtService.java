@@ -14,6 +14,6 @@ public class GetOfficeDebtService implements GetOfficeDebt {
 
     @Override
     public Float getLastDebt() {
-        return getCurrencyMultibox.getTotalByCurrencyBox(CurrencyBox.PESO_OFFICE);
+        return getCurrencyMultibox.getTotalByCurrencyBoxByDoneOrCancelledMultiBoxStatus(CurrencyBox.PESO_OFFICE);
     }
 }

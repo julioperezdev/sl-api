@@ -1,5 +1,7 @@
 package dev.julioperez.littleTree.box.currencyBox.shared.domain.enums;
 
+import dev.julioperez.littleTree.box.currencyBox.shared.domain.model.CurrencyMultiBox;
+
 import java.util.Arrays;
 import java.util.List;
 

@@ -1,6 +1,7 @@
 package dev.julioperez.littleTree.box.currencyBox.shared.application.getCurrencyMultibox.adapter;
 
 import dev.julioperez.littleTree.box.currencyBox.shared.domain.enums.CurrencyBox;
+import dev.julioperez.littleTree.box.currencyBox.shared.domain.enums.MultiBoxStatus;
 import dev.julioperez.littleTree.box.currencyBox.shared.domain.model.CurrencyMultiBox;
 import dev.julioperez.littleTree.box.currencyBox.shared.domain.port.getCurrencyMultibox.GetCurrencyMultiboxOutputPort;
 import dev.julioperez.littleTree.box.currencyBox.shared.domain.port.mapper.CurrencyMultiBoxMapper;
@@ -32,5 +33,11 @@ public class GetCurrencyMultiboxAdapterRepository implements GetCurrencyMultibox
     public CurrencyMultiBox getLastCurrencyMultiboxByCurrencyBox(CurrencyBox currencyBox) {
         Optional<CurrencyMultiBoxEntity> optionalCurrencyBox = currencyMultiBoxDao.getFirstByCurrencyBoxOrderByUpdatedAtDesc(currencyBox.value());
         return optionalCurrencyBox.map(currencyMultiBoxMapper::toCurrencyMultiBoxModel).orElse(null);
+    }
+
+    @Override
+    public CurrencyMultiBox getLastCurrencyMultiboxByCurrencyBoxAndMultiboxStatus(CurrencyBox currencyBox, MultiBoxStatus multiBoxStatus) {
+        Optional<CurrencyMultiBoxEntity> optionalResponse = currencyMultiBoxDao.getFirstByCurrencyBoxAndMultiBoxStatusOrderByUpdatedAtDesc(currencyBox.value(), multiBoxStatus.value());
+        return optionalResponse.map(currencyMultiBoxMapper::toCurrencyMultiBoxModel).orElse(null);
     }
 }

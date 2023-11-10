@@ -17,4 +17,5 @@ public interface CurrencyMultiBoxDao extends JpaRepository<CurrencyMultiBoxEntit
     Optional<List<CurrencyMultiBoxEntity>> getCurrencyMultiBoxEntitiesByCurrencyBoxOrderByUpdatedAtDesc(String currencyBox);
     Optional<List<CurrencyMultiBoxEntity>> getByOperationId(String operationId);
     Optional<CurrencyMultiBoxEntity> getFirstByCurrencyBoxOrderByUpdatedAtDesc(String currencyBox);
+    Optional<CurrencyMultiBoxEntity> getFirstByCurrencyBoxAndMultiBoxStatusOrderByUpdatedAtDesc(String currencyBox, String multiboxStatus);
 }

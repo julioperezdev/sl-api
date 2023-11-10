@@ -2,6 +2,7 @@ package dev.julioperez.littleTree.box.currencyBox.shared.application.getCurrency
 
 import dev.julioperez.littleTree.box.currencyBox.shared.domain.dto.CurrencyMultiboxToList;
 import dev.julioperez.littleTree.box.currencyBox.shared.domain.enums.CurrencyBox;
+import dev.julioperez.littleTree.box.currencyBox.shared.domain.enums.MultiBoxStatus;
 import dev.julioperez.littleTree.box.currencyBox.shared.domain.model.CurrencyMultiBox;
 import dev.julioperez.littleTree.box.currencyBox.shared.domain.port.getCurrencyMultibox.GetCurrencyMultibox;
 import dev.julioperez.littleTree.box.currencyBox.shared.domain.port.getCurrencyMultibox.GetCurrencyMultiboxOutputPort;
@@ -9,6 +10,7 @@ import dev.julioperez.littleTree.box.currencyBox.shared.domain.port.getCurrencyM
 import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 public class GetCurrencyMultiboxService implements GetCurrencyMultibox {
@@ -36,6 +38,24 @@ public class GetCurrencyMultiboxService implements GetCurrencyMultibox {
         return Objects.isNull(lastCurrencyMultiboxByCurrencyBox)
                 ? 0
                 : lastCurrencyMultiboxByCurrencyBox.getQuantity();
+    }
+
+
+    public boolean isDoneOrCancelled(CurrencyMultiBox currencyMultiBox){
+        String multiBoxStatus = currencyMultiBox.getMultiBoxStatus();
+        return multiBoxStatus.equalsIgnoreCase(MultiBoxStatus.DONE.value()) || multiBoxStatus.equalsIgnoreCase(MultiBoxStatus.CANCELLED.value());
+    }
+    @Override
+    public Float getTotalByCurrencyBoxByDoneOrCancelledMultiBoxStatus(CurrencyBox currencyBox) {
+        List<CurrencyMultiBox> currencyMultiboxByName = getCurrencyMultiboxOutputPort.getCurrencyMultiboxByName(currencyBox.value());
+        CurrencyMultiBox lastNotPendingCurrencyMultibox = currencyMultiboxByName
+                .stream()
+                .filter(this::isDoneOrCancelled)
+                .max(Comparator.comparing(CurrencyMultiBox::getUpdatedAt))
+                .orElse(null);
+        return Objects.isNull(lastNotPendingCurrencyMultibox)
+                ? 0
+                : lastNotPendingCurrencyMultibox.getQuantity();
     }
 
     private CurrencyMultiboxToList mapCurrencyMultiboxToList(CurrencyMultiBox currencyMultiBox){

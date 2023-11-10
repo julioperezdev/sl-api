@@ -23,6 +23,8 @@ public class SellerCommissionEntity {
     private String operationId;
     private Float total;
     private Float profit;
+    private Float quantity;
+    private Float pesos;
     private Date createdAt;
     private Date updatedAt;
 }

@@ -8,7 +8,6 @@ import dev.julioperez.littleTree.box.currencyBox.officeDebt.application.getOffic
 import dev.julioperez.littleTree.box.currencyBox.officeDebt.application.getOfficeDebt.service.GetOfficeDebtService;
 import dev.julioperez.littleTree.box.currencyBox.officeDebt.application.payDebt.delivery.PayDebtDelivery;
 import dev.julioperez.littleTree.box.currencyBox.officeDebt.application.payDebt.service.PayDebtService;
-import dev.julioperez.littleTree.box.currencyBox.officeDebt.domain.port.getOfficeDebt.GetOfficeDebt;
 import dev.julioperez.littleTree.box.currencyBox.shared.application.getCurrencyMultibox.adapter.GetCurrencyMultiboxAdapterRepository;
 import dev.julioperez.littleTree.box.currencyBox.shared.application.getCurrencyMultibox.delivery.GetCurrencyMultiboxDelivery;
 import dev.julioperez.littleTree.box.currencyBox.shared.application.getCurrencyMultibox.service.GetCurrencyMultiboxService;
@@ -30,7 +29,6 @@ import dev.julioperez.littleTree.box.currencyBox.shared.application.updateCurren
 import dev.julioperez.littleTree.box.currencyBox.shared.application.updateCurrencyMultiBox.service.UpdateCurrencyMultiBoxService;
 import dev.julioperez.littleTree.box.balance.infrastructure.repository.dao.BalanceDao;
 import dev.julioperez.littleTree.box.currencyBox.shared.infrastructure.repository.dao.CurrencyMultiBoxDao;
-import dev.julioperez.littleTree.box.sellerbox.domain.port.manualTransactionSellerBox.ManualTransactionSellerBox;
 import dev.julioperez.littleTree.box.sellerbox.infrastructure.repository.dao.SellerBoxDao;
 import dev.julioperez.littleTree.client.application.createClient.adapter.CreateClientAdapterRepository;
 import dev.julioperez.littleTree.client.application.createClient.delivery.CreateClientDelivery;
@@ -388,7 +386,7 @@ public class SpringDependenciesConfiguration {
 
     @Bean
     public GetSellerCommissionService getSellerCommissionService(){
-        return new GetSellerCommissionService(getSellerCommissionAdapterRepository());
+        return new GetSellerCommissionService(getSellerCommissionAdapterRepository(), getSellerService());
     }
     /**
      * CreateSellerCommission

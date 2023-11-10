@@ -31,6 +31,8 @@ public class CreateSellerCommissionService implements CreateSellerCommission {
                 sellOperation.getId(),
                 oldTotal + sellOperation.getSellerProfit(),
                 sellOperation.getSellerProfit(),
+                sellOperation.getSellerProfit() / sellOperation.getQuantity(),
+                sellOperation.getQuantity(),
                 sellOperation.getSellerId(),
                 SellerCommissionStatus.PENDING.value());
         SellerCommission sellerCommission = sellerCommissionMapper.toSellerCommissionModel(sellerCommissionRequest);

@@ -1,6 +1,7 @@
-package dev.julioperez.littleTree.seller.infrastructure.delivery;
+package dev.julioperez.littleTree.seller.sellerCommission.infrastructure.delivery;
 
 import dev.julioperez.littleTree.seller.domain.dto.CreateSellerCommissionRequest;
+import dev.julioperez.littleTree.seller.domain.dto.SellerCommissionResponseDto;
 import dev.julioperez.littleTree.seller.domain.dto.UpdateSellerCommissionRequest;
 import dev.julioperez.littleTree.seller.domain.model.SellerCommission;
 import dev.julioperez.littleTree.seller.domain.port.createSellerCommission.CreateSellerCommissionInputPort;
@@ -18,6 +19,7 @@ import java.util.List;
 @Slf4j
 @CrossOrigin(origins = "*")
 public class SellerCommissionController {
+
     private final GetSellerCommissionInputPort getSellerCommissionInputPort;
     private final CreateSellerCommissionInputPort createSellerCommissionInputPort;
     private final UpdateSellerCommissionInputPort updateSellerCommissionInputPort;
@@ -26,6 +28,24 @@ public class SellerCommissionController {
         this.getSellerCommissionInputPort = getSellerCommissionInputPort;
         this.createSellerCommissionInputPort = createSellerCommissionInputPort;
         this.updateSellerCommissionInputPort = updateSellerCommissionInputPort;
+    }
+
+    @PutMapping("/get/pending")
+    public ResponseEntity<List<SellerCommissionResponseDto>> getPendingSellerCommission(){
+        List<SellerCommissionResponseDto> pendingSellerCommission = getSellerCommissionInputPort.getPendingSellerCommission();
+        HttpStatus httpStatus = pendingSellerCommission.isEmpty()
+                ? HttpStatus.NO_CONTENT
+                : HttpStatus.FOUND;
+        return new ResponseEntity<>(pendingSellerCommission, httpStatus);
+    }
+
+    @PutMapping("/get/done")
+    public ResponseEntity<List<SellerCommissionResponseDto>> getDoneSellerCommission(){
+        List<SellerCommissionResponseDto> doneSellerCommission = getSellerCommissionInputPort.getDoneSellerCommission();
+        HttpStatus httpStatus = doneSellerCommission.isEmpty()
+                ? HttpStatus.NO_CONTENT
+                : HttpStatus.FOUND;
+        return new ResponseEntity<>(doneSellerCommission, httpStatus);
     }
 
     @PostMapping("/get")

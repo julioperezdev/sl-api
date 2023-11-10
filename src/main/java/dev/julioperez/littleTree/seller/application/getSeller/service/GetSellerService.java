@@ -6,7 +6,11 @@ import dev.julioperez.littleTree.seller.domain.port.getSeller.GetSeller;
 import dev.julioperez.littleTree.seller.domain.port.getSeller.GetSellerOutputPort;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
+
+import static org.springframework.data.jpa.domain.AbstractPersistable_.id;
 
 public class GetSellerService implements GetSeller {
     private final GetSellerOutputPort getSellerOutputPort;
@@ -25,6 +29,12 @@ public class GetSellerService implements GetSeller {
         return getSellers().stream()
                 .filter(seller -> seller.getId().equals(id))
                 .findFirst();
+    }
+
+
+    public Map<String, String> getSellerNamesById(List<String> ids) {
+        List<Seller> sellersByIds = getSellerOutputPort.getSellersByIds(ids);
+        return sellersByIds.stream().collect(Collectors.toMap(Seller::getId, Seller::getName));
     }
 
     @Override

@@ -1,24 +1,66 @@
 package dev.julioperez.littleTree.seller.application.getSellerCommission.service;
 
-import dev.julioperez.littleTree.operation.domain.model.buyOperation.BuyOperation;
+import dev.julioperez.littleTree.seller.domain.dto.SellerCommissionResponseDto;
+import dev.julioperez.littleTree.seller.domain.enums.SellerCommissionStatus;
 import dev.julioperez.littleTree.seller.domain.model.SellerCommission;
+import dev.julioperez.littleTree.seller.domain.port.getSeller.GetSeller;
 import dev.julioperez.littleTree.seller.domain.port.getSellerCommission.GetSellerCommission;
 import dev.julioperez.littleTree.seller.domain.port.getSellerCommission.GetSellerCommissionOutputPort;
+import jakarta.validation.constraints.NotNull;
 
-import java.util.Comparator;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 public class GetSellerCommissionService implements GetSellerCommission {
     private final GetSellerCommissionOutputPort getSellerCommissionOutputPort;
+    private final GetSeller getSeller;
 
-    public GetSellerCommissionService(GetSellerCommissionOutputPort getSellerCommissionOutputPort) {
+    public GetSellerCommissionService(GetSellerCommissionOutputPort getSellerCommissionOutputPort, GetSeller getSeller) {
         this.getSellerCommissionOutputPort = getSellerCommissionOutputPort;
+        this.getSeller = getSeller;
     }
 
     @Override
     public List<SellerCommission> getSellerCommission() {
         return getSellerCommissionOutputPort.getSellerCommission();
+    }
+
+    @Override
+    public List<SellerCommissionResponseDto> getPendingSellerCommission(){
+        return getSellerCommissionResponseDtoByStatus(SellerCommissionStatus.PENDING);
+    }
+    @Override
+    public List<SellerCommissionResponseDto> getDoneSellerCommission(){
+        return getSellerCommissionResponseDtoByStatus(SellerCommissionStatus.DONE);
+    }
+
+    private List<SellerCommissionResponseDto> getSellerCommissionResponseDtoByStatus(SellerCommissionStatus sellerCommissionStatus) {
+        List<SellerCommission> sellerCommission = getSellerCommission()
+                .stream()
+                .filter(particular -> particular.getStatus().equals(sellerCommissionStatus.value()))
+                .sorted(Comparator.comparing(SellerCommission::getUpdatedAt).reversed())
+                .toList();
+        List<String> sellerIds = sellerCommission.stream().map(SellerCommission::getSellerId).toList();
+        Map<String, String> sellerNamesById = getSeller.getSellerNamesById(sellerIds);
+        List<SellerCommissionResponseDto> sellerCommissionResponseDto = new ArrayList<>();
+        sellerCommission.forEach(particular->{
+            String sellerName = sellerNamesById.get(particular.getSellerId());
+            SellerCommissionResponseDto mapped = mapToSellerCommissionResponseDto(particular, sellerName);
+
+            sellerCommissionResponseDto.add(mapped);
+        });
+        return sellerCommissionResponseDto;
+    }
+
+    private SellerCommissionResponseDto mapToSellerCommissionResponseDto(SellerCommission sellerCommission, String sellerName){
+        return new SellerCommissionResponseDto(
+                sellerCommission.getId(),
+                sellerCommission.getUpdatedAt().toString(),
+                sellerName,
+                sellerCommission.getPesos(),
+                sellerCommission.getQuantity(),
+                sellerCommission.getProfit(),
+                sellerCommission.getOperationId(),
+                sellerCommission.getStatus());
     }
 
     @Override

@@ -6,6 +6,7 @@ import dev.julioperez.littleTree.seller.domain.port.mapper.SellerMapper;
 import dev.julioperez.littleTree.seller.infrastructure.repository.dao.SellerDao;
 import dev.julioperez.littleTree.seller.infrastructure.repository.entity.SellerEntity;
 
+import java.util.Collections;
 import java.util.List;
 
 public class GetSellerAdapterRepository implements GetSellerOutputPort {
@@ -21,5 +22,13 @@ public class GetSellerAdapterRepository implements GetSellerOutputPort {
     public List<Seller> getSellers() {
         List<SellerEntity> sellerEntities = sellerDao.findAll();
         return sellerMapper.toSellersModel(sellerEntities);
+    }
+
+    @Override
+    public List<Seller> getSellersByIds(List<String> id) {
+        List<SellerEntity> allById = sellerDao.findAllById(id);
+        return allById.isEmpty()
+                ? Collections.emptyList()
+                : sellerMapper.toSellersModel(allById);
     }
 }
