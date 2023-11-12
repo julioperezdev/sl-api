@@ -1,11 +1,10 @@
 package dev.julioperez.littleTree.operation.application.getOperations.service;
 
-import dev.julioperez.littleTree.client.domain.port.getClients.GetClients;
+import dev.julioperez.littleTree.client.client.domain.port.getClients.GetClients;
 import dev.julioperez.littleTree.operation.domain.dto.GetBuyAndSellOperationResponseDto;
 import dev.julioperez.littleTree.operation.domain.dto.GetOperationResponseDto;
 import dev.julioperez.littleTree.operation.domain.dto.GetDoneOperationToShowReserve;
 import dev.julioperez.littleTree.operation.domain.enums.OperationStatus;
-import dev.julioperez.littleTree.operation.domain.enums.OperationType;
 import dev.julioperez.littleTree.operation.domain.model.buyOperation.BuyOperation;
 import dev.julioperez.littleTree.operation.domain.model.sellOperation.SellOperation;
 import dev.julioperez.littleTree.operation.domain.port.getOperations.GetOperations;

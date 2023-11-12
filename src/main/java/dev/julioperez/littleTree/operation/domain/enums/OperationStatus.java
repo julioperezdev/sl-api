@@ -1,7 +1,5 @@
 package dev.julioperez.littleTree.operation.domain.enums;
 
-import dev.julioperez.littleTree.client.domain.enums.DifferenceStatus;
-
 import java.util.Arrays;
 import java.util.List;
 

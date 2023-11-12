@@ -1,6 +1,5 @@
 package dev.julioperez.littleTree.provider.infrastructure.delivery;
 
-import dev.julioperez.littleTree.client.domain.model.Client;
 import dev.julioperez.littleTree.provider.domain.dto.CreateProviderRequest;
 import dev.julioperez.littleTree.provider.domain.dto.UpdateProviderRequest;
 import dev.julioperez.littleTree.provider.domain.model.Provider;

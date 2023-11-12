@@ -1,5 +1,6 @@
 package dev.julioperez.littleTree.client.domain.enums;
 
+import dev.julioperez.littleTree.client.clientDifference.domain.enums.DifferenceType;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 

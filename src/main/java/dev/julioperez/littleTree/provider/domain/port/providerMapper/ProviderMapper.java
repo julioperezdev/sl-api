@@ -1,9 +1,5 @@
 package dev.julioperez.littleTree.provider.domain.port.providerMapper;
 
-import dev.julioperez.littleTree.client.domain.dto.CreateClientRequest;
-import dev.julioperez.littleTree.client.domain.dto.UpdateClientRequest;
-import dev.julioperez.littleTree.client.domain.model.Client;
-import dev.julioperez.littleTree.client.infrastructure.repository.entity.ClientEntity;
 import dev.julioperez.littleTree.provider.domain.dto.CreateProviderRequest;
 import dev.julioperez.littleTree.provider.domain.dto.UpdateProviderRequest;
 import dev.julioperez.littleTree.provider.domain.model.Provider;

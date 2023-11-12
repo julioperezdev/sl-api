@@ -1,10 +1,10 @@
 package dev.julioperez.littleTree.client.application.modelMapper;
 
-import dev.julioperez.littleTree.client.domain.dto.CreateClientRequest;
-import dev.julioperez.littleTree.client.domain.dto.UpdateClientRequest;
-import dev.julioperez.littleTree.client.domain.model.Client;
-import dev.julioperez.littleTree.client.domain.port.mapper.ClientMapper;
-import dev.julioperez.littleTree.client.infrastructure.repository.entity.ClientEntity;
+import dev.julioperez.littleTree.client.client.application.modelMapper.ClientModelMapper;
+import dev.julioperez.littleTree.client.client.domain.dto.CreateClientRequest;
+import dev.julioperez.littleTree.client.client.domain.dto.UpdateClientRequest;
+import dev.julioperez.littleTree.client.client.domain.model.Client;
+import dev.julioperez.littleTree.client.client.infrastructure.repository.entity.ClientEntity;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

@@ -1,6 +1,5 @@
 package dev.julioperez.littleTree.provider.application.createProvider.service;
 
-import dev.julioperez.littleTree.client.domain.model.Client;
 import dev.julioperez.littleTree.provider.domain.dto.CreateProviderRequest;
 import dev.julioperez.littleTree.provider.domain.model.Provider;
 import dev.julioperez.littleTree.provider.domain.port.createProvider.CreateProvider;

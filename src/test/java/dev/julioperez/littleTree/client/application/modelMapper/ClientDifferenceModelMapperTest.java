@@ -1,10 +1,10 @@
 package dev.julioperez.littleTree.client.application.modelMapper;
 
-import dev.julioperez.littleTree.client.domain.dto.CreateClientDifferenceRequest;
-import dev.julioperez.littleTree.client.domain.dto.UpdateClientDifferenceRequest;
-import dev.julioperez.littleTree.client.domain.model.ClientDifference;
-import dev.julioperez.littleTree.client.domain.port.mapper.ClientDifferenceMapper;
-import dev.julioperez.littleTree.client.infrastructure.repository.entity.ClientDifferenceEntity;
+import dev.julioperez.littleTree.client.clientDifference.application.modelMapper.ClientDifferenceModelMapper;
+import dev.julioperez.littleTree.client.clientDifference.domain.dto.CreateClientDifferenceRequest;
+import dev.julioperez.littleTree.client.clientDifference.domain.dto.UpdateClientDifferenceRequest;
+import dev.julioperez.littleTree.client.clientDifference.domain.model.ClientDifference;
+import dev.julioperez.littleTree.client.clientDifference.infrastructure.repository.entity.ClientDifferenceEntity;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
