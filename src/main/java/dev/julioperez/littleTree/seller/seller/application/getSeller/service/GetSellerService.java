@@ -22,6 +22,11 @@ public class GetSellerService implements GetSeller {
     }
 
     @Override
+    public List<String> getSellersNames() {
+        return getSellers().stream().map(Seller::getName).toList();
+    }
+
+    @Override
     public Optional<Seller> getSellerById(String id) {
         return getSellers().stream()
                 .filter(seller -> seller.getId().equals(id))

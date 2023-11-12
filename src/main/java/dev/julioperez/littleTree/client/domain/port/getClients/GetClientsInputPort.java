@@ -7,6 +7,8 @@ import java.util.Optional;
 
 public interface GetClientsInputPort {
     List<Client> getClients() throws Exception;
+    List<String> getClientsNames();
+
     Optional<Client> getOptionalClientById(String id) throws Exception;
     Optional<Client> getOptionalClientByName(String name) throws Exception;
 }

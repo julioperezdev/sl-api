@@ -9,6 +9,8 @@ import java.util.Optional;
 public interface GetClients {
 
     List<Client> getClients();
+
+    List<String> getClientsNames();
     Map<String, String> getClientsNameById(List<String> idList);
 
     Optional<Client> getOptionalClientById(String id) throws Exception;

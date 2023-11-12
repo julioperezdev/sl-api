@@ -20,6 +20,11 @@ public class GetSellerDelivery implements GetSellerInputPort {
     }
 
     @Override
+    public List<String> getSellersNames() {
+        return getSeller.getSellersNames();
+    }
+
+    @Override
     public Optional<Seller> getSellerById(String id) {
         return getSeller.getSellerById(id);
     }

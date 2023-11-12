@@ -21,6 +21,11 @@ public class GetClientsDelivery implements GetClientsInputPort {
     }
 
     @Override
+    public List<String> getClientsNames() {
+        return getClients.getClientsNames();
+    }
+
+    @Override
     public Optional<Client> getOptionalClientById(String id) throws Exception {
         return getClients.getOptionalClientById(id);
     }

@@ -8,6 +8,7 @@ import java.util.Optional;
 
 public interface GetSeller {
     List<Seller> getSellers();
+    List<String> getSellersNames();
     Optional<Seller> getSellerById(String id);
     Optional<Seller> getSellerByName(String name);
 

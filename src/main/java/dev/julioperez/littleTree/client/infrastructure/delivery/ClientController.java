@@ -63,6 +63,15 @@ public class ClientController {
         return new ResponseEntity<>(client, httpStatus);
     }
 
+    @PutMapping("/get/names")
+    public ResponseEntity<List<String>> getClientsNames() {
+        List<String> client = getClientsInputPort.getClientsNames();
+        HttpStatus httpStatus = client.isEmpty()
+                ? HttpStatus.NO_CONTENT
+                : HttpStatus.FOUND;
+        return new ResponseEntity<>(client, httpStatus);
+    }
+
     @PutMapping("/update")
     public ResponseEntity<Client> updateClients(@RequestBody UpdateClientRequest updateClientRequest) throws Exception {
         Client updatedClient = updateClientInputPort.updateClient(updateClientRequest);

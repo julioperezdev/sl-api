@@ -61,6 +61,15 @@ public class SellerController {
                 : HttpStatus.FOUND;
         return new ResponseEntity<>(sellerByName, httpStatus);
     }
+    @PutMapping("/get/names")
+    public ResponseEntity<List<String>> getSellersNames(){
+        List<String> sellersNames = getSellerInputPort.getSellersNames();
+        HttpStatus httpStatus = sellersNames.isEmpty()
+                ? HttpStatus.NO_CONTENT
+                : HttpStatus.FOUND;
+        return new ResponseEntity<>(sellersNames, httpStatus);
+    }
+
     @PutMapping("/update")
     public ResponseEntity<Seller> updateSeller(@RequestBody UpdateSellerRequest updateSellerRequest){
         Seller seller = updateSellerInputPort.updateSeller(updateSellerRequest);

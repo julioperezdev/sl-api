@@ -27,6 +27,11 @@ public class GetClientsService implements GetClients {
     }
 
     @Override
+    public List<String> getClientsNames() {
+        return getClients().stream().map(Client::getName).toList();
+    }
+
+    @Override
     public Map<String, String> getClientsNameById(List<String> idList) {
         List<Client> clientsById = getClientsOutputPort.getClientsById(idList);
         return clientsById.stream().collect(Collectors.toMap(Client::getId, Client::getName));
