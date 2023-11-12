@@ -5,9 +5,8 @@ import dev.julioperez.littleTree.box.balance.domain.model.Balance;
 import dev.julioperez.littleTree.box.balance.domain.port.assignToSellerBox.AssignSellerBox;
 import dev.julioperez.littleTree.box.balance.domain.port.manageBalance.ManageBalance;
 import dev.julioperez.littleTree.box.balance.domain.port.saveOrUpdateBalance.SaveOrUpdateBalance;
-import dev.julioperez.littleTree.box.balance.infrastructure.repository.entity.BalanceEntity;
 import dev.julioperez.littleTree.box.sellerbox.domain.port.manageSellerBox.ManageSellerBox;
-import dev.julioperez.littleTree.operation.domain.enums.OperationType;
+import dev.julioperez.littleTree.operation.shared.domain.enums.OperationType;
 
 import java.sql.Date;
 import java.time.Instant;

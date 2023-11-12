@@ -3,7 +3,7 @@ package dev.julioperez.littleTree.box.balance.application.manageBalance.service;
 import dev.julioperez.littleTree.box.balance.domain.model.Balance;
 import dev.julioperez.littleTree.box.balance.domain.port.manageBalance.ManageBalance;
 import dev.julioperez.littleTree.box.balance.domain.port.manageBalance.ManageBalanceOutputPort;
-import dev.julioperez.littleTree.operation.domain.model.sellOperation.SellOperation;
+import dev.julioperez.littleTree.operation.sellOperation.domain.model.SellOperation;
 
 import java.sql.Date;
 import java.time.Instant;

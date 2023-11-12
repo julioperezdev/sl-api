@@ -1,19 +1,14 @@
 package dev.julioperez.littleTree.box.sellerbox.application.manualTransactionSellerBox.service;
 
-import dev.julioperez.littleTree.box.currencyBox.shared.domain.dto.ManualTransactionRequest;
-import dev.julioperez.littleTree.box.currencyBox.shared.domain.enums.CurrencyBox;
-import dev.julioperez.littleTree.box.currencyBox.shared.domain.model.CurrencyMultiBox;
 import dev.julioperez.littleTree.box.sellerbox.domain.dto.ManualTransactionSellerBoxRequest;
 import dev.julioperez.littleTree.box.sellerbox.domain.enums.SellerBoxNames;
 import dev.julioperez.littleTree.box.sellerbox.domain.model.SellerBox;
 import dev.julioperez.littleTree.box.sellerbox.domain.port.manageSellerBox.ManageSellerBox;
 import dev.julioperez.littleTree.box.sellerbox.domain.port.manualTransactionSellerBox.ManualTransactionSellerBox;
-import dev.julioperez.littleTree.operation.domain.enums.OperationStatus;
-import dev.julioperez.littleTree.operation.domain.enums.OperationType;
+import dev.julioperez.littleTree.operation.shared.domain.enums.OperationType;
 
 import java.time.Instant;
 import java.util.Date;
-import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 

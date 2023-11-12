@@ -1,6 +1,6 @@
 package dev.julioperez.littleTree.seller.sellerCommission.domain.model;
 
-import dev.julioperez.littleTree.operation.domain.model.sellOperation.SellOperationId;
+import dev.julioperez.littleTree.operation.sellOperation.domain.model.SellOperationId;
 import dev.julioperez.littleTree.seller.seller.domain.model.SellerId;
 import dev.julioperez.littleTree.seller.sellerCommission.domain.enums.SellerCommissionStatus;
 

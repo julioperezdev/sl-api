@@ -1,6 +1,6 @@
 package dev.julioperez.littleTree.seller.sellerCommission.application.createSellerCommission.service;
 
-import dev.julioperez.littleTree.operation.domain.model.sellOperation.SellOperation;
+import dev.julioperez.littleTree.operation.sellOperation.domain.model.SellOperation;
 import dev.julioperez.littleTree.seller.sellerCommission.domain.dto.CreateSellerCommissionRequest;
 import dev.julioperez.littleTree.seller.sellerCommission.domain.enums.SellerCommissionStatus;
 import dev.julioperez.littleTree.seller.sellerCommission.domain.model.SellerCommission;

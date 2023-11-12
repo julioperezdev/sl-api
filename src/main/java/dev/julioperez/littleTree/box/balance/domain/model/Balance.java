@@ -1,7 +1,7 @@
 package dev.julioperez.littleTree.box.balance.domain.model;
 
 
-import dev.julioperez.littleTree.operation.domain.enums.OperationType;
+import dev.julioperez.littleTree.operation.shared.domain.enums.OperationType;
 
 import java.util.Date;
 

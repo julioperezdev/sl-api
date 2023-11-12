@@ -3,9 +3,9 @@ package dev.julioperez.littleTree.box.currencyBox.foreignExchange.application.ma
 import dev.julioperez.littleTree.box.currencyBox.shared.domain.enums.MultiBoxStatus;
 import dev.julioperez.littleTree.box.currencyBox.shared.domain.model.CurrencyMultiBox;
 import dev.julioperez.littleTree.box.currencyBox.foreignExchange.domain.port.manageForeignExchange.ManageForeignExchange;
-import dev.julioperez.littleTree.operation.domain.enums.OperationType;
-import dev.julioperez.littleTree.operation.domain.model.buyOperation.BuyOperation;
-import dev.julioperez.littleTree.operation.domain.model.sellOperation.SellOperation;
+import dev.julioperez.littleTree.operation.shared.domain.enums.OperationType;
+import dev.julioperez.littleTree.operation.buyOperation.domain.model.BuyOperation;
+import dev.julioperez.littleTree.operation.sellOperation.domain.model.SellOperation;
 
 import java.sql.Date;
 import java.time.Instant;

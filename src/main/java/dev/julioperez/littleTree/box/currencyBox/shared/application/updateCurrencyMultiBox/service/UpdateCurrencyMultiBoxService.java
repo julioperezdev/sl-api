@@ -8,8 +8,8 @@ import dev.julioperez.littleTree.box.currencyBox.pesos.domain.port.managePesos.M
 import dev.julioperez.littleTree.box.currencyBox.shared.domain.port.getCurrencyMultibox.GetCurrencyMultibox;
 import dev.julioperez.littleTree.box.currencyBox.shared.domain.port.updateCurrencyMultiBox.UpdateCurrencyMultiBox;
 import dev.julioperez.littleTree.box.currencyBox.shared.domain.port.updateCurrencyMultiBox.UpdateCurrencyMultiBoxOutputPort;
-import dev.julioperez.littleTree.operation.domain.model.buyOperation.BuyOperation;
-import dev.julioperez.littleTree.operation.domain.model.sellOperation.SellOperation;
+import dev.julioperez.littleTree.operation.buyOperation.domain.model.BuyOperation;
+import dev.julioperez.littleTree.operation.sellOperation.domain.model.SellOperation;
 
 import java.util.List;
 import java.util.Objects;

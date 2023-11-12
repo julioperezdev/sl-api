@@ -1,14 +1,12 @@
 package dev.julioperez.littleTree.box.sellerbox.application.manageSellerBox.service;
 
 import dev.julioperez.littleTree.box.balance.domain.dto.AssignSellerBoxRequest;
-import dev.julioperez.littleTree.box.balance.domain.model.BalanceId;
 import dev.julioperez.littleTree.box.sellerbox.domain.enums.SellerBoxNames;
 import dev.julioperez.littleTree.box.sellerbox.domain.model.SellerBox;
 import dev.julioperez.littleTree.box.sellerbox.domain.port.manageSellerBox.ManageSellerBox;
 import dev.julioperez.littleTree.box.sellerbox.domain.port.manageSellerBox.ManageSellerBoxOutputPort;
-import dev.julioperez.littleTree.operation.domain.enums.OperationType;
+import dev.julioperez.littleTree.operation.shared.domain.enums.OperationType;
 
-import java.sql.Date;
 import java.time.Instant;
 import java.util.Comparator;
 import java.util.List;

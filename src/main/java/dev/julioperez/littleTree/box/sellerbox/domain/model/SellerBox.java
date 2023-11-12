@@ -2,8 +2,7 @@ package dev.julioperez.littleTree.box.sellerbox.domain.model;
 
 
 import dev.julioperez.littleTree.box.sellerbox.domain.enums.SellerBoxNames;
-import dev.julioperez.littleTree.box.balance.domain.model.BalanceId;
-import dev.julioperez.littleTree.operation.domain.enums.OperationType;
+import dev.julioperez.littleTree.operation.shared.domain.enums.OperationType;
 
 import java.util.Date;
 

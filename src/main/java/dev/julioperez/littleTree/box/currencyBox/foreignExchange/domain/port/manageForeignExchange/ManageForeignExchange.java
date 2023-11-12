@@ -1,8 +1,8 @@
 package dev.julioperez.littleTree.box.currencyBox.foreignExchange.domain.port.manageForeignExchange;
 
 import dev.julioperez.littleTree.box.currencyBox.shared.domain.model.CurrencyMultiBox;
-import dev.julioperez.littleTree.operation.domain.model.buyOperation.BuyOperation;
-import dev.julioperez.littleTree.operation.domain.model.sellOperation.SellOperation;
+import dev.julioperez.littleTree.operation.buyOperation.domain.model.BuyOperation;
+import dev.julioperez.littleTree.operation.sellOperation.domain.model.SellOperation;
 
 public interface ManageForeignExchange {
     CurrencyMultiBox recordPendingForeignExchangeToIngress(CurrencyMultiBox foreignExchangeBox, BuyOperation buyOperation);

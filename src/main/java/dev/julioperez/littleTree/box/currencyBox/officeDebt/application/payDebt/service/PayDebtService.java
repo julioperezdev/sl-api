@@ -6,8 +6,8 @@ import dev.julioperez.littleTree.box.currencyBox.shared.domain.enums.CurrencyBox
 import dev.julioperez.littleTree.box.currencyBox.shared.domain.model.CurrencyMultiBox;
 import dev.julioperez.littleTree.box.currencyBox.shared.domain.port.getCurrencyMultibox.GetCurrencyMultibox;
 import dev.julioperez.littleTree.box.currencyBox.shared.domain.port.updateCurrencyMultiBox.UpdateCurrencyMultiBox;
-import dev.julioperez.littleTree.operation.domain.enums.OperationStatus;
-import dev.julioperez.littleTree.operation.domain.enums.OperationType;
+import dev.julioperez.littleTree.operation.shared.domain.enums.OperationStatus;
+import dev.julioperez.littleTree.operation.shared.domain.enums.OperationType;
 
 import java.time.Instant;
 import java.util.Date;
