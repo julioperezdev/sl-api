@@ -850,7 +850,7 @@ public class SpringDependenciesConfiguration {
 
     @Bean
     public CreateOperationService createOperationService(){
-        return new CreateOperationService(createOperationAdapterRepository(),updateCurrencyMultiBoxService(), getOperationsService());
+        return new CreateOperationService(createOperationAdapterRepository(), getCurrencyMultiboxService(), updateCurrencyMultiBoxService(), getOperationsService());
     }
     @Bean
     public CreateOperationDelivery createOperationDelivery(){

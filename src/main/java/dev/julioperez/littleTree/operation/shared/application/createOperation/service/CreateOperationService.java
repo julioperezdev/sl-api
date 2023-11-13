@@ -1,6 +1,7 @@
 package dev.julioperez.littleTree.operation.shared.application.createOperation.service;
 
 import dev.julioperez.littleTree.box.currencyBox.shared.domain.enums.CurrencyBox;
+import dev.julioperez.littleTree.box.currencyBox.shared.domain.port.getCurrencyMultibox.GetCurrencyMultibox;
 import dev.julioperez.littleTree.box.currencyBox.shared.domain.port.updateCurrencyMultiBox.UpdateCurrencyMultiBox;
 import dev.julioperez.littleTree.operation.buyOperation.domain.dto.BuyOperationData;
 import dev.julioperez.littleTree.operation.buyOperation.domain.dto.BuyOperationRequest;
@@ -20,11 +21,13 @@ import java.util.List;
 
 public class CreateOperationService implements CreateOperation {
     private final CreateOperationOutputPort createOperationOutputPort;
+    private final GetCurrencyMultibox getCurrencyMultibox;
     private final UpdateCurrencyMultiBox updateCurrencyMultiBox;
     private final GetOperations getOperations;
 
-    public CreateOperationService(CreateOperationOutputPort createOperationOutputPort, UpdateCurrencyMultiBox updateCurrencyMultiBox, GetOperations getOperations) {
+    public CreateOperationService(CreateOperationOutputPort createOperationOutputPort, GetCurrencyMultibox getCurrencyMultibox, UpdateCurrencyMultiBox updateCurrencyMultiBox, GetOperations getOperations) {
         this.createOperationOutputPort = createOperationOutputPort;
+        this.getCurrencyMultibox = getCurrencyMultibox;
         this.updateCurrencyMultiBox = updateCurrencyMultiBox;
         this.getOperations = getOperations;
     }
@@ -34,6 +37,10 @@ public class CreateOperationService implements CreateOperation {
         List<String> operationTypes = buyOperationRequest.buyOperationData().stream().map(BuyOperationData::operationType).toList();
         boolean isValidBuyOperation = OperationType.hasOnlyBuyOperations(operationTypes);
         if(!isValidBuyOperation) throw new IllegalArgumentException("every operation should be BUY operation, cant be different");
+        //validate if all buy operation can be completed with total quantity of pesos
+        Float pesosBoxTotal = getCurrencyMultibox.getTotalByCurrencyBox(CurrencyBox.PESO);
+        double allBuyOperationSum = buyOperationRequest.buyOperationData().stream().filter(particular -> !particular.hasOfficeCheck()).mapToDouble(this::calculateTotalPriceToBuyOperation).sum();
+        if(pesosBoxTotal < allBuyOperationSum) throw new IllegalArgumentException(String.format("Dont do the operations because all new operations is more of pesos, pesos: %f, operations: %f", pesosBoxTotal, allBuyOperationSum));
         List<BuyOperation> buyOperationsSaved = startBuyOperation(buyOperationRequest);
         return updateCurrencyMultiBox.reservePendingCurrencyBoxAfterOfBuyOperation(buyOperationsSaved);
     }
@@ -53,21 +60,22 @@ public class CreateOperationService implements CreateOperation {
     private List<BuyOperation> generateBuyOperations(BuyOperationRequest buyOperationsRequest){
         return buyOperationsRequest.buyOperationData()
                 .stream()
-                .map(particular -> this.generateParticularBuyOperation(buyOperationsRequest.id(),buyOperationsRequest.hasOfficeCheck(),buyOperationsRequest.clientId(), particular))
+                //.map(particular -> this.generateParticularBuyOperation(buyOperationsRequest.id(),buyOperationsRequest.hasOfficeCheck(),buyOperationsRequest.clientId(), particular))
+                .map(this::generateParticularBuyOperation)
                 .toList();
     }
-    private BuyOperation generateParticularBuyOperation(String id,boolean hasOfficeCheck, String clientId, BuyOperationData buyOperationData){
+    private BuyOperation generateParticularBuyOperation(BuyOperationData buyOperationData){
         return new BuyOperation(
-                id,
+                buyOperationData.id(),
                 Date.from(Instant.now()),
                 Date.from(Instant.now()),
-                clientId,
+                buyOperationData.clientId(),
                 buyOperationData.currencyMultiBox(),
                 buyOperationData.buyPrice(),
                 buyOperationData.quantity(),
                 buyOperationData.percent(),
                 calculateTotalPriceToBuyOperation(buyOperationData),
-                hasOfficeCheck,
+                buyOperationData.hasOfficeCheck(),
                 OperationStatus.PENDING.value(),
                 buyOperationData.quantity());
     }
