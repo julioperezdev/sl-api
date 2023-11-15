@@ -5,6 +5,7 @@ import dev.julioperez.littleTree.client.clientDifference.domain.dto.GetClientDif
 import dev.julioperez.littleTree.client.clientDifference.domain.dto.UpdateClientDifferenceRequest;
 import dev.julioperez.littleTree.client.clientDifference.domain.model.ClientDifference;
 import dev.julioperez.littleTree.client.clientDifference.domain.port.createClientDifference.CreateClientDifferenceInputPort;
+import dev.julioperez.littleTree.client.clientDifference.domain.port.deleteClientDifference.DeleteClientDifferenceInputPort;
 import dev.julioperez.littleTree.client.clientDifference.domain.port.getClientDifference.GetClientDifferenceInputPort;
 import dev.julioperez.littleTree.client.clientDifference.domain.port.updateClientDifference.UpdateClientDifferenceInputPort;
 import lombok.extern.slf4j.Slf4j;
@@ -24,11 +25,13 @@ public class ClientDifferenceController {
     private final GetClientDifferenceInputPort getClientDifferenceInputPort;
     private final CreateClientDifferenceInputPort createClientDifferenceInputPort;
     private final UpdateClientDifferenceInputPort updateClientDifferenceInputPort;
+    private final DeleteClientDifferenceInputPort deleteClientDifferenceInputPort;
 
-    public ClientDifferenceController(GetClientDifferenceInputPort getClientDifferenceInputPort, CreateClientDifferenceInputPort createClientDifferenceInputPort, UpdateClientDifferenceInputPort updateClientDifferenceInputPort) {
+    public ClientDifferenceController(GetClientDifferenceInputPort getClientDifferenceInputPort, CreateClientDifferenceInputPort createClientDifferenceInputPort, UpdateClientDifferenceInputPort updateClientDifferenceInputPort, DeleteClientDifferenceInputPort deleteClientDifferenceInputPort) {
         this.getClientDifferenceInputPort = getClientDifferenceInputPort;
         this.createClientDifferenceInputPort = createClientDifferenceInputPort;
         this.updateClientDifferenceInputPort = updateClientDifferenceInputPort;
+        this.deleteClientDifferenceInputPort = deleteClientDifferenceInputPort;
     }
 
     @PostMapping("/get")
@@ -47,6 +50,15 @@ public class ClientDifferenceController {
                 ? HttpStatus.NO_CONTENT
                 : HttpStatus.FOUND;
         return new ResponseEntity<>(clientDifferences, httpStatus);
+    }
+
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<Boolean> deleteClientDifferenceById(@PathVariable String id) throws Exception {
+        Boolean result = deleteClientDifferenceInputPort.deleteClientDifferenceById(id);
+        HttpStatus httpStatus = result
+                ? HttpStatus.ACCEPTED
+                : HttpStatus.NOT_IMPLEMENTED;
+        return new ResponseEntity<>(result, httpStatus);
     }
 
     @PostMapping("/create")

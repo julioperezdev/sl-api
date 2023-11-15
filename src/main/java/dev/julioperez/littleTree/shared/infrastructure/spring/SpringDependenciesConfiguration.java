@@ -36,6 +36,9 @@ import dev.julioperez.littleTree.client.client.application.createClient.service.
 import dev.julioperez.littleTree.client.clientDifference.application.createClientDifference.adapter.CreateClientDifferenceAdapterRepository;
 import dev.julioperez.littleTree.client.clientDifference.application.createClientDifference.delivery.CreateClientDifferenceDelivery;
 import dev.julioperez.littleTree.client.clientDifference.application.createClientDifference.service.CreateClientDifferenceService;
+import dev.julioperez.littleTree.client.clientDifference.application.deleteClientDifference.adapter.DeleteClientDifferenceAdapterRepository;
+import dev.julioperez.littleTree.client.clientDifference.application.deleteClientDifference.delivery.DeleteClientDifferenceDelivery;
+import dev.julioperez.littleTree.client.clientDifference.application.deleteClientDifference.service.DeleteClientDifferenceService;
 import dev.julioperez.littleTree.client.clientDifference.application.getClientDifference.adapter.GetClientDifferenceAdapterRepository;
 import dev.julioperez.littleTree.client.clientDifference.application.getClientDifference.delivery.GetClientDifferenceDelivery;
 import dev.julioperez.littleTree.client.clientDifference.application.getClientDifference.service.GetClientDifferenceService;
@@ -303,6 +306,24 @@ public class SpringDependenciesConfiguration {
     @Bean
     public UpdateClientDifferenceDelivery updateClientDifferenceDelivery(){
         return new UpdateClientDifferenceDelivery(updateClientDifferenceService());
+    }
+
+    /**
+     * DeleteClientDifference
+     */
+    @Bean
+    public DeleteClientDifferenceAdapterRepository deleteClientDifferenceAdapterRepository(){
+        return new DeleteClientDifferenceAdapterRepository(clientDifferenceDao);
+    }
+
+    @Bean
+    public DeleteClientDifferenceService deleteClientDifferenceService(){
+        return new DeleteClientDifferenceService(deleteClientDifferenceAdapterRepository());
+    }
+
+    @Bean
+    public DeleteClientDifferenceDelivery deleteClientDifferenceDelivery(){
+        return new DeleteClientDifferenceDelivery(deleteClientDifferenceService());
     }
     /**
      * =====================================
