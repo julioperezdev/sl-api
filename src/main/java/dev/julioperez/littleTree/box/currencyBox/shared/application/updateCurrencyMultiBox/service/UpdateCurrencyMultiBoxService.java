@@ -60,7 +60,7 @@ public class UpdateCurrencyMultiBoxService implements UpdateCurrencyMultiBox {
         CurrencyMultiBox pesosBoxToIngress = managePesos.recordPesosBoxToConfirmIngress(pesosBox, sellOperation);
 
         //todo: question, what happen if quantity of box is less of 0?
-        if(foreignExchangeToEgress.getQuantity() < 0) throw new IllegalArgumentException(String.format("Quantity of box %s cant be less of zero", foreignExchangeToEgress.getCurrencyBox()));
+        //if(foreignExchangeToEgress.getQuantity() < 0) throw new IllegalArgumentException(String.format("Quantity of box %s cant be less of zero", foreignExchangeToEgress.getCurrencyBox()));
         List<CurrencyMultiBox> multiBoxesUpdated = updateCurrencyMultiBoxOutputPort.currencyMultiBoxes(List.of(foreignExchangeToEgress, pesosBoxToIngress));
         return multiBoxesUpdated.size() == 2;
     }

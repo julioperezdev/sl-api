@@ -149,7 +149,7 @@ public class CreateOperationService implements CreateOperation {
     private Float calculateSubProfitToSellOperation(SellOperationData sellOperationData){
         float totalPriceInPesos = calculateTotalPriceToSellOperation(sellOperationData);
         float subProfit =  totalPriceInPesos - (sellOperationData.buyPrice() * sellOperationData.quantityToSell());
-        if(subProfit < 0) throw new IllegalArgumentException("Cant have negative result or is correct?");
+        //if(subProfit < 0) throw new IllegalArgumentException("Cant have negative result or is correct?");
         return subProfit;
     }
     private Float calculateProfitToSellOperation(SellOperationData sellOperationData){

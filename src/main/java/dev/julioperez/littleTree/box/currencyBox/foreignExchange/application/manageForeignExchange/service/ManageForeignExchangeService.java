@@ -87,7 +87,8 @@ public class ManageForeignExchangeService implements ManageForeignExchange {
                 foreignExchangeBox.getCurrencyBox(),
                 sellOperation.getId(),
                 OperationType.SELL.value(),
-                foreignExchangeBox.reduceQuantity(sellOperation.getQuantity()),
+                foreignExchangeBox.getQuantity(),
+                //foreignExchangeBox.reduceQuantity(sellOperation.getQuantity()),
                 sellOperation.getQuantity(),
                 MultiBoxStatus.DONE.value());
     }

@@ -78,7 +78,8 @@ public class ManagePesosService implements ManagePesos {
                 pesosBox.getCurrencyBox(),
                 sellOperation.getId(),
                 OperationType.SELL.value(),
-                pesosBox.getQuantity(),
+                //pesosBox.getQuantity(),
+                pesosBox.addQuantity(sellOperation.getTotal()),
                 sellOperation.getTotal(),
                 MultiBoxStatus.DONE.value());
     }
