@@ -2,8 +2,17 @@ package dev.julioperez.littleTree.shared.infrastructure.spring;
 
 import dev.julioperez.littleTree.box.balance.application.assignSellerBox.delivery.AssignSellerBoxDelivery;
 import dev.julioperez.littleTree.box.balance.application.assignSellerBox.service.AssignSellerBoxService;
+import dev.julioperez.littleTree.box.balance.application.createBalance.service.CreateBalanceService;
+import dev.julioperez.littleTree.box.balance.application.getBalance.adapter.GetBalanceAdapterRepository;
+import dev.julioperez.littleTree.box.balance.application.getBalance.delivery.GetBalanceDelivery;
+import dev.julioperez.littleTree.box.balance.application.getBalance.service.GetBalanceService;
 import dev.julioperez.littleTree.box.balance.application.saveOrUpdateBalance.adapter.SaveOrUpdateBalanceAdapterRepository;
 import dev.julioperez.littleTree.box.balance.application.saveOrUpdateBalance.service.SaveOrUpdateBalanceService;
+import dev.julioperez.littleTree.box.currencyBox.foreignExchange.application.recordForeignExchangeBoxToReturnEgress.service.RecordForeignExchangeBoxToReturnEgressService;
+import dev.julioperez.littleTree.box.currencyBox.foreignExchange.application.recordForeignExchangeToConfirmEgress.service.RecordForeignExchangeToConfirmEgressService;
+import dev.julioperez.littleTree.box.currencyBox.foreignExchange.application.recordForeignExchangeToConfirmIngress.service.RecordForeignExchangeToConfirmIngressService;
+import dev.julioperez.littleTree.box.currencyBox.foreignExchange.application.recordPendingForeignExchangeToEgress.service.RecordPendingForeignExchangeToEgressService;
+import dev.julioperez.littleTree.box.currencyBox.foreignExchange.application.recordPendingForeignExchangeToIngress.service.RecordPendingForeignExchangeToIngressService;
 import dev.julioperez.littleTree.box.currencyBox.officeDebt.application.getOfficeDebt.delivery.GetOfficeDebtDelivery;
 import dev.julioperez.littleTree.box.currencyBox.officeDebt.application.getOfficeDebt.service.GetOfficeDebtService;
 import dev.julioperez.littleTree.box.currencyBox.officeDebt.application.payDebt.delivery.PayDebtDelivery;
@@ -11,10 +20,6 @@ import dev.julioperez.littleTree.box.currencyBox.officeDebt.application.payDebt.
 import dev.julioperez.littleTree.box.currencyBox.shared.application.getCurrencyMultibox.adapter.GetCurrencyMultiboxAdapterRepository;
 import dev.julioperez.littleTree.box.currencyBox.shared.application.getCurrencyMultibox.delivery.GetCurrencyMultiboxDelivery;
 import dev.julioperez.littleTree.box.currencyBox.shared.application.getCurrencyMultibox.service.GetCurrencyMultiboxService;
-import dev.julioperez.littleTree.box.balance.application.manageBalance.adapter.ManageBalanceAdapterRepository;
-import dev.julioperez.littleTree.box.balance.application.manageBalance.delivery.ManageBalanceDelivery;
-import dev.julioperez.littleTree.box.balance.application.manageBalance.service.ManageBalanceService;
-import dev.julioperez.littleTree.box.currencyBox.foreignExchange.application.manageForeignExchange.service.ManageForeignExchangeService;
 import dev.julioperez.littleTree.box.currencyBox.officeDebt.application.manageOfficeDebt.service.ManageOfficeDebtService;
 import dev.julioperez.littleTree.box.currencyBox.pesos.application.managePesos.service.ManagePesosService;
 import dev.julioperez.littleTree.box.sellerbox.application.manageSellerBox.adapter.ManageSellerBoxAdapterRepository;
@@ -697,21 +702,30 @@ public class SpringDependenciesConfiguration {
     }
 
     /**
-     * ManageBalance
+     * GetBalance
      */
     @Bean
-    public ManageBalanceAdapterRepository manageBalanceAdapterRepository(){
-        return new ManageBalanceAdapterRepository(balanceDao,balanceModelMapper());
+    public GetBalanceAdapterRepository getBalanceAdapterRepository(){
+        return new GetBalanceAdapterRepository(balanceDao,balanceModelMapper());
     }
 
     @Bean
-    public ManageBalanceService manageBalanceService(){
-        return new ManageBalanceService(manageBalanceAdapterRepository());
+    public GetBalanceService getBalanceService(){
+        return new GetBalanceService(getBalanceAdapterRepository());
     }
 
     @Bean
-    public ManageBalanceDelivery manageBalanceDelivery(){
-        return new ManageBalanceDelivery(manageBalanceService());
+    public GetBalanceDelivery getBalanceDelivery(){
+        return new GetBalanceDelivery(getBalanceService());
+    }
+
+    /**
+     * CreateBalance
+     */
+
+    @Bean
+    public CreateBalanceService createBalanceService(){
+        return new CreateBalanceService(saveOrUpdateBalanceService(), getBalanceService());
     }
 
     /**
@@ -732,7 +746,7 @@ public class SpringDependenciesConfiguration {
      */
     @Bean
     public AssignSellerBoxService assignSellerBoxService(){
-        return new AssignSellerBoxService(manageBalanceService(),saveOrUpdateBalanceService(), manageSellerBoxService());
+        return new AssignSellerBoxService(getBalanceService(), saveOrUpdateBalanceService(), manageSellerBoxService());
     }
     @Bean
     public AssignSellerBoxDelivery assignSellerBoxDelivery(){
@@ -740,13 +754,41 @@ public class SpringDependenciesConfiguration {
     }
 
     /**
-     * ManageForeignExchange
+     * RecordPendingForeignExchangeToIngress
      */
     @Bean
-    public ManageForeignExchangeService manageForeignExchangeService(){
-        return new ManageForeignExchangeService();
+    public RecordPendingForeignExchangeToIngressService recordPendingForeignExchangeToIngressService(){
+        return new RecordPendingForeignExchangeToIngressService();
     }
 
+    /**
+     * RecordForeignExchangeToConfirmIngress
+     */
+    @Bean
+    public RecordForeignExchangeToConfirmIngressService recordForeignExchangeToConfirmIngressService(){
+        return new RecordForeignExchangeToConfirmIngressService();
+    }
+    /**
+     * RecordForeignExchangeToConfirmEgress
+     */
+    @Bean
+    public RecordForeignExchangeToConfirmEgressService recordForeignExchangeToConfirmEgressService(){
+        return new RecordForeignExchangeToConfirmEgressService();
+    }
+    /**
+     * RecordForeignExchangeBoxToReturnEgress
+     */
+    @Bean
+    public RecordForeignExchangeBoxToReturnEgressService recordForeignExchangeBoxToReturnEgressService(){
+        return new RecordForeignExchangeBoxToReturnEgressService();
+    }
+    /**
+     * RecordPendingForeignExchangeToEgress
+     */
+    @Bean
+    public RecordPendingForeignExchangeToEgressService recordPendingForeignExchangeToEgressService(){
+        return new RecordPendingForeignExchangeToEgressService();
+    }
     /**
      * ManageOfficeDebt
      */
@@ -824,7 +866,7 @@ public class SpringDependenciesConfiguration {
     }
     @Bean
     public UpdateCurrencyMultiBoxService updateCurrencyMultiBoxService(){
-        return new UpdateCurrencyMultiBoxService(updateCurrencyMultiBoxAdapterRepository(), getCurrencyMultiboxService(), manageForeignExchangeService(), managePesosService(), manageOfficeDebtService());
+        return new UpdateCurrencyMultiBoxService(updateCurrencyMultiBoxAdapterRepository(), getCurrencyMultiboxService(), recordPendingForeignExchangeToIngressService(), recordForeignExchangeToConfirmIngressService(), recordForeignExchangeToConfirmEgressService(), recordForeignExchangeBoxToReturnEgressService(), recordPendingForeignExchangeToEgressService(), managePesosService(), manageOfficeDebtService());
     }
 
     /**
@@ -901,7 +943,7 @@ public class SpringDependenciesConfiguration {
 
     @Bean
     public ExecuteSellOperationService executeSellOperationService(){
-        return new ExecuteSellOperationService(executeSellOperationAdapterRepository(), getOperationsService(), updateCurrencyMultiBoxService(), manageBalanceService(), createSellerCommissionService(), generateTicketService());
+        return new ExecuteSellOperationService(executeSellOperationAdapterRepository(), getOperationsService(), updateCurrencyMultiBoxService(), createBalanceService(), createSellerCommissionService(), generateTicketService());
     }
     /**
      * GetOperations

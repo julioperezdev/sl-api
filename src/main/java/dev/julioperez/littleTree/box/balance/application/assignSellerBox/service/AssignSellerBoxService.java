@@ -3,6 +3,7 @@ package dev.julioperez.littleTree.box.balance.application.assignSellerBox.servic
 import dev.julioperez.littleTree.box.balance.domain.dto.AssignSellerBoxRequest;
 import dev.julioperez.littleTree.box.balance.domain.model.Balance;
 import dev.julioperez.littleTree.box.balance.domain.port.assignToSellerBox.AssignSellerBox;
+import dev.julioperez.littleTree.box.balance.domain.port.getBalance.GetBalance;
 import dev.julioperez.littleTree.box.balance.domain.port.manageBalance.ManageBalance;
 import dev.julioperez.littleTree.box.balance.domain.port.saveOrUpdateBalance.SaveOrUpdateBalance;
 import dev.julioperez.littleTree.box.sellerbox.domain.port.manageSellerBox.ManageSellerBox;
@@ -14,20 +15,19 @@ import java.util.Objects;
 import java.util.UUID;
 
 public class AssignSellerBoxService implements AssignSellerBox {
-
-    private final ManageBalance manageBalance;
+    private final GetBalance getBalance;
     private final SaveOrUpdateBalance saveOrUpdateBalance;
     private final ManageSellerBox manageSellerBox;
 
-    public AssignSellerBoxService(ManageBalance manageBalance, SaveOrUpdateBalance saveOrUpdateBalance, ManageSellerBox manageSellerBox) {
-        this.manageBalance = manageBalance;
+    public AssignSellerBoxService(GetBalance getBalance, SaveOrUpdateBalance saveOrUpdateBalance, ManageSellerBox manageSellerBox) {
+        this.getBalance = getBalance;
         this.saveOrUpdateBalance = saveOrUpdateBalance;
         this.manageSellerBox = manageSellerBox;
     }
 
     @Override
     public boolean execute(AssignSellerBoxRequest assignSellerBoxRequest) {
-        Balance lastBalance = manageBalance.getLastBalance();
+        Balance lastBalance = getBalance.getLastBalance();
         if(Objects.isNull(lastBalance)) throw new IllegalArgumentException("cant assign profit to seller box because dont exist a balance");
         if(assignSellerBoxRequest.quantity() > lastBalance.getProfit()) throw new IllegalArgumentException("Cant send a quantity mayor of total of balance box");
         //what happen if the balance is negative, can assign to seller box?

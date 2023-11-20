@@ -1,5 +1,6 @@
 package dev.julioperez.littleTree.operation.sellOperation.application.executeSellOperation.service;
 
+import dev.julioperez.littleTree.box.balance.domain.port.createBalance.CreateBalance;
 import dev.julioperez.littleTree.box.balance.domain.port.manageBalance.ManageBalance;
 import dev.julioperez.littleTree.box.currencyBox.shared.domain.port.updateCurrencyMultiBox.UpdateCurrencyMultiBox;
 import dev.julioperez.littleTree.operation.shared.domain.enums.OperationStatus;
@@ -15,15 +16,15 @@ public class ExecuteSellOperationService implements ExecuteSellOperation {
     private final ExecuteSellOperationOutputPort executeSellOperationOutputPort;
     private final GetOperations getOperations;
     private final UpdateCurrencyMultiBox updateCurrencyMultiBox;
-    private final ManageBalance manageBalance;
+    private final CreateBalance createBalance;
     private final CreateSellerCommission createSellerCommission;
     private final GenerateTicket generateTicket;
 
-    public ExecuteSellOperationService(ExecuteSellOperationOutputPort executeSellOperationOutputPort, GetOperations getOperations, UpdateCurrencyMultiBox updateCurrencyMultiBox, ManageBalance manageBalance, CreateSellerCommission createSellerCommission, GenerateTicket generateTicket) {
+    public ExecuteSellOperationService(ExecuteSellOperationOutputPort executeSellOperationOutputPort, GetOperations getOperations, UpdateCurrencyMultiBox updateCurrencyMultiBox, CreateBalance createBalance, CreateSellerCommission createSellerCommission, GenerateTicket generateTicket) {
         this.executeSellOperationOutputPort = executeSellOperationOutputPort;
         this.getOperations = getOperations;
         this.updateCurrencyMultiBox = updateCurrencyMultiBox;
-        this.manageBalance = manageBalance;
+        this.createBalance = createBalance;
         this.createSellerCommission = createSellerCommission;
         this.generateTicket = generateTicket;
     }
@@ -42,7 +43,7 @@ public class ExecuteSellOperationService implements ExecuteSellOperation {
 
 
         //when save should have status with unassigned sellerBox
-        manageBalance.createBalance(sellOperation);
+        createBalance.execute(sellOperation);
         //should call seller commission if required
         if(sellOperation.hasSeller()){
             //revisar el cantidad y considerar que puede haber perdidas en las ganancias

@@ -7,6 +7,4 @@ public interface ManageOfficeDebt{
     CurrencyMultiBox recordPendingOfficeBoxToEgress(CurrencyMultiBox officeBox, BuyOperation buyOperation);
     CurrencyMultiBox recordOfficeBoxToReturnEgress(CurrencyMultiBox officeBox, BuyOperation buyOperation, Float actualQuantityOfOfficeBox);
     CurrencyMultiBox recordOfficeBoxToConfirmEgress(CurrencyMultiBox officeBox, BuyOperation buyOperation, Float actualQuantityOfOfficeBox);
-
-    //CurrencyMultiBox payOfficeDebt(CurrencyMultiBox officeDebt, Float quantity);
 }

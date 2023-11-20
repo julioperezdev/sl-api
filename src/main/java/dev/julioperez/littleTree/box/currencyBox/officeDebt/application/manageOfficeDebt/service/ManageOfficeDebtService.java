@@ -56,27 +56,4 @@ public class ManageOfficeDebtService implements ManageOfficeDebt {
                 buyOperation.getTotal(),
                 MultiBoxStatus.DONE.value());
     }
-/*
-    @Override
-    public CurrencyMultiBox createOfficeDebt(CurrencyMultiBox newOfficeDebt) {
-        CurrencyMultiBox dtoResponse = newOfficeDebt;
-        //return updateCurrencyMultiBox.updateCurrencyMultiBox(dtoResponse);
-        return null;
-    }
-
-    @Override
-    public CurrencyMultiBox payOfficeDebt(CurrencyMultiBox officeDebt, Float quantity) {
-        //falta analizar como debe construirse este registro
-        //queda la duda si el valor debe aumentar o reducirse
-        CurrencyMultiBox officeDebtUpdated = new CurrencyMultiBox(
-                officeDebt.getId(),
-                Date.from(Instant.now()),
-                "",
-                officeDebt.getOperationId(),
-                officeDebt.reduceQuantity(quantity),
-                officeDebt.getPriceOperation(),
-                officeDebt.getMultiBoxStatus());
-        //return updateCurrencyMultiBox.updateCurrencyMultiBox(officeDebtUpdated);
-        return null;
-    }*/
 }
