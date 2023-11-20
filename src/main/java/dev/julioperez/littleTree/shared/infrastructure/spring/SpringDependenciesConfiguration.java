@@ -17,11 +17,16 @@ import dev.julioperez.littleTree.box.currencyBox.officeDebt.application.getOffic
 import dev.julioperez.littleTree.box.currencyBox.officeDebt.application.getOfficeDebt.service.GetOfficeDebtService;
 import dev.julioperez.littleTree.box.currencyBox.officeDebt.application.payDebt.delivery.PayDebtDelivery;
 import dev.julioperez.littleTree.box.currencyBox.officeDebt.application.payDebt.service.PayDebtService;
+import dev.julioperez.littleTree.box.currencyBox.pesos.application.recordPendingPesosBoxToEgress.service.RecordPendingPesosBoxToEgressService;
+import dev.julioperez.littleTree.box.currencyBox.pesos.application.recordPendingPesosBoxToIngress.service.RecordPendingPesosBoxToIngressService;
+import dev.julioperez.littleTree.box.currencyBox.pesos.application.recordPesosBoxToConfirmEgress.service.RecordPesosBoxToConfirmEgressService;
+import dev.julioperez.littleTree.box.currencyBox.pesos.application.recordPesosBoxToConfirmIngress.service.RecordPesosBoxToConfirmIngressService;
+import dev.julioperez.littleTree.box.currencyBox.pesos.application.recordPesosBoxToPayCommission.service.RecordPesosBoxToPayCommissionService;
+import dev.julioperez.littleTree.box.currencyBox.pesos.application.recordPesosBoxToReturnEgress.service.RecordPesosBoxToReturnEgressService;
 import dev.julioperez.littleTree.box.currencyBox.shared.application.getCurrencyMultibox.adapter.GetCurrencyMultiboxAdapterRepository;
 import dev.julioperez.littleTree.box.currencyBox.shared.application.getCurrencyMultibox.delivery.GetCurrencyMultiboxDelivery;
 import dev.julioperez.littleTree.box.currencyBox.shared.application.getCurrencyMultibox.service.GetCurrencyMultiboxService;
 import dev.julioperez.littleTree.box.currencyBox.officeDebt.application.manageOfficeDebt.service.ManageOfficeDebtService;
-import dev.julioperez.littleTree.box.currencyBox.pesos.application.managePesos.service.ManagePesosService;
 import dev.julioperez.littleTree.box.sellerbox.application.manageSellerBox.adapter.ManageSellerBoxAdapterRepository;
 import dev.julioperez.littleTree.box.sellerbox.application.manageSellerBox.delivery.ManageSellerBoxDelivery;
 import dev.julioperez.littleTree.box.sellerbox.application.manageSellerBox.service.ManageSellerBoxService;
@@ -823,11 +828,46 @@ public class SpringDependenciesConfiguration {
         return new GetOfficeDebtDelivery(getOfficeDebtService());
     }
     /**
-     * ManagePesos
+     * recordPesosBoxToConfirmEgress
      */
     @Bean
-    public ManagePesosService managePesosService(){
-        return new ManagePesosService();
+    public RecordPesosBoxToConfirmEgressService recordPesosBoxToConfirmEgressService(){
+        return new RecordPesosBoxToConfirmEgressService();
+    }
+    /**
+     * recordPesosBoxToConfirmIngress
+     */
+    @Bean
+    public RecordPesosBoxToConfirmIngressService recordPesosBoxToConfirmIngressService(){
+        return new RecordPesosBoxToConfirmIngressService();
+    }
+    /**
+     * recordPesosBoxToReturnEgress
+     */
+    @Bean
+    public RecordPesosBoxToReturnEgressService recordPesosBoxToReturnEgressService(){
+        return new RecordPesosBoxToReturnEgressService();
+    }
+    /**
+     * recordPendingPesosBoxToEgress
+     */
+    @Bean
+    public RecordPendingPesosBoxToEgressService recordPendingPesosBoxToEgressService(){
+        return new RecordPendingPesosBoxToEgressService();
+    }
+    /**
+     * recordPendingPesosBoxToIngress
+     */
+    @Bean
+    public RecordPendingPesosBoxToIngressService recordPendingPesosBoxToIngressService(){
+        return new RecordPendingPesosBoxToIngressService();
+    }
+    /**
+     * recordPesosBoxToPayCommission
+     */
+    @Bean
+    public RecordPesosBoxToPayCommissionService recordPesosBoxToPayCommissionService(){
+        return new RecordPesosBoxToPayCommissionService();
     }
     /**
      * ManageSellerBox
@@ -866,7 +906,7 @@ public class SpringDependenciesConfiguration {
     }
     @Bean
     public UpdateCurrencyMultiBoxService updateCurrencyMultiBoxService(){
-        return new UpdateCurrencyMultiBoxService(updateCurrencyMultiBoxAdapterRepository(), getCurrencyMultiboxService(), recordPendingForeignExchangeToIngressService(), recordForeignExchangeToConfirmIngressService(), recordForeignExchangeToConfirmEgressService(), recordForeignExchangeBoxToReturnEgressService(), recordPendingForeignExchangeToEgressService(), managePesosService(), manageOfficeDebtService());
+        return new UpdateCurrencyMultiBoxService(updateCurrencyMultiBoxAdapterRepository(), getCurrencyMultiboxService(), recordPendingForeignExchangeToIngressService(), recordForeignExchangeToConfirmIngressService(), recordForeignExchangeToConfirmEgressService(), recordForeignExchangeBoxToReturnEgressService(), recordPendingForeignExchangeToEgressService(), recordPesosBoxToConfirmEgressService(), recordPesosBoxToConfirmIngressService(), recordPesosBoxToReturnEgressService(), recordPendingPesosBoxToEgressService(), recordPendingPesosBoxToIngressService(), recordPesosBoxToPayCommissionService(), manageOfficeDebtService());
     }
 
     /**

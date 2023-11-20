@@ -5,11 +5,15 @@ import dev.julioperez.littleTree.box.currencyBox.foreignExchange.domain.port.rec
 import dev.julioperez.littleTree.box.currencyBox.foreignExchange.domain.port.recordForeignExchangeToConfirmIngress.RecordForeignExchangeToConfirmIngress;
 import dev.julioperez.littleTree.box.currencyBox.foreignExchange.domain.port.recordPendingForeignExchangeToEgress.RecordPendingForeignExchangeToEgress;
 import dev.julioperez.littleTree.box.currencyBox.foreignExchange.domain.port.recordPendingForeignExchangeToIngress.RecordPendingForeignExchangeToIngress;
+import dev.julioperez.littleTree.box.currencyBox.pesos.domain.port.recordPendingPesosBoxToEgress.RecordPendingPesosBoxToEgress;
+import dev.julioperez.littleTree.box.currencyBox.pesos.domain.port.recordPendingPesosBoxToIngress.RecordPendingPesosBoxToIngress;
+import dev.julioperez.littleTree.box.currencyBox.pesos.domain.port.recordPesosBoxToConfirmEgress.RecordPesosBoxToConfirmEgress;
+import dev.julioperez.littleTree.box.currencyBox.pesos.domain.port.recordPesosBoxToConfirmIngress.RecordPesosBoxToConfirmIngress;
+import dev.julioperez.littleTree.box.currencyBox.pesos.domain.port.recordPesosBoxToPayCommission.RecordPesosBoxToPayCommission;
+import dev.julioperez.littleTree.box.currencyBox.pesos.domain.port.recordPesosBoxToReturnEgress.RecordPesosBoxToReturnEgress;
 import dev.julioperez.littleTree.box.currencyBox.shared.domain.enums.CurrencyBox;
 import dev.julioperez.littleTree.box.currencyBox.shared.domain.model.CurrencyMultiBox;
-import dev.julioperez.littleTree.box.currencyBox.foreignExchange.domain.port.manageForeignExchange.ManageForeignExchange;
 import dev.julioperez.littleTree.box.currencyBox.officeDebt.domain.port.manageOfficeDebt.ManageOfficeDebt;
-import dev.julioperez.littleTree.box.currencyBox.pesos.domain.port.managePesos.ManagePesos;
 import dev.julioperez.littleTree.box.currencyBox.shared.domain.port.getCurrencyMultibox.GetCurrencyMultibox;
 import dev.julioperez.littleTree.box.currencyBox.shared.domain.port.updateCurrencyMultiBox.UpdateCurrencyMultiBox;
 import dev.julioperez.littleTree.box.currencyBox.shared.domain.port.updateCurrencyMultiBox.UpdateCurrencyMultiBoxOutputPort;
@@ -27,10 +31,15 @@ public class UpdateCurrencyMultiBoxService implements UpdateCurrencyMultiBox {
     private final RecordForeignExchangeToConfirmEgress recordForeignExchangeToConfirmEgress;
     private final RecordForeignExchangeBoxToReturnEgress recordForeignExchangeBoxToReturnEgress;
     private final RecordPendingForeignExchangeToEgress recordPendingForeignExchangeToEgress;
-    private final ManagePesos managePesos;
+    private final RecordPesosBoxToConfirmEgress recordPesosBoxToConfirmEgress;
+    private final RecordPesosBoxToConfirmIngress recordPesosBoxToConfirmIngress;
+    private final RecordPesosBoxToReturnEgress recordPesosBoxToReturnEgress;
+    private final RecordPendingPesosBoxToEgress recordPendingPesosBoxToEgress;
+    private final RecordPendingPesosBoxToIngress recordPendingPesosBoxToIngress;
+    private final RecordPesosBoxToPayCommission recordPesosBoxToPayCommission;
     private final ManageOfficeDebt manageOfficeDebt;
 
-    public UpdateCurrencyMultiBoxService(UpdateCurrencyMultiBoxOutputPort updateCurrencyMultiBoxOutputPort, GetCurrencyMultibox getCurrencyMultibox, RecordPendingForeignExchangeToIngress recordPendingForeignExchangeToIngress, RecordForeignExchangeToConfirmIngress recordForeignExchangeToConfirmIngress, RecordForeignExchangeToConfirmEgress recordForeignExchangeToConfirmEgress, RecordForeignExchangeBoxToReturnEgress recordForeignExchangeBoxToReturnEgress, RecordPendingForeignExchangeToEgress recordPendingForeignExchangeToEgress, ManagePesos managePesos, ManageOfficeDebt manageOfficeDebt) {
+    public UpdateCurrencyMultiBoxService(UpdateCurrencyMultiBoxOutputPort updateCurrencyMultiBoxOutputPort, GetCurrencyMultibox getCurrencyMultibox, RecordPendingForeignExchangeToIngress recordPendingForeignExchangeToIngress, RecordForeignExchangeToConfirmIngress recordForeignExchangeToConfirmIngress, RecordForeignExchangeToConfirmEgress recordForeignExchangeToConfirmEgress, RecordForeignExchangeBoxToReturnEgress recordForeignExchangeBoxToReturnEgress, RecordPendingForeignExchangeToEgress recordPendingForeignExchangeToEgress, RecordPesosBoxToConfirmEgress recordPesosBoxToConfirmEgress, RecordPesosBoxToConfirmIngress recordPesosBoxToConfirmIngress, RecordPesosBoxToReturnEgress recordPesosBoxToReturnEgress, RecordPendingPesosBoxToEgress recordPendingPesosBoxToEgress, RecordPendingPesosBoxToIngress recordPendingPesosBoxToIngress, RecordPesosBoxToPayCommission recordPesosBoxToPayCommission, ManageOfficeDebt manageOfficeDebt) {
         this.updateCurrencyMultiBoxOutputPort = updateCurrencyMultiBoxOutputPort;
         this.getCurrencyMultibox = getCurrencyMultibox;
         this.recordPendingForeignExchangeToIngress = recordPendingForeignExchangeToIngress;
@@ -38,7 +47,12 @@ public class UpdateCurrencyMultiBoxService implements UpdateCurrencyMultiBox {
         this.recordForeignExchangeToConfirmEgress = recordForeignExchangeToConfirmEgress;
         this.recordForeignExchangeBoxToReturnEgress = recordForeignExchangeBoxToReturnEgress;
         this.recordPendingForeignExchangeToEgress = recordPendingForeignExchangeToEgress;
-        this.managePesos = managePesos;
+        this.recordPesosBoxToConfirmEgress = recordPesosBoxToConfirmEgress;
+        this.recordPesosBoxToConfirmIngress = recordPesosBoxToConfirmIngress;
+        this.recordPesosBoxToReturnEgress = recordPesosBoxToReturnEgress;
+        this.recordPendingPesosBoxToEgress = recordPendingPesosBoxToEgress;
+        this.recordPendingPesosBoxToIngress = recordPendingPesosBoxToIngress;
+        this.recordPesosBoxToPayCommission = recordPesosBoxToPayCommission;
         this.manageOfficeDebt = manageOfficeDebt;
     }
 
@@ -56,7 +70,7 @@ public class UpdateCurrencyMultiBoxService implements UpdateCurrencyMultiBox {
         CurrencyMultiBox pesosOrOfficeBoxToEgress =
                 buyOperation.hasOfficeCheck()
                 ? manageOfficeDebt.recordOfficeBoxToConfirmEgress(pesosOrOfficeBox, buyOperation,actualQuantityByPesosOrOfficeBox)
-                : managePesos.recordPesosBoxToConfirmEgress(pesosOrOfficeBox, buyOperation,actualQuantityByPesosOrOfficeBox);
+                : recordPesosBoxToConfirmEgress.execute(pesosOrOfficeBox, buyOperation,actualQuantityByPesosOrOfficeBox);
 
         //todo: question, what happen if quantity of box is less of 0?
         if(pesosOrOfficeBoxToEgress.getQuantity() < 0) throw new IllegalArgumentException(String.format("Quantity of box %s cant be less of zero", pesosOrOfficeBox.getCurrencyBox()));
@@ -70,7 +84,7 @@ public class UpdateCurrencyMultiBoxService implements UpdateCurrencyMultiBox {
         CurrencyMultiBox pesosBox = getCurrencyBoxByValues(CurrencyBox.PESO.value(), currenciesMultiboxByOperationId);
 
         CurrencyMultiBox foreignExchangeToEgress = recordForeignExchangeToConfirmEgress.execute(foreignCurrencyBox, sellOperation);
-        CurrencyMultiBox pesosBoxToIngress = managePesos.recordPesosBoxToConfirmIngress(pesosBox, sellOperation);
+        CurrencyMultiBox pesosBoxToIngress = recordPesosBoxToConfirmIngress.execute(pesosBox, sellOperation);
 
         //todo: question, what happen if quantity of box is less of 0?
         //if(foreignExchangeToEgress.getQuantity() < 0) throw new IllegalArgumentException(String.format("Quantity of box %s cant be less of zero", foreignExchangeToEgress.getCurrencyBox()));
@@ -99,7 +113,7 @@ public class UpdateCurrencyMultiBoxService implements UpdateCurrencyMultiBox {
         CurrencyMultiBox pesosOrOfficeBoxToReturnEgress =
                 buyOperation.hasOfficeCheck()
                 ? manageOfficeDebt.recordOfficeBoxToReturnEgress(pesosOrOfficeBox, buyOperation, actualQuantityByPesosOrOfficeBox)
-                : managePesos.recordPesosBoxToReturnEgress(pesosOrOfficeBox, buyOperation, actualQuantityByPesosOrOfficeBox);
+                : recordPesosBoxToReturnEgress.execute(pesosOrOfficeBox, buyOperation, actualQuantityByPesosOrOfficeBox);
 
         //todo: question, what happen if quantity of box is less of 0?
         if(pesosOrOfficeBoxToReturnEgress.getQuantity() < 0) throw new IllegalArgumentException(String.format("Quantity of box %s cant be less of zero", pesosOrOfficeBoxToReturnEgress.getCurrencyBox()));
@@ -160,7 +174,7 @@ public class UpdateCurrencyMultiBoxService implements UpdateCurrencyMultiBox {
         CurrencyMultiBox foreignExchangeToIngress = recordPendingForeignExchangeToIngress.execute(foreignExchangeBox, buyOperation);
         CurrencyMultiBox pesosOrOfficeBoxToEgress = buyOperation.hasOfficeCheck()
                 ? manageOfficeDebt.recordPendingOfficeBoxToEgress(pesosOrOfficeBox, buyOperation)
-                : managePesos.recordPendingPesosBoxToEgress(pesosOrOfficeBox, buyOperation);
+                : recordPendingPesosBoxToEgress.execute(pesosOrOfficeBox, buyOperation);
 
         //todo: question, what happen if quantity of box is less of 0?
         if(pesosOrOfficeBoxToEgress.getQuantity() < 0) throw new IllegalArgumentException(String.format("Quantity of box %s cant be less of zero", pesosOrOfficeBox.getCurrencyBox()));
@@ -173,7 +187,7 @@ public class UpdateCurrencyMultiBoxService implements UpdateCurrencyMultiBox {
 
 
         CurrencyMultiBox foreignExchangeToEgress = recordPendingForeignExchangeToEgress.execute(foreignExchangeBox, sellOperation);
-        CurrencyMultiBox pesosOrOfficeBoxToIngress = managePesos.recordPendingPesosBoxToIngress(pesosBox, sellOperation);
+        CurrencyMultiBox pesosOrOfficeBoxToIngress = recordPendingPesosBoxToIngress.execute(pesosBox, sellOperation);
 
         //todo: question, what happen if quantity of box is less of 0?
         if(foreignExchangeToEgress.getQuantity() < 0) throw new IllegalArgumentException(String.format("Quantity of box %s cant be less of zero", foreignExchangeToEgress.getCurrencyBox()));
@@ -184,7 +198,7 @@ public class UpdateCurrencyMultiBoxService implements UpdateCurrencyMultiBox {
     public boolean egressPesosBoxByCommissionPayment(Float sellerCommissionQuantity){
         try {
             CurrencyMultiBox lastCurrencyMultiboxByCurrencyBox = getCurrencyMultibox.getLastCurrencyMultiboxByCurrencyBox(CurrencyBox.PESO);
-            CurrencyMultiBox currencyMultiBox = managePesos.recordPesosBoxToPayCommission(lastCurrencyMultiboxByCurrencyBox, sellerCommissionQuantity);
+            CurrencyMultiBox currencyMultiBox = recordPesosBoxToPayCommission.execute(lastCurrencyMultiboxByCurrencyBox, sellerCommissionQuantity);
             updateCurrencyMultiBoxOutputPort.saveCurrencyMultiBox(List.of(currencyMultiBox));
             return true;
         }catch (Exception exception){
