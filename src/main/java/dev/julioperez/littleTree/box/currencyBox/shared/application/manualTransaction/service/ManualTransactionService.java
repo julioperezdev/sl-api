@@ -1,12 +1,12 @@
 package dev.julioperez.littleTree.box.currencyBox.shared.application.manualTransaction.service;
 
+import dev.julioperez.littleTree.box.currencyBox.shared.domain.port.updateCurrenciesMultiboxBoxes.UpdateCurrenciesMultiboxBoxes;
 import dev.julioperez.littleTree.operation.shared.domain.enums.OperationType;
 import dev.julioperez.littleTree.box.currencyBox.shared.domain.dto.ManualTransactionRequest;
 import dev.julioperez.littleTree.box.currencyBox.shared.domain.enums.CurrencyBox;
 import dev.julioperez.littleTree.box.currencyBox.shared.domain.model.CurrencyMultiBox;
 import dev.julioperez.littleTree.box.currencyBox.shared.domain.port.getCurrencyMultibox.GetCurrencyMultibox;
 import dev.julioperez.littleTree.box.currencyBox.shared.domain.port.manualTransaction.ManualTransaction;
-import dev.julioperez.littleTree.box.currencyBox.shared.domain.port.updateCurrencyMultiBox.UpdateCurrencyMultiBox;
 import dev.julioperez.littleTree.operation.shared.domain.enums.OperationStatus;
 
 import java.time.Instant;
@@ -17,11 +17,12 @@ import java.util.UUID;
 public class ManualTransactionService implements ManualTransaction {
 
     private final GetCurrencyMultibox getCurrencyMultibox;
-    private final UpdateCurrencyMultiBox updateCurrencyMultiBox;
+    private final UpdateCurrenciesMultiboxBoxes updateCurrenciesMultiboxBoxes;
 
-    public ManualTransactionService(GetCurrencyMultibox getCurrencyMultibox, UpdateCurrencyMultiBox updateCurrencyMultiBox) {
+    public ManualTransactionService(GetCurrencyMultibox getCurrencyMultibox, UpdateCurrenciesMultiboxBoxes updateCurrenciesMultiboxBoxes) {
         this.getCurrencyMultibox = getCurrencyMultibox;
-        this.updateCurrencyMultiBox = updateCurrencyMultiBox;
+
+        this.updateCurrenciesMultiboxBoxes = updateCurrenciesMultiboxBoxes;
     }
 
     @Override
@@ -32,7 +33,7 @@ public class ManualTransactionService implements ManualTransaction {
         CurrencyMultiBox lastCurrencyMultiboxByCurrencyBox = getCurrencyMultibox.getLastCurrencyMultiboxByCurrencyBox(currencyBox);
         Float newTotal = newTotalByManualTransaction(manualTransactionRequest, lastCurrencyMultiboxByCurrencyBox);
         CurrencyMultiBox newCurrencyMultiBox = toNewCurrencyMultiBox(lastCurrencyMultiboxByCurrencyBox, newTotal, manualTransactionRequest);
-        return updateCurrencyMultiBox.updateCurrenciesMultiboxBoxes(List.of(newCurrencyMultiBox));
+        return !updateCurrenciesMultiboxBoxes.execute(List.of(newCurrencyMultiBox)).isEmpty();
     }
 
     private Float newTotalByManualTransaction(ManualTransactionRequest manualTransactionRequest, CurrencyMultiBox currencyMultiBox){

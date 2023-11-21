@@ -5,7 +5,7 @@ import dev.julioperez.littleTree.box.currencyBox.officeDebt.domain.port.payDebt.
 import dev.julioperez.littleTree.box.currencyBox.shared.domain.enums.CurrencyBox;
 import dev.julioperez.littleTree.box.currencyBox.shared.domain.model.CurrencyMultiBox;
 import dev.julioperez.littleTree.box.currencyBox.shared.domain.port.getCurrencyMultibox.GetCurrencyMultibox;
-import dev.julioperez.littleTree.box.currencyBox.shared.domain.port.updateCurrencyMultiBox.UpdateCurrencyMultiBox;
+import dev.julioperez.littleTree.box.currencyBox.shared.domain.port.updateCurrenciesMultiboxBoxes.UpdateCurrenciesMultiboxBoxes;
 import dev.julioperez.littleTree.operation.shared.domain.enums.OperationStatus;
 import dev.julioperez.littleTree.operation.shared.domain.enums.OperationType;
 
@@ -18,12 +18,13 @@ import java.util.UUID;
 public class PayDebtService implements PayDebt {
 
     private final GetCurrencyMultibox getCurrencyMultibox;
-    private final UpdateCurrencyMultiBox updateCurrencyMultiBox;
+    private final UpdateCurrenciesMultiboxBoxes updateCurrenciesMultiboxBoxes;
 
-    public PayDebtService(GetCurrencyMultibox getCurrencyMultibox, UpdateCurrencyMultiBox updateCurrencyMultiBox) {
+    public PayDebtService(GetCurrencyMultibox getCurrencyMultibox, UpdateCurrenciesMultiboxBoxes updateCurrenciesMultiboxBoxes) {
         this.getCurrencyMultibox = getCurrencyMultibox;
-        this.updateCurrencyMultiBox = updateCurrencyMultiBox;
+        this.updateCurrenciesMultiboxBoxes = updateCurrenciesMultiboxBoxes;
     }
+
 
     @Override
     public boolean execute(PayDebtRequest payDebtRequest) {
@@ -33,7 +34,7 @@ public class PayDebtService implements PayDebt {
         if(pesosBox.getQuantity() < officeDebt.getQuantity()) throw new IllegalArgumentException("Dont complete process because pesos box have less of office debt");
         CurrencyMultiBox officeDebtPayed = newOfficeDebt(officeDebt);
         CurrencyMultiBox pesosBoxPayed = newPesosBox(pesosBox, officeDebt.getQuantity());
-        boolean isSuccessSaved = updateCurrencyMultiBox.updateCurrenciesMultiboxBoxes(List.of(officeDebtPayed, pesosBoxPayed));
+        boolean isSuccessSaved = !updateCurrenciesMultiboxBoxes.execute(List.of(officeDebtPayed, pesosBoxPayed)).isEmpty();
         if(!isSuccessSaved) throw new IllegalArgumentException("dont complete");//SOS process if not is success
         return true;
     }

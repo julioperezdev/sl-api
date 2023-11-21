@@ -58,6 +58,16 @@ public class GetCurrencyMultiboxService implements GetCurrencyMultibox {
                 : lastNotPendingCurrencyMultibox.getQuantity();
     }
 
+    @Override
+    public List<CurrencyMultiBox> getCurrenciesMultiboxByOperationId(String operationId) {
+        return getCurrencyMultiboxOutputPort.getCurrenciesMultiboxByOperationId(operationId);
+    }
+
+    @Override
+    public List<CurrencyMultiBox> getCurrenciesMultiboxByValues(List<String> currencyMultiBoxValues) {
+        return getCurrencyMultiboxOutputPort.getCurrenciesMultiboxByValues(currencyMultiBoxValues);
+    }
+
     private CurrencyMultiboxToList mapCurrencyMultiboxToList(CurrencyMultiBox currencyMultiBox){
         return new CurrencyMultiboxToList(
                 currencyMultiBox.getId(),

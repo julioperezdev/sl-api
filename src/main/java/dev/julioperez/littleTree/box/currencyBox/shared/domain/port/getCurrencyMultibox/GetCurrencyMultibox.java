@@ -12,4 +12,6 @@ public interface GetCurrencyMultibox {
     CurrencyMultiBox getLastCurrencyMultiboxByCurrencyBox(CurrencyBox currencyBox);
     Float getTotalByCurrencyBox(CurrencyBox currencyBox);
     Float getTotalByCurrencyBoxByDoneOrCancelledMultiBoxStatus(CurrencyBox currencyBox);
+    List<CurrencyMultiBox> getCurrenciesMultiboxByOperationId(String operationId);
+    List<CurrencyMultiBox> getCurrenciesMultiboxByValues(List<String> currencyMultiBoxValues);
 }

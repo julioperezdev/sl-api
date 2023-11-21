@@ -1,8 +1,7 @@
 package dev.julioperez.littleTree.operation.sellOperation.application.executeSellOperation.service;
 
 import dev.julioperez.littleTree.box.balance.domain.port.createBalance.CreateBalance;
-import dev.julioperez.littleTree.box.balance.domain.port.manageBalance.ManageBalance;
-import dev.julioperez.littleTree.box.currencyBox.shared.domain.port.updateCurrencyMultiBox.UpdateCurrencyMultiBox;
+import dev.julioperez.littleTree.box.currencyBox.shared.domain.port.reserveDoneCurrencyBoxAfterOfConfirmSellOperation.ReserveDoneCurrencyBoxAfterOfConfirmSellOperation;
 import dev.julioperez.littleTree.operation.shared.domain.enums.OperationStatus;
 import dev.julioperez.littleTree.operation.sellOperation.domain.model.SellOperation;
 import dev.julioperez.littleTree.operation.sellOperation.domain.port.executeSellOperation.ExecuteSellOperation;
@@ -15,15 +14,15 @@ import dev.julioperez.littleTree.seller.sellerCommission.domain.port.createSelle
 public class ExecuteSellOperationService implements ExecuteSellOperation {
     private final ExecuteSellOperationOutputPort executeSellOperationOutputPort;
     private final GetOperations getOperations;
-    private final UpdateCurrencyMultiBox updateCurrencyMultiBox;
+    private final ReserveDoneCurrencyBoxAfterOfConfirmSellOperation reserveDoneCurrencyBoxAfterOfConfirmSellOperation;
     private final CreateBalance createBalance;
     private final CreateSellerCommission createSellerCommission;
     private final GenerateTicket generateTicket;
 
-    public ExecuteSellOperationService(ExecuteSellOperationOutputPort executeSellOperationOutputPort, GetOperations getOperations, UpdateCurrencyMultiBox updateCurrencyMultiBox, CreateBalance createBalance, CreateSellerCommission createSellerCommission, GenerateTicket generateTicket) {
+    public ExecuteSellOperationService(ExecuteSellOperationOutputPort executeSellOperationOutputPort, GetOperations getOperations, ReserveDoneCurrencyBoxAfterOfConfirmSellOperation reserveDoneCurrencyBoxAfterOfConfirmSellOperation, CreateBalance createBalance, CreateSellerCommission createSellerCommission, GenerateTicket generateTicket) {
         this.executeSellOperationOutputPort = executeSellOperationOutputPort;
         this.getOperations = getOperations;
-        this.updateCurrencyMultiBox = updateCurrencyMultiBox;
+        this.reserveDoneCurrencyBoxAfterOfConfirmSellOperation = reserveDoneCurrencyBoxAfterOfConfirmSellOperation;
         this.createBalance = createBalance;
         this.createSellerCommission = createSellerCommission;
         this.generateTicket = generateTicket;
@@ -36,7 +35,7 @@ public class ExecuteSellOperationService implements ExecuteSellOperation {
         sellOperation.updateOperationStatus(OperationStatus.DONE);
         sellOperation = executeSellOperationOutputPort.updateSellOperations(sellOperation);
         //check if used valid values
-        boolean updatedCurrencyMultiBox = updateCurrencyMultiBox.reserveDoneCurrencyBoxAfterOfConfirmSellOperation(sellOperation);
+        boolean updatedCurrencyMultiBox = reserveDoneCurrencyBoxAfterOfConfirmSellOperation.execute(sellOperation);
 
         //here
         //create a balance record

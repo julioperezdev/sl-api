@@ -2,7 +2,8 @@ package dev.julioperez.littleTree.operation.shared.application.createOperation.s
 
 import dev.julioperez.littleTree.box.currencyBox.shared.domain.enums.CurrencyBox;
 import dev.julioperez.littleTree.box.currencyBox.shared.domain.port.getCurrencyMultibox.GetCurrencyMultibox;
-import dev.julioperez.littleTree.box.currencyBox.shared.domain.port.updateCurrencyMultiBox.UpdateCurrencyMultiBox;
+import dev.julioperez.littleTree.box.currencyBox.shared.domain.port.reservePendingCurrencyBoxAfterOfBuyOperation.ReservePendingCurrencyBoxAfterOfBuyOperation;
+import dev.julioperez.littleTree.box.currencyBox.shared.domain.port.reservePendingCurrencyBoxAfterOfSellOperation.ReservePendingCurrencyBoxAfterOfSellOperation;
 import dev.julioperez.littleTree.operation.buyOperation.domain.dto.BuyOperationData;
 import dev.julioperez.littleTree.operation.buyOperation.domain.dto.BuyOperationRequest;
 import dev.julioperez.littleTree.operation.shared.domain.enums.OperationStatus;
@@ -22,13 +23,16 @@ import java.util.List;
 public class CreateOperationService implements CreateOperation {
     private final CreateOperationOutputPort createOperationOutputPort;
     private final GetCurrencyMultibox getCurrencyMultibox;
-    private final UpdateCurrencyMultiBox updateCurrencyMultiBox;
+    private final ReservePendingCurrencyBoxAfterOfBuyOperation reservePendingCurrencyBoxAfterOfBuyOperation;
+    private final ReservePendingCurrencyBoxAfterOfSellOperation reservePendingCurrencyBoxAfterOfSellOperation;
     private final GetOperations getOperations;
 
-    public CreateOperationService(CreateOperationOutputPort createOperationOutputPort, GetCurrencyMultibox getCurrencyMultibox, UpdateCurrencyMultiBox updateCurrencyMultiBox, GetOperations getOperations) {
+    public CreateOperationService(CreateOperationOutputPort createOperationOutputPort, GetCurrencyMultibox getCurrencyMultibox, ReservePendingCurrencyBoxAfterOfBuyOperation reservePendingCurrencyBoxAfterOfBuyOperation, ReservePendingCurrencyBoxAfterOfSellOperation reservePendingCurrencyBoxAfterOfSellOperation, GetOperations getOperations) {
         this.createOperationOutputPort = createOperationOutputPort;
         this.getCurrencyMultibox = getCurrencyMultibox;
-        this.updateCurrencyMultiBox = updateCurrencyMultiBox;
+        this.reservePendingCurrencyBoxAfterOfBuyOperation = reservePendingCurrencyBoxAfterOfBuyOperation;
+        this.reservePendingCurrencyBoxAfterOfSellOperation = reservePendingCurrencyBoxAfterOfSellOperation;
+
         this.getOperations = getOperations;
     }
 
@@ -42,7 +46,7 @@ public class CreateOperationService implements CreateOperation {
         double allBuyOperationSum = buyOperationRequest.buyOperationData().stream().filter(particular -> !particular.hasOfficeCheck()).mapToDouble(this::calculateTotalPriceToBuyOperation).sum();
         if(pesosBoxTotal < allBuyOperationSum) throw new IllegalArgumentException(String.format("Dont do the operations because all new operations is more of pesos, pesos: %f, operations: %f", pesosBoxTotal, allBuyOperationSum));
         List<BuyOperation> buyOperationsSaved = startBuyOperation(buyOperationRequest);
-        return updateCurrencyMultiBox.reservePendingCurrencyBoxAfterOfBuyOperation(buyOperationsSaved);
+        return reservePendingCurrencyBoxAfterOfBuyOperation.execute(buyOperationsSaved);
     }
     @Override
     public boolean createSellOperationToBePending(SellOperationRequest sellOperationRequest) {
@@ -50,7 +54,7 @@ public class CreateOperationService implements CreateOperation {
         boolean isValidSellOperation = OperationType.hasOnlySellOperation(operationTypes);
         if(!isValidSellOperation) throw new IllegalArgumentException("every operation should be SELL operation, cant be different");
         List<SellOperation> sellOperationsSaved = startSellOperation(sellOperationRequest);
-        boolean currenciesReserved = updateCurrencyMultiBox.reservePendingCurrencyBoxAfterOfSellOperation(sellOperationsSaved);
+        boolean currenciesReserved = reservePendingCurrencyBoxAfterOfSellOperation.execute(sellOperationsSaved);
         return true;
     }
     private List<BuyOperation> startBuyOperation(BuyOperationRequest buyOperationsRequest){

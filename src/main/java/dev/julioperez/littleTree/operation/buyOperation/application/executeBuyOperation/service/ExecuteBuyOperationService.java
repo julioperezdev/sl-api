@@ -1,6 +1,6 @@
 package dev.julioperez.littleTree.operation.buyOperation.application.executeBuyOperation.service;
 
-import dev.julioperez.littleTree.box.currencyBox.shared.domain.port.updateCurrencyMultiBox.UpdateCurrencyMultiBox;
+import dev.julioperez.littleTree.box.currencyBox.shared.domain.port.reserveDoneCurrencyBoxAfterOfConfirmBuyOperation.ReserveDoneCurrencyBoxAfterOfConfirmBuyOperation;
 import dev.julioperez.littleTree.operation.shared.domain.enums.OperationStatus;
 import dev.julioperez.littleTree.operation.buyOperation.domain.model.BuyOperation;
 import dev.julioperez.littleTree.operation.buyOperation.domain.port.executeBuyOperation.ExecuteBuyOperation;
@@ -11,13 +11,13 @@ import dev.julioperez.littleTree.operation.shared.domain.port.getOperations.GetO
 public class ExecuteBuyOperationService implements ExecuteBuyOperation {
     private final ExecuteBuyOperationOutputPort executeBuyOperationOutputPort;
     private final GetOperations getOperations;
-    private final UpdateCurrencyMultiBox updateCurrencyMultiBox;
+    private final ReserveDoneCurrencyBoxAfterOfConfirmBuyOperation reserveDoneCurrencyBoxAfterOfConfirmBuyOperation;
     private final GenerateTicket generateTicket;
 
-    public ExecuteBuyOperationService(ExecuteBuyOperationOutputPort executeBuyOperationOutputPort, GetOperations getOperations, UpdateCurrencyMultiBox updateCurrencyMultiBox, GenerateTicket generateTicket) {
+    public ExecuteBuyOperationService(ExecuteBuyOperationOutputPort executeBuyOperationOutputPort, GetOperations getOperations, ReserveDoneCurrencyBoxAfterOfConfirmBuyOperation reserveDoneCurrencyBoxAfterOfConfirmBuyOperation, GenerateTicket generateTicket) {
         this.executeBuyOperationOutputPort = executeBuyOperationOutputPort;
         this.getOperations = getOperations;
-        this.updateCurrencyMultiBox = updateCurrencyMultiBox;
+        this.reserveDoneCurrencyBoxAfterOfConfirmBuyOperation = reserveDoneCurrencyBoxAfterOfConfirmBuyOperation;
         this.generateTicket = generateTicket;
     }
 
@@ -28,7 +28,7 @@ public class ExecuteBuyOperationService implements ExecuteBuyOperation {
         buyOperation.updateOperationStatus(OperationStatus.DONE);
         buyOperation = executeBuyOperationOutputPort.updateBuyOperation(buyOperation);
         //todo:question, is necessary create a new UUID o only need a update same ID
-        boolean currencyBoxUpdated = updateCurrencyMultiBox.reserveDoneCurrencyBoxAfterOfConfirmBuyOperation(buyOperation);
+        boolean currencyBoxUpdated = reserveDoneCurrencyBoxAfterOfConfirmBuyOperation.execute(buyOperation);
         //todo: the follow comments, is to separate responsibilities of each box
         //CurrencyMultiBox officeDebtResponse = manageOfficeDebt.createOfficeDebt(currencyMultiBox);
         //CurrencyMultiBox pesosBoxResponse = updateCurrencyMultiBox.updateCurrencyMultiBox(currencyMultiBox);

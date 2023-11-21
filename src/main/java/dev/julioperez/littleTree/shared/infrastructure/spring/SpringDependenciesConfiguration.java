@@ -17,16 +17,27 @@ import dev.julioperez.littleTree.box.currencyBox.officeDebt.application.getOffic
 import dev.julioperez.littleTree.box.currencyBox.officeDebt.application.getOfficeDebt.service.GetOfficeDebtService;
 import dev.julioperez.littleTree.box.currencyBox.officeDebt.application.payDebt.delivery.PayDebtDelivery;
 import dev.julioperez.littleTree.box.currencyBox.officeDebt.application.payDebt.service.PayDebtService;
+import dev.julioperez.littleTree.box.currencyBox.officeDebt.application.recordOfficeBoxToConfirmEgress.service.RecordOfficeBoxToConfirmEgressService;
+import dev.julioperez.littleTree.box.currencyBox.officeDebt.application.recordOfficeBoxToReturnEgress.service.RecordOfficeBoxToReturnEgressService;
+import dev.julioperez.littleTree.box.currencyBox.officeDebt.application.recordPendingOfficeBoxToEgress.service.RecordPendingOfficeBoxToEgressService;
 import dev.julioperez.littleTree.box.currencyBox.pesos.application.recordPendingPesosBoxToEgress.service.RecordPendingPesosBoxToEgressService;
 import dev.julioperez.littleTree.box.currencyBox.pesos.application.recordPendingPesosBoxToIngress.service.RecordPendingPesosBoxToIngressService;
 import dev.julioperez.littleTree.box.currencyBox.pesos.application.recordPesosBoxToConfirmEgress.service.RecordPesosBoxToConfirmEgressService;
 import dev.julioperez.littleTree.box.currencyBox.pesos.application.recordPesosBoxToConfirmIngress.service.RecordPesosBoxToConfirmIngressService;
 import dev.julioperez.littleTree.box.currencyBox.pesos.application.recordPesosBoxToPayCommission.service.RecordPesosBoxToPayCommissionService;
 import dev.julioperez.littleTree.box.currencyBox.pesos.application.recordPesosBoxToReturnEgress.service.RecordPesosBoxToReturnEgressService;
+import dev.julioperez.littleTree.box.currencyBox.shared.application.egressPesosBoxByCommissionPayment.service.EgressPesosBoxByCommissionPaymentService;
 import dev.julioperez.littleTree.box.currencyBox.shared.application.getCurrencyMultibox.adapter.GetCurrencyMultiboxAdapterRepository;
 import dev.julioperez.littleTree.box.currencyBox.shared.application.getCurrencyMultibox.delivery.GetCurrencyMultiboxDelivery;
 import dev.julioperez.littleTree.box.currencyBox.shared.application.getCurrencyMultibox.service.GetCurrencyMultiboxService;
-import dev.julioperez.littleTree.box.currencyBox.officeDebt.application.manageOfficeDebt.service.ManageOfficeDebtService;
+import dev.julioperez.littleTree.box.currencyBox.shared.application.reserveDoneCurrencyBoxAfterOfConfirmBuyOperation.service.ReserveDoneCurrencyBoxAfterOfConfirmBuyOperationService;
+import dev.julioperez.littleTree.box.currencyBox.shared.application.reserveDoneCurrencyBoxAfterOfConfirmSellOperation.service.ReserveDoneCurrencyBoxAfterOfConfirmSellOperationService;
+import dev.julioperez.littleTree.box.currencyBox.shared.application.reservePendingCurrencyBoxAfterOfBuyOperation.service.ReservePendingCurrencyBoxAfterOfBuyOperationService;
+import dev.julioperez.littleTree.box.currencyBox.shared.application.reservePendingCurrencyBoxAfterOfSellOperation.service.ReservePendingCurrencyBoxAfterOfSellOperationService;
+import dev.julioperez.littleTree.box.currencyBox.shared.application.returnQuantityOnCurrencyBoxByCancelledBuyOperation.service.ReturnQuantityOnCurrencyBoxByCancelledBuyOperationService;
+import dev.julioperez.littleTree.box.currencyBox.shared.application.returnQuantityOnCurrencyBoxByCancelledSellOperation.service.ReturnQuantityOnCurrencyBoxByCancelledSellOperationService;
+import dev.julioperez.littleTree.box.currencyBox.shared.application.updateCurrenciesMultiboxBoxes.adapter.UpdateCurrenciesMultiboxBoxesAdapterRepository;
+import dev.julioperez.littleTree.box.currencyBox.shared.application.updateCurrenciesMultiboxBoxes.service.UpdateCurrenciesMultiboxBoxesService;
 import dev.julioperez.littleTree.box.sellerbox.application.manageSellerBox.adapter.ManageSellerBoxAdapterRepository;
 import dev.julioperez.littleTree.box.sellerbox.application.manageSellerBox.delivery.ManageSellerBoxDelivery;
 import dev.julioperez.littleTree.box.sellerbox.application.manageSellerBox.service.ManageSellerBoxService;
@@ -35,8 +46,6 @@ import dev.julioperez.littleTree.box.currencyBox.shared.application.modelMapper.
 import dev.julioperez.littleTree.box.sellerbox.application.manualTransactionSellerBox.delivery.ManualTransactionSellerBoxDelivery;
 import dev.julioperez.littleTree.box.sellerbox.application.manualTransactionSellerBox.service.ManualTransactionSellerBoxService;
 import dev.julioperez.littleTree.box.sellerbox.application.modelMapper.SellerBoxModelMapper;
-import dev.julioperez.littleTree.box.currencyBox.shared.application.updateCurrencyMultiBox.adapter.UpdateCurrencyMultiBoxAdapterRepository;
-import dev.julioperez.littleTree.box.currencyBox.shared.application.updateCurrencyMultiBox.service.UpdateCurrencyMultiBoxService;
 import dev.julioperez.littleTree.box.balance.infrastructure.repository.dao.BalanceDao;
 import dev.julioperez.littleTree.box.currencyBox.shared.infrastructure.repository.dao.CurrencyMultiBoxDao;
 import dev.julioperez.littleTree.box.sellerbox.infrastructure.repository.dao.SellerBoxDao;
@@ -462,7 +471,7 @@ public class SpringDependenciesConfiguration {
 
     @Bean
     public PaySellerCommissionService paySellerCommissionService(){
-        return new PaySellerCommissionService(updateSellerCommissionService(), updateCurrencyMultiBoxService());
+        return new PaySellerCommissionService(updateSellerCommissionService(), egressPesosBoxByCommissionPaymentService());
     }
     @Bean
     public PaySellerCommissionDelivery paySellerCommissionDelivery(){
@@ -795,19 +804,32 @@ public class SpringDependenciesConfiguration {
         return new RecordPendingForeignExchangeToEgressService();
     }
     /**
-     * ManageOfficeDebt
+     * recordOfficeBoxToConfirmEgress
      */
     @Bean
-    public ManageOfficeDebtService manageOfficeDebtService(){
-        return new ManageOfficeDebtService();
+    public RecordOfficeBoxToConfirmEgressService recordOfficeBoxToConfirmEgressService(){
+        return new RecordOfficeBoxToConfirmEgressService();
     }
-
+    /**
+     * recordOfficeBoxToReturnEgress
+     */
+    @Bean
+    public RecordOfficeBoxToReturnEgressService recordOfficeBoxToReturnEgressService(){
+        return new RecordOfficeBoxToReturnEgressService();
+    }
+    /**
+     * recordPendingOfficeBoxToEgress
+     */
+    @Bean
+    public RecordPendingOfficeBoxToEgressService recordPendingOfficeBoxToEgressService(){
+        return new RecordPendingOfficeBoxToEgressService();
+    }
     /**
      * PayDebt
      */
     @Bean
     public PayDebtService payDebtService(){
-        return new PayDebtService(getCurrencyMultiboxService(),updateCurrencyMultiBoxService());
+        return new PayDebtService(getCurrencyMultiboxService(),updateCurrenciesMultiboxBoxesService());
     }
 
     @Bean
@@ -898,15 +920,66 @@ public class SpringDependenciesConfiguration {
     }
 
     /**
-     * UpdateCurrencyMultiBox
+     * UpdateCurrenciesMultiboxBoxes
      */
     @Bean
-    public UpdateCurrencyMultiBoxAdapterRepository updateCurrencyMultiBoxAdapterRepository(){
-        return new UpdateCurrencyMultiBoxAdapterRepository(currencyMultiBoxDao,currencyMultiBoxModelMapper());
+    public UpdateCurrenciesMultiboxBoxesAdapterRepository updateCurrenciesMultiboxBoxesAdapterRepository(){
+        return new UpdateCurrenciesMultiboxBoxesAdapterRepository(currencyMultiBoxDao,currencyMultiBoxModelMapper());
     }
     @Bean
-    public UpdateCurrencyMultiBoxService updateCurrencyMultiBoxService(){
-        return new UpdateCurrencyMultiBoxService(updateCurrencyMultiBoxAdapterRepository(), getCurrencyMultiboxService(), recordPendingForeignExchangeToIngressService(), recordForeignExchangeToConfirmIngressService(), recordForeignExchangeToConfirmEgressService(), recordForeignExchangeBoxToReturnEgressService(), recordPendingForeignExchangeToEgressService(), recordPesosBoxToConfirmEgressService(), recordPesosBoxToConfirmIngressService(), recordPesosBoxToReturnEgressService(), recordPendingPesosBoxToEgressService(), recordPendingPesosBoxToIngressService(), recordPesosBoxToPayCommissionService(), manageOfficeDebtService());
+    public UpdateCurrenciesMultiboxBoxesService updateCurrenciesMultiboxBoxesService(){
+        return new UpdateCurrenciesMultiboxBoxesService(updateCurrenciesMultiboxBoxesAdapterRepository());
+    }
+    /**
+     * EgressPesosBoxByCommissionPayment
+     */
+    @Bean
+    public EgressPesosBoxByCommissionPaymentService egressPesosBoxByCommissionPaymentService(){
+        return new EgressPesosBoxByCommissionPaymentService(getCurrencyMultiboxService(), updateCurrenciesMultiboxBoxesService(), recordPesosBoxToPayCommissionService());
+    }
+
+    /**
+     * ReserveDoneCurrencyBoxAfterOfConfirmBuyOperation
+     */
+    @Bean
+    public ReserveDoneCurrencyBoxAfterOfConfirmBuyOperationService reserveDoneCurrencyBoxAfterOfConfirmBuyOperationService(){
+        return new ReserveDoneCurrencyBoxAfterOfConfirmBuyOperationService(getCurrencyMultiboxService(), updateCurrenciesMultiboxBoxesService(),recordForeignExchangeToConfirmIngressService(), recordOfficeBoxToConfirmEgressService(), recordPesosBoxToConfirmEgressService());
+    }
+    /**
+     * ReserveDoneCurrencyBoxAfterOfConfirmSellOperation
+     */
+    @Bean
+    public ReserveDoneCurrencyBoxAfterOfConfirmSellOperationService reserveDoneCurrencyBoxAfterOfConfirmSellOperationService(){
+        return new ReserveDoneCurrencyBoxAfterOfConfirmSellOperationService(getCurrencyMultiboxService(), updateCurrenciesMultiboxBoxesService(),recordForeignExchangeToConfirmEgressService(), recordPesosBoxToConfirmIngressService());
+    }
+    /**
+     * ReservePendingCurrencyBoxAfterOfBuyOperation
+     */
+    @Bean
+    public ReservePendingCurrencyBoxAfterOfBuyOperationService reservePendingCurrencyBoxAfterOfBuyOperationService(){
+        return new ReservePendingCurrencyBoxAfterOfBuyOperationService(getCurrencyMultiboxService(), updateCurrenciesMultiboxBoxesService(),recordPendingForeignExchangeToIngressService(), recordPendingOfficeBoxToEgressService(), recordPendingPesosBoxToEgressService());
+    }
+    /**
+     * ReservePendingCurrencyBoxAfterOfSellOperation
+     */
+    @Bean
+    public ReservePendingCurrencyBoxAfterOfSellOperationService reservePendingCurrencyBoxAfterOfSellOperationService(){
+        return new ReservePendingCurrencyBoxAfterOfSellOperationService(getCurrencyMultiboxService(), updateCurrenciesMultiboxBoxesService(),recordPendingForeignExchangeToEgressService(), recordPendingPesosBoxToIngressService());
+    }
+    /**
+     * ReturnQuantityOnCurrencyBoxByCancelledBuyOperation
+     */
+    @Bean
+    public ReturnQuantityOnCurrencyBoxByCancelledBuyOperationService returnQuantityOnCurrencyBoxByCancelledBuyOperationService(){
+        return new ReturnQuantityOnCurrencyBoxByCancelledBuyOperationService(getCurrencyMultiboxService(), updateCurrenciesMultiboxBoxesService(),recordOfficeBoxToReturnEgressService(), recordPesosBoxToReturnEgressService());
+    }
+
+    /**
+     * ReturnQuantityOnCurrencyBoxByCancelledSellOperation
+     */
+    @Bean
+    public ReturnQuantityOnCurrencyBoxByCancelledSellOperationService returnQuantityOnCurrencyBoxByCancelledSellOperationService(){
+        return new ReturnQuantityOnCurrencyBoxByCancelledSellOperationService(getCurrencyMultiboxService(), updateCurrenciesMultiboxBoxesService(),recordForeignExchangeBoxToReturnEgressService());
     }
 
     /**
@@ -937,7 +1010,7 @@ public class SpringDependenciesConfiguration {
 
     @Bean
     public CancelOperationService cancelOperationService(){
-        return new CancelOperationService(cancelOperationAdapterRepository(),getOperationsService() , updateCurrencyMultiBoxService());
+        return new CancelOperationService(cancelOperationAdapterRepository(),getOperationsService() , returnQuantityOnCurrencyBoxByCancelledBuyOperationService(), returnQuantityOnCurrencyBoxByCancelledSellOperationService());
     }
     @Bean
     public CancelOperationDelivery cancelOperationDelivery(){
@@ -953,7 +1026,7 @@ public class SpringDependenciesConfiguration {
 
     @Bean
     public CreateOperationService createOperationService(){
-        return new CreateOperationService(createOperationAdapterRepository(), getCurrencyMultiboxService(), updateCurrencyMultiBoxService(), getOperationsService());
+        return new CreateOperationService(createOperationAdapterRepository(), getCurrencyMultiboxService(), reservePendingCurrencyBoxAfterOfBuyOperationService(),reservePendingCurrencyBoxAfterOfSellOperationService(), getOperationsService());
     }
     @Bean
     public CreateOperationDelivery createOperationDelivery(){
@@ -970,7 +1043,7 @@ public class SpringDependenciesConfiguration {
 
     @Bean
     public ExecuteBuyOperationService executeBuyOperationService(){
-        return new ExecuteBuyOperationService(executeBuyOperationAdapterRepository(), getOperationsService(), updateCurrencyMultiBoxService(),generateTicketService() );
+        return new ExecuteBuyOperationService(executeBuyOperationAdapterRepository(), getOperationsService(), reserveDoneCurrencyBoxAfterOfConfirmBuyOperationService(),generateTicketService() );
     }
 
     /**
@@ -983,7 +1056,7 @@ public class SpringDependenciesConfiguration {
 
     @Bean
     public ExecuteSellOperationService executeSellOperationService(){
-        return new ExecuteSellOperationService(executeSellOperationAdapterRepository(), getOperationsService(), updateCurrencyMultiBoxService(), createBalanceService(), createSellerCommissionService(), generateTicketService());
+        return new ExecuteSellOperationService(executeSellOperationAdapterRepository(), getOperationsService(), reserveDoneCurrencyBoxAfterOfConfirmSellOperationService(), createBalanceService(), createSellerCommissionService(), generateTicketService());
     }
     /**
      * GetOperations
@@ -1033,7 +1106,7 @@ public class SpringDependenciesConfiguration {
 
     @Bean
     public ManualTransactionService manualTransactionService(){
-        return new ManualTransactionService(getCurrencyMultiboxService(),updateCurrencyMultiBoxService());
+        return new ManualTransactionService(getCurrencyMultiboxService(),updateCurrenciesMultiboxBoxesService());
     }
     @Bean
     public ManualTransactionDelivery manualTransactionDelivery(){

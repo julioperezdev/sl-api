@@ -10,4 +10,6 @@ public interface GetCurrencyMultiboxOutputPort {
     List<CurrencyMultiBox> getCurrencyMultiboxByName(String name);
     CurrencyMultiBox getLastCurrencyMultiboxByCurrencyBox(CurrencyBox currencyBox);
     CurrencyMultiBox getLastCurrencyMultiboxByCurrencyBoxAndMultiboxStatus(CurrencyBox currencyBox, MultiBoxStatus multiBoxStatus);
+    List<CurrencyMultiBox> getCurrenciesMultiboxByOperationId(String operationId);
+    List<CurrencyMultiBox> getCurrenciesMultiboxByValues(List<String> currencyMultiBoxValues);
 }
