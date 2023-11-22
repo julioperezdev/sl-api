@@ -107,9 +107,6 @@ import dev.julioperez.littleTree.operation.sellOperation.application.createSellO
 import dev.julioperez.littleTree.operation.shared.application.cancelOperation.adapter.CancelOperationAdapterRepository;
 import dev.julioperez.littleTree.operation.shared.application.cancelOperation.delivery.CancelOperationDelivery;
 import dev.julioperez.littleTree.operation.shared.application.cancelOperation.service.CancelOperationService;
-import dev.julioperez.littleTree.operation.shared.application.createOperation.adapter.CreateOperationAdapterRepository;
-import dev.julioperez.littleTree.operation.shared.application.createOperation.delivery.CreateOperationDelivery;
-import dev.julioperez.littleTree.operation.shared.application.createOperation.service.CreateOperationService;
 import dev.julioperez.littleTree.operation.buyOperation.application.executeBuyOperation.adapter.ExecuteBuyOperationAdapterRepository;
 import dev.julioperez.littleTree.operation.buyOperation.application.executeBuyOperation.service.ExecuteBuyOperationService;
 import dev.julioperez.littleTree.operation.sellOperation.application.executeSellOperation.adapter.ExecuteSellOperationAdapterRepository;
