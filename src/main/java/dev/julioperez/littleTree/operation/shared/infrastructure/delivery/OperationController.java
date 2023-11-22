@@ -20,13 +20,11 @@ import java.util.List;
 @CrossOrigin(origins = "*")
 public class OperationController {
     private final GetOperationsInputPort getOperationsInputPort;
-    private final CreateOperationInputPort createOperationInputPort;
     private final PendingOperationInputPort pendingOperationInputPort;
     private final CancelOperationInputPort cancelOperationInputPort;
 
-    public OperationController(GetOperationsInputPort getOperationsInputPort, CreateOperationInputPort createOperationInputPort, PendingOperationInputPort pendingOperationInputPort, CancelOperationInputPort cancelOperationInputPort) {
+    public OperationController(GetOperationsInputPort getOperationsInputPort, PendingOperationInputPort pendingOperationInputPort, CancelOperationInputPort cancelOperationInputPort) {
         this.getOperationsInputPort = getOperationsInputPort;
-        this.createOperationInputPort = createOperationInputPort;
         this.pendingOperationInputPort = pendingOperationInputPort;
         this.cancelOperationInputPort = cancelOperationInputPort;
     }
@@ -57,16 +55,16 @@ public class OperationController {
         return new ResponseEntity<>(buyOperations, httpStatus);
     }
 
-    @PutMapping("/create/buy")
-    public ResponseEntity<Boolean> createBuyOperation(@RequestBody BuyOperationRequest buyOperationRequest){
-        boolean buyOperation = createOperationInputPort.createBuyOperation(buyOperationRequest);
-        return new ResponseEntity<>(buyOperation, HttpStatus.CREATED);
-    }
-    @PutMapping("/create/sell")
-    public ResponseEntity<Boolean> createSellOperation(@RequestBody SellOperationRequest sellOperationRequest){
-        boolean sellOperation = createOperationInputPort.createSellOperation(sellOperationRequest);
-        return new ResponseEntity<>(sellOperation, HttpStatus.CREATED);
-    }
+//    @PutMapping("/create/buy")
+//    public ResponseEntity<Boolean> createBuyOperation(@RequestBody BuyOperationRequest buyOperationRequest){
+//        boolean buyOperation = createOperationInputPort.createBuyOperation(buyOperationRequest);
+//        return new ResponseEntity<>(buyOperation, HttpStatus.CREATED);
+//    }
+//    @PutMapping("/create/sell")
+//    public ResponseEntity<Boolean> createSellOperation(@RequestBody SellOperationRequest sellOperationRequest){
+//        boolean sellOperation = createOperationInputPort.createSellOperation(sellOperationRequest);
+//        return new ResponseEntity<>(sellOperation, HttpStatus.CREATED);
+//    }
     @PutMapping("/pending")
     public ResponseEntity<Boolean> pendingOperation(@RequestBody ChangePendingOperationRequest changePendingOperationRequest){
         boolean response = pendingOperationInputPort.changePendingToExecuteOperation(changePendingOperationRequest);

@@ -96,6 +96,14 @@ import dev.julioperez.littleTree.note.application.updateNote.adapter.UpdateNoteA
 import dev.julioperez.littleTree.note.application.updateNote.delivery.UpdateNoteDelivery;
 import dev.julioperez.littleTree.note.application.updateNote.service.UpdateNoteService;
 import dev.julioperez.littleTree.note.infrastructure.repository.dao.NoteDao;
+import dev.julioperez.littleTree.operation.buyOperation.application.createBuyOperation.adapter.CreateBuyOperationAdapterRepository;
+import dev.julioperez.littleTree.operation.buyOperation.application.createBuyOperation.delivery.CreateBuyOperationDelivery;
+import dev.julioperez.littleTree.operation.buyOperation.application.createBuyOperation.service.CreateBuyOperationService;
+import dev.julioperez.littleTree.operation.buyOperation.application.updateBuyOperation.adapter.UpdateBuyOperationAdapterRepository;
+import dev.julioperez.littleTree.operation.buyOperation.application.updateBuyOperation.service.UpdateBuyOperationService;
+import dev.julioperez.littleTree.operation.sellOperation.application.createSellOperation.adapter.CreateSellOperationAdapterRepository;
+import dev.julioperez.littleTree.operation.sellOperation.application.createSellOperation.delivery.CreateSellOperationDelivery;
+import dev.julioperez.littleTree.operation.sellOperation.application.createSellOperation.service.CreateSellOperationService;
 import dev.julioperez.littleTree.operation.shared.application.cancelOperation.adapter.CancelOperationAdapterRepository;
 import dev.julioperez.littleTree.operation.shared.application.cancelOperation.delivery.CancelOperationDelivery;
 import dev.julioperez.littleTree.operation.shared.application.cancelOperation.service.CancelOperationService;
@@ -1017,20 +1025,49 @@ public class SpringDependenciesConfiguration {
         return new CancelOperationDelivery(cancelOperationService());
     }
     /**
-     * CreateOperation
+     * CreateBuyOperation
      */
     @Bean
-    public CreateOperationAdapterRepository createOperationAdapterRepository(){
-        return new CreateOperationAdapterRepository(buyOperationDao,sellOperationDao,buyOperationModelMapper(), sellOperationModelMapper());
+    public CreateBuyOperationAdapterRepository createBuyOperationAdapterRepository(){
+        return new CreateBuyOperationAdapterRepository(buyOperationDao,buyOperationModelMapper());
     }
 
     @Bean
-    public CreateOperationService createOperationService(){
-        return new CreateOperationService(createOperationAdapterRepository(), getCurrencyMultiboxService(), reservePendingCurrencyBoxAfterOfBuyOperationService(),reservePendingCurrencyBoxAfterOfSellOperationService(), getOperationsService());
+    public CreateBuyOperationService createBuyOperationService(){
+        return new CreateBuyOperationService(createBuyOperationAdapterRepository(), getCurrencyMultiboxService(), reservePendingCurrencyBoxAfterOfBuyOperationService());
     }
     @Bean
-    public CreateOperationDelivery createOperationDelivery(){
-        return new CreateOperationDelivery(createOperationService());
+    public CreateBuyOperationDelivery createBuyOperationDelivery(){
+        return new CreateBuyOperationDelivery(createBuyOperationService());
+    }
+    /**
+     * UpdateBuyOperation
+     */
+    @Bean
+    public UpdateBuyOperationAdapterRepository updateBuyOperationAdapterRepository(){
+        return new UpdateBuyOperationAdapterRepository(buyOperationDao,buyOperationModelMapper());
+    }
+
+    @Bean
+    public UpdateBuyOperationService updateBuyOperationService(){
+        return new UpdateBuyOperationService(updateBuyOperationAdapterRepository());
+    }
+
+    /**
+     * CreateSellOperation
+     */
+    @Bean
+    public CreateSellOperationAdapterRepository createSellOperationAdapterRepository(){
+        return new CreateSellOperationAdapterRepository(sellOperationDao,sellOperationModelMapper());
+    }
+
+    @Bean
+    public CreateSellOperationService createSellOperationService(){
+        return new CreateSellOperationService(createSellOperationAdapterRepository(), getOperationsService(), updateBuyOperationService(), reservePendingCurrencyBoxAfterOfSellOperationService());
+    }
+    @Bean
+    public CreateSellOperationDelivery createSellOperationDelivery(){
+        return new CreateSellOperationDelivery(createSellOperationService());
     }
 
     /**
