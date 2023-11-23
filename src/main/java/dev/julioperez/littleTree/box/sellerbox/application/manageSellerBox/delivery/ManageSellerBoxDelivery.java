@@ -18,9 +18,4 @@ public class ManageSellerBoxDelivery implements ManageSellerBoxInputPort {
     public List<SellerBox> getSellerBoxByNameOrdered(String name) {
         return manageSellerBox.getSellerBoxByNameOrdered(name);
     }
-
-    @Override
-    public Boolean assignSellerBox(AssignSellerBoxRequest assignSellerBoxRequest) {
-        return manageSellerBox.assignSellerBox(assignSellerBoxRequest);
-    }
 }
