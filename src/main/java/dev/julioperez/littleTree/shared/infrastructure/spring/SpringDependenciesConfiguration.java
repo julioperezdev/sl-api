@@ -38,6 +38,9 @@ import dev.julioperez.littleTree.box.currencyBox.shared.application.returnQuanti
 import dev.julioperez.littleTree.box.currencyBox.shared.application.returnQuantityOnCurrencyBoxByCancelledSellOperation.service.ReturnQuantityOnCurrencyBoxByCancelledSellOperationService;
 import dev.julioperez.littleTree.box.currencyBox.shared.application.updateCurrenciesMultiboxBoxes.adapter.UpdateCurrenciesMultiboxBoxesAdapterRepository;
 import dev.julioperez.littleTree.box.currencyBox.shared.application.updateCurrenciesMultiboxBoxes.service.UpdateCurrenciesMultiboxBoxesService;
+import dev.julioperez.littleTree.box.sellerbox.application.getSellerBox.adapter.GetSellerBoxAdapterRepository;
+import dev.julioperez.littleTree.box.sellerbox.application.getSellerBox.delivery.GetSellerBoxDelivery;
+import dev.julioperez.littleTree.box.sellerbox.application.getSellerBox.service.GetSellerBoxService;
 import dev.julioperez.littleTree.box.sellerbox.application.manageSellerBox.adapter.ManageSellerBoxAdapterRepository;
 import dev.julioperez.littleTree.box.sellerbox.application.manageSellerBox.delivery.ManageSellerBoxDelivery;
 import dev.julioperez.littleTree.box.sellerbox.application.manageSellerBox.service.ManageSellerBoxService;
@@ -49,6 +52,8 @@ import dev.julioperez.littleTree.box.sellerbox.application.modelMapper.SellerBox
 import dev.julioperez.littleTree.box.balance.infrastructure.repository.dao.BalanceDao;
 import dev.julioperez.littleTree.box.currencyBox.shared.infrastructure.repository.dao.CurrencyMultiBoxDao;
 import dev.julioperez.littleTree.box.sellerbox.infrastructure.repository.dao.SellerBoxDao;
+import dev.julioperez.littleTree.box.shared.application.delivery.GetSummaryBoxDelivery;
+import dev.julioperez.littleTree.box.shared.application.service.GetSummaryBoxService;
 import dev.julioperez.littleTree.client.client.application.createClient.adapter.CreateClientAdapterRepository;
 import dev.julioperez.littleTree.client.client.application.createClient.delivery.CreateClientDelivery;
 import dev.julioperez.littleTree.client.client.application.createClient.service.CreateClientService;
@@ -985,6 +990,35 @@ public class SpringDependenciesConfiguration {
     @Bean
     public ReturnQuantityOnCurrencyBoxByCancelledSellOperationService returnQuantityOnCurrencyBoxByCancelledSellOperationService(){
         return new ReturnQuantityOnCurrencyBoxByCancelledSellOperationService(getCurrencyMultiboxService(), updateCurrenciesMultiboxBoxesService(),recordForeignExchangeBoxToReturnEgressService());
+    }
+
+    /**
+     * GetSellerBox
+     */
+    @Bean
+    public GetSellerBoxAdapterRepository getSellerBoxAdapterRepository(){
+        return new GetSellerBoxAdapterRepository(sellerBoxDao, sellerBoxModelMapper());
+    }
+    @Bean
+    public GetSellerBoxService getSellerBoxService(){
+        return new GetSellerBoxService(getSellerBoxAdapterRepository());
+    }
+
+    @Bean
+    public GetSellerBoxDelivery getSellerBoxDelivery(){
+        return new GetSellerBoxDelivery(getSellerBoxService());
+    }
+
+    /**
+     * GetSummaryBox
+     */
+    @Bean
+    public GetSummaryBoxService getSummaryBoxService(){
+        return new GetSummaryBoxService(getBalanceService(), getCurrencyMultiboxService(), getSellerBoxService());
+    }
+    @Bean
+    public GetSummaryBoxDelivery getSummaryBoxDelivery(){
+        return new GetSummaryBoxDelivery(getSummaryBoxService());
     }
 
     /**

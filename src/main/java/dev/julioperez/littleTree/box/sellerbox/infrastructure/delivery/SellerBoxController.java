@@ -2,6 +2,7 @@ package dev.julioperez.littleTree.box.sellerbox.infrastructure.delivery;
 
 import dev.julioperez.littleTree.box.sellerbox.domain.dto.ManualTransactionSellerBoxRequest;
 import dev.julioperez.littleTree.box.sellerbox.domain.model.SellerBox;
+import dev.julioperez.littleTree.box.sellerbox.domain.port.getSellerBox.GetSellerBoxInputPort;
 import dev.julioperez.littleTree.box.sellerbox.domain.port.manageSellerBox.ManageSellerBoxInputPort;
 import dev.julioperez.littleTree.box.sellerbox.domain.port.manualTransactionSellerBox.ManualTransactionSellerBoxInputPort;
 import lombok.extern.slf4j.Slf4j;
@@ -17,17 +18,17 @@ import java.util.List;
 @CrossOrigin(origins = "*")
 public class SellerBoxController {
 
-    private final ManageSellerBoxInputPort manageSellerBoxInputPort;
+    private final GetSellerBoxInputPort getSellerBoxInputPort;
     private final ManualTransactionSellerBoxInputPort manualTransactionSellerBoxInputPort;
 
-    public SellerBoxController(ManageSellerBoxInputPort manageSellerBoxInputPort, ManualTransactionSellerBoxInputPort manualTransactionSellerBoxInputPort) {
-        this.manageSellerBoxInputPort = manageSellerBoxInputPort;
+    public SellerBoxController(GetSellerBoxInputPort getSellerBoxInputPort, ManualTransactionSellerBoxInputPort manualTransactionSellerBoxInputPort) {
+        this.getSellerBoxInputPort = getSellerBoxInputPort;
         this.manualTransactionSellerBoxInputPort = manualTransactionSellerBoxInputPort;
     }
 
     @PutMapping("/get/{name}")
     public ResponseEntity<List<SellerBox>> getSellerBoxByNameResponse(@PathVariable String name){
-        List<SellerBox> sellerBoxByNameOrdered = manageSellerBoxInputPort.getSellerBoxByNameOrdered(name);
+        List<SellerBox> sellerBoxByNameOrdered = getSellerBoxInputPort.getSellerBoxByNameOrdered(name);
         HttpStatus httpStatus = sellerBoxByNameOrdered.isEmpty()
                 ? HttpStatus.NO_CONTENT
                 : HttpStatus.FOUND;
