@@ -23,7 +23,7 @@ public class GetCurrencyMultiboxService implements GetCurrencyMultibox {
 
     @Override
     public List<CurrencyMultiboxToList> getCurrencyMultiboxToListByName(String name) {
-        List<CurrencyMultiBox> currencyMultiboxByName = getCurrencyMultiboxOutputPort.getCurrencyMultiboxByName(name);
+        List<CurrencyMultiBox> currencyMultiboxByName = getCurrencyMultiboxOutputPort.getCurrencyMultiboxByLastStatus(name);
         return currencyMultiboxByName.stream().map(this::mapCurrencyMultiboxToList).sorted(Comparator.comparing(CurrencyMultiboxToList::updatedAt).reversed()).collect(Collectors.toList());
     }
 

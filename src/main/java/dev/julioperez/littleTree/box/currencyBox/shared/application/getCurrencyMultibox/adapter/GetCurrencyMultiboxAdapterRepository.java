@@ -55,4 +55,12 @@ public class GetCurrencyMultiboxAdapterRepository implements GetCurrencyMultibox
         if(result.isEmpty()) throw new IllegalArgumentException("getCurrenciesMultiboxByValues does not return values with params assigned");
         return currencyMultiBoxMapper.toCurrencyMultiBoxesModel(result.get());
     }
+
+    @Override
+    public List<CurrencyMultiBox> getCurrencyMultiboxByLastStatus(String currencyMultibox) {
+        Optional<List<CurrencyMultiBoxEntity>> result = currencyMultiBoxDao.getCurrencyMultiBoxByLastStatus(currencyMultibox);
+        return result.isEmpty()
+                ? Collections.emptyList()
+                : currencyMultiBoxMapper.toCurrencyMultiBoxesModel(result.get());
+    }
 }
