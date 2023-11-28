@@ -13,15 +13,18 @@ import java.util.UUID;
 public class RecordForeignExchangeBoxToReturnEgressService implements RecordForeignExchangeBoxToReturnEgress {
     @Override
     public CurrencyMultiBox execute(CurrencyMultiBox foreignExchangeBox, SellOperation sellOperation, Float actualQuantityByExchangeCurrencyBox) {
+        Float newQuantity = calculateOfNewQuantityToForeignExchangeBoxByCanceledOperation(actualQuantityByExchangeCurrencyBox, sellOperation.getQuantity());
         return new CurrencyMultiBox(
                 UUID.randomUUID().toString(),
+                foreignExchangeBox.getCreatedAt(),
                 Date.from(Instant.now()),
                 foreignExchangeBox.getCurrencyBox(),
                 sellOperation.getId(),
                 OperationType.SELL.value(),
-                calculateOfNewQuantityToForeignExchangeBoxByCanceledOperation(actualQuantityByExchangeCurrencyBox, sellOperation.getQuantity()),//foreignExchangeBox.addQuantity(sellOperation.getQuantity()),
+                newQuantity,
                 sellOperation.getQuantity(),
-                MultiBoxStatus.CANCELLED.value());
+                MultiBoxStatus.CANCELLED.value(),
+                foreignExchangeBox.getQuantityChanged());
     }
 
     private Float calculateOfNewQuantityToForeignExchangeBoxByCanceledOperation(Float actualQuantityOfForeignExchangeBox, Float sellOperationTotal){

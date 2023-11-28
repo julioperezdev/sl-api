@@ -13,15 +13,18 @@ import java.util.UUID;
 public class RecordOfficeBoxToReturnEgressService implements RecordOfficeBoxToReturnEgress {
     @Override
     public CurrencyMultiBox execute(CurrencyMultiBox officeBox, BuyOperation buyOperation, Float actualQuantityOfOfficeBox) {
+        Float newQuantity = calculateOfNewQuantityToOfficeBoxByCanceledOperation(actualQuantityOfOfficeBox, buyOperation.getTotal());
         return new CurrencyMultiBox(
                 UUID.randomUUID().toString(),
+                officeBox.getCreatedAt(),
                 Date.from(Instant.now()),
                 officeBox.getCurrencyBox(),
                 buyOperation.getId(),
                 OperationType.BUY.value(),
-                calculateOfNewQuantityToOfficeBoxByCanceledOperation(actualQuantityOfOfficeBox, buyOperation.getTotal()),
+                newQuantity,
                 buyOperation.getTotal(),
-                MultiBoxStatus.CANCELLED.value());
+                MultiBoxStatus.CANCELLED.value(),
+                officeBox.getQuantityChanged());
     }
     private Float calculateOfNewQuantityToOfficeBoxByCanceledOperation(Float actualQuantityOfOfficeBox, Float buyOperationTotal){
         return actualQuantityOfOfficeBox - buyOperationTotal;

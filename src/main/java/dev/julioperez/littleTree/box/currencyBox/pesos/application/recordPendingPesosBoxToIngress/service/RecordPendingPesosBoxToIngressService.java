@@ -16,11 +16,13 @@ public class RecordPendingPesosBoxToIngressService implements RecordPendingPesos
         return new CurrencyMultiBox(
                 UUID.randomUUID().toString(),
                 Date.from(Instant.now()),
+                Date.from(Instant.now()),
                 pesosBox.getCurrencyBox(),
                 sellOperation.getId(),
                 OperationType.SELL.value(),
                 pesosBox.getQuantity(),
                 sellOperation.getTotal(),
-                MultiBoxStatus.PENDING.value());
+                MultiBoxStatus.PENDING.value(),
+                pesosBox.getQuantityChanged());
     }
 }

@@ -29,9 +29,6 @@ public class ReservePendingCurrencyBoxAfterOfBuyOperationService implements Rese
 
     @Override
     public boolean execute(List<BuyOperation> buyOperations) {
-        //todo:this reserve is only for pending, to be used to show how many currencies have available on box
-        //todo:question, foreign currency should be same but in confirmation of operation should change quantity?
-        //todo:to done operation need call to reserveForeignCurrencyOnBoxToBeSell method
         List<Boolean> allResults = buyOperations.stream().map(this::reserveParticularPendingCurrencyBoxAfterOfBuyOperation).toList();
         return allResults.stream().allMatch(particularResult -> particularResult.equals(true));
     }
@@ -55,7 +52,6 @@ public class ReservePendingCurrencyBoxAfterOfBuyOperationService implements Rese
                 ? recordPendingOfficeBoxToEgress.execute(pesosOrOfficeBox, buyOperation)
                 : recordPendingPesosBoxToEgress.execute(pesosOrOfficeBox, buyOperation);
 
-        //todo: question, what happen if quantity of box is less of 0?
         if(pesosOrOfficeBoxToEgress.getQuantity() < 0) throw new IllegalArgumentException(String.format("Quantity of box %s cant be less of zero", pesosOrOfficeBox.getCurrencyBox()));
         List<CurrencyMultiBox> multiBoxesUpdated = updateCurrenciesMultiboxBoxes.execute(List.of(foreignExchangeToIngress, pesosOrOfficeBoxToEgress));
         return multiBoxesUpdated.size() == 2;

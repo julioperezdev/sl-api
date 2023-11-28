@@ -16,6 +16,7 @@ public class CurrencyMultiBoxEntity {
 
     @Id
     private String id;
+    private Date createdAt;
     private Date updatedAt;
     private String currencyBox;
     private String operationId;
@@ -23,5 +24,6 @@ public class CurrencyMultiBoxEntity {
     private Float quantity;
     private Float quantityOperation;
     private String multiBoxStatus;
+    private Float quantityChanged;
 
 }

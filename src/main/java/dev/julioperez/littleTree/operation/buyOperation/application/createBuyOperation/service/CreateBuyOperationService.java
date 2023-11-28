@@ -32,7 +32,6 @@ public class CreateBuyOperationService implements CreateBuyOperation {
         List<String> operationTypes = buyOperationRequest.buyOperationData().stream().map(BuyOperationData::operationType).toList();
         boolean isValidBuyOperation = OperationType.hasOnlyBuyOperations(operationTypes);
         if(!isValidBuyOperation) throw new IllegalArgumentException("every operation should be BUY operation, cant be different");
-        //validate if all buy operation can be completed with total quantity of pesos
         Float pesosBoxTotal = getCurrencyMultibox.getTotalByCurrencyBox(CurrencyBox.PESO);
         double allBuyOperationSum = buyOperationRequest.buyOperationData().stream().filter(particular -> !particular.hasOfficeCheck()).mapToDouble(this::calculateTotalPriceToBuyOperation).sum();
         if(pesosBoxTotal < allBuyOperationSum) throw new IllegalArgumentException(String.format("Dont do the operations because all new operations is more of pesos, pesos: %f, operations: %f", pesosBoxTotal, allBuyOperationSum));

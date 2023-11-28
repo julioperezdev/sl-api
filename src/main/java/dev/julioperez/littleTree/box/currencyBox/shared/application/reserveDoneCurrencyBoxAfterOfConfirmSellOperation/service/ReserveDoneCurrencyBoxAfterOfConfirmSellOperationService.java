@@ -2,6 +2,7 @@ package dev.julioperez.littleTree.box.currencyBox.shared.application.reserveDone
 
 import dev.julioperez.littleTree.box.currencyBox.foreignExchange.domain.port.recordForeignExchangeToConfirmEgress.RecordForeignExchangeToConfirmEgress;
 import dev.julioperez.littleTree.box.currencyBox.pesos.domain.port.recordPesosBoxToConfirmIngress.RecordPesosBoxToConfirmIngress;
+import dev.julioperez.littleTree.box.currencyBox.shared.domain.dto.LastQuantityAndQuantityViewed;
 import dev.julioperez.littleTree.box.currencyBox.shared.domain.enums.CurrencyBox;
 import dev.julioperez.littleTree.box.currencyBox.shared.domain.model.CurrencyMultiBox;
 import dev.julioperez.littleTree.box.currencyBox.shared.domain.port.getCurrencyMultibox.GetCurrencyMultibox;
@@ -31,8 +32,11 @@ public class ReserveDoneCurrencyBoxAfterOfConfirmSellOperationService implements
         CurrencyMultiBox foreignCurrencyBox = getCurrencyBoxByValues(sellOperation.getCurrencyMultiBox(), currenciesMultiboxByOperationId);
         CurrencyMultiBox pesosBox = getCurrencyBoxByValues(CurrencyBox.PESO.value(), currenciesMultiboxByOperationId);
 
-        CurrencyMultiBox foreignExchangeToEgress = recordForeignExchangeToConfirmEgress.execute(foreignCurrencyBox, sellOperation);
-        CurrencyMultiBox pesosBoxToIngress = recordPesosBoxToConfirmIngress.execute(pesosBox, sellOperation);
+        LastQuantityAndQuantityViewed actualQuantityAndQuantityViewedByForeignExchangeBox = getLastQuantityAndQuantityViewedOfCurrencyBoxByDescription(foreignCurrencyBox.getCurrencyBox());
+        LastQuantityAndQuantityViewed actualQuantityAndQuantityViewedByPesosBox = getLastQuantityAndQuantityViewedOfCurrencyBoxByDescription(pesosBox.getCurrencyBox());
+
+        CurrencyMultiBox foreignExchangeToEgress = recordForeignExchangeToConfirmEgress.execute(foreignCurrencyBox, sellOperation, actualQuantityAndQuantityViewedByForeignExchangeBox);
+        CurrencyMultiBox pesosBoxToIngress = recordPesosBoxToConfirmIngress.execute(pesosBox, sellOperation, actualQuantityAndQuantityViewedByPesosBox);
 
         //todo: question, what happen if quantity of box is less of 0?
         //if(foreignExchangeToEgress.getQuantity() < 0) throw new IllegalArgumentException(String.format("Quantity of box %s cant be less of zero", foreignExchangeToEgress.getCurrencyBox()));
@@ -43,5 +47,18 @@ public class ReserveDoneCurrencyBoxAfterOfConfirmSellOperationService implements
         List<CurrencyMultiBox> currencyMultiBoxes = currenciesMultiboxToUpdate.stream().filter(particular -> currencyBox.equals(particular.getCurrencyBox())).toList();
         if(currencyMultiBoxes.size() != 1) throw new IllegalArgumentException(String.format("list should has a size of 1, but return a size of %s , should return same quantity",currencyMultiBoxes.size()));
         return currencyMultiBoxes.get(0);
+    }
+
+    private LastQuantityAndQuantityViewed getLastQuantityAndQuantityViewedOfCurrencyBoxByDescription(String currencyBoxDescription){
+        CurrencyBox currencyBox = CurrencyBox.returnCurrencyBoxByDescription(currencyBoxDescription);
+        CurrencyMultiBox actualQuantityOfCurrencyBoxCaller = getActualQuantityOfCurrencyBoxCaller(currencyBox);
+        return new LastQuantityAndQuantityViewed(
+                actualQuantityOfCurrencyBoxCaller.getQuantity(),
+                actualQuantityOfCurrencyBoxCaller.getQuantityChanged());
+    }
+
+    private CurrencyMultiBox getActualQuantityOfCurrencyBoxCaller(CurrencyBox currencyBox){
+        return getCurrencyMultibox
+                .getLastCurrencyMultiboxByCurrencyBox(currencyBox);
     }
 }

@@ -12,13 +12,15 @@ public class CurrencyMultiBoxModelMapper implements CurrencyMultiBoxMapper {
     public CurrencyMultiBox toCurrencyMultiBoxModel(CurrencyMultiBoxEntity currencyMultiBoxEntity) {
         return new CurrencyMultiBox(
                 currencyMultiBoxEntity.getId(),
+                currencyMultiBoxEntity.getCreatedAt(),
                 currencyMultiBoxEntity.getUpdatedAt(),
                 currencyMultiBoxEntity.getCurrencyBox(),
                 currencyMultiBoxEntity.getOperationId(),
                 currencyMultiBoxEntity.getOperationType(),
                 currencyMultiBoxEntity.getQuantity(),
                 currencyMultiBoxEntity.getQuantityOperation(),
-                currencyMultiBoxEntity.getMultiBoxStatus());
+                currencyMultiBoxEntity.getMultiBoxStatus(),
+                currencyMultiBoxEntity.getQuantityChanged());
     }
 
     @Override
@@ -32,13 +34,15 @@ public class CurrencyMultiBoxModelMapper implements CurrencyMultiBoxMapper {
     public CurrencyMultiBoxEntity toCurrencyMultiBoxEntity(CurrencyMultiBox currencyMultiBox) {
         return new CurrencyMultiBoxEntity(
                 currencyMultiBox.getId(),
+                currencyMultiBox.getCreatedAt(),
                 currencyMultiBox.getUpdatedAt(),
                 currencyMultiBox.getCurrencyBox(),
                 currencyMultiBox.getOperationId(),
                 currencyMultiBox.getOperationType(),
                 currencyMultiBox.getQuantity(),
                 currencyMultiBox.getQuantityOperation(),
-                currencyMultiBox.getMultiBoxStatus());
+                currencyMultiBox.getMultiBoxStatus(),
+                currencyMultiBox.getQuantityChanged());
     }
 
     @Override

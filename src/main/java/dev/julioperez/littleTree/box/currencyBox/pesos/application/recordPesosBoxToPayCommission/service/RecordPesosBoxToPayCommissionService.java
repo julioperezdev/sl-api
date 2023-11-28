@@ -12,14 +12,17 @@ import java.util.UUID;
 public class RecordPesosBoxToPayCommissionService implements RecordPesosBoxToPayCommission {
     @Override
     public CurrencyMultiBox execute(CurrencyMultiBox pesosBox, Float sellerCommissionQuantity) {
+        Float newQuantity = pesosBox.reduceQuantity(sellerCommissionQuantity);
         return new CurrencyMultiBox(
                 UUID.randomUUID().toString(),
+                Date.from(Instant.now()),
                 Date.from(Instant.now()),
                 pesosBox.getCurrencyBox(),
                 null,
                 OperationType.COMMISSION_PAYMENT.value(),
-                pesosBox.reduceQuantity(sellerCommissionQuantity),
+                newQuantity,
                 sellerCommissionQuantity,
-                MultiBoxStatus.DONE.value());
+                MultiBoxStatus.DONE.value(),
+                newQuantity);
     }
 }

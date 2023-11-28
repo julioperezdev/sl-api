@@ -4,6 +4,7 @@ import java.util.Date;
 
 public record CurrencyMultiboxToList(
         String id,
+        Date createdAt,
         Date updatedAt,
         String operationType,
         Float quantityOperation,

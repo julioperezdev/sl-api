@@ -24,7 +24,8 @@ public class GetCurrencyMultiboxService implements GetCurrencyMultibox {
     @Override
     public List<CurrencyMultiboxToList> getCurrencyMultiboxToListByName(String name) {
         List<CurrencyMultiBox> currencyMultiboxByName = getCurrencyMultiboxOutputPort.getCurrencyMultiboxByLastStatus(name);
-        return currencyMultiboxByName.stream().map(this::mapCurrencyMultiboxToList).sorted(Comparator.comparing(CurrencyMultiboxToList::updatedAt).reversed()).collect(Collectors.toList());
+        //return currencyMultiboxByName.stream().map(this::mapCurrencyMultiboxToList).sorted(Comparator.comparing(CurrencyMultiboxToList::updatedAt).reversed()).collect(Collectors.toList());
+        return currencyMultiboxByName.stream().filter(particular -> particular.getMultiBoxStatus().equals(MultiBoxStatus.DONE.value())).map(this::mapCurrencyMultiboxToList).sorted(Comparator.comparing(CurrencyMultiboxToList::updatedAt).reversed()).collect(Collectors.toList());
     }
 
     @Override
@@ -71,10 +72,12 @@ public class GetCurrencyMultiboxService implements GetCurrencyMultibox {
     private CurrencyMultiboxToList mapCurrencyMultiboxToList(CurrencyMultiBox currencyMultiBox){
         return new CurrencyMultiboxToList(
                 currencyMultiBox.getId(),
+                currencyMultiBox.getCreatedAt(),
                 currencyMultiBox.getUpdatedAt(),
                 currencyMultiBox.getOperationType(),
                 currencyMultiBox.getQuantityOperation(),
-                currencyMultiBox.getQuantity(),
+                //currencyMultiBox.getQuantity(),
+                currencyMultiBox.getQuantityChanged(),
                 currencyMultiBox.getMultiBoxStatus());
     }
 }

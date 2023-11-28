@@ -13,17 +13,17 @@ import java.util.UUID;
 public class RecordPendingForeignExchangeToEgressService implements RecordPendingForeignExchangeToEgress {
     @Override
     public CurrencyMultiBox execute(CurrencyMultiBox foreignExchangeBox, SellOperation sellOperation) {
+        Float newQuantity = foreignExchangeBox.reduceQuantity(sellOperation.getQuantity());
         return new CurrencyMultiBox(
                 UUID.randomUUID().toString(),
+                Date.from(Instant.now()),
                 Date.from(Instant.now()),
                 foreignExchangeBox.getCurrencyBox(),
                 sellOperation.getId(),
                 OperationType.SELL.value(),
-                //todo:OLD COMMENT, does not add foreignExchange because does not have a confirmation of operation, then should be added, buy not now
-                //foreignExchangeBox.getQuantity(),//todo:.addQuantity(buyOperation.getQuantity()),
-                //todo 27 Aug comment, should reserve foreign exchange on sell operation
-                foreignExchangeBox.reduceQuantity(sellOperation.getQuantity()),
+                newQuantity,
                 sellOperation.getQuantity(),
-                MultiBoxStatus.PENDING.value());
+                MultiBoxStatus.PENDING.value(),
+                foreignExchangeBox.getQuantityChanged());
     }
 }

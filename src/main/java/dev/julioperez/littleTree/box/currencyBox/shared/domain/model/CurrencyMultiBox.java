@@ -9,6 +9,7 @@ public final class CurrencyMultiBox {
 
 
     private final CurrencyMultiBoxId id;
+    private final CurrencyMultiBoxCreatedAt createdAt;
     private final CurrencyMultiBoxUpdatedAt updatedAt;
     private final CurrencyBox currencyBox;
     private final CurrencyMultiBoxOperationId operationId;
@@ -16,9 +17,11 @@ public final class CurrencyMultiBox {
     private final CurrencyMultiBoxQuantity quantity;
     private final CurrencyMultiBoxQuantityOperation quantityOperation;
     private final MultiBoxStatus multiBoxStatus;
+    private final CurrencyMultiboxQuantityChanged quantityChanged;
 
-    public CurrencyMultiBox(String id, Date updatedAt, String currencyBox, String operationId,String operationType, Float quantity, Float quantityOperation, String multiBoxStatus) {
+    public CurrencyMultiBox(String id, Date createdAt, Date updatedAt, String currencyBox, String operationId,String operationType, Float quantity, Float quantityOperation, String multiBoxStatus, Float quantityChanged) {
         this.id = new CurrencyMultiBoxId(id);
+        this.createdAt = new CurrencyMultiBoxCreatedAt(createdAt);
         this.updatedAt = new CurrencyMultiBoxUpdatedAt(updatedAt);
         this.currencyBox = CurrencyBox.returnCurrencyBoxByDescription(currencyBox);
         this.operationId = new CurrencyMultiBoxOperationId(operationId);
@@ -26,6 +29,7 @@ public final class CurrencyMultiBox {
         this.quantity = new CurrencyMultiBoxQuantity(quantity);
         this.quantityOperation = new CurrencyMultiBoxQuantityOperation(quantityOperation);
         this.multiBoxStatus = MultiBoxStatus.returnMultiBoxStatusByDescription(multiBoxStatus);
+        this.quantityChanged =  new CurrencyMultiboxQuantityChanged(quantityChanged);
     }
 
     public Float addQuantity(Float amount){
@@ -36,10 +40,21 @@ public final class CurrencyMultiBox {
         return this.getQuantity() - amount;
     }
 
+    public Float addQuantityVisible(Float amount){
+        return this.getQuantityChanged() + amount;
+    }
+
+    public Float reduceQuantityVisible(Float amount){
+        return this.getQuantityChanged() - amount;
+    }
+
     public String getId() {
         return id.value();
     }
 
+    public Date getCreatedAt(){
+        return createdAt.value();
+    }
     public Date getUpdatedAt() {
         return updatedAt.value();
     }
@@ -66,5 +81,9 @@ public final class CurrencyMultiBox {
 
     public String getMultiBoxStatus() {
         return multiBoxStatus.value();
+    }
+
+    public Float getQuantityChanged(){
+            return quantityChanged.value();
     }
 }

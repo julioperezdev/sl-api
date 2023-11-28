@@ -1,6 +1,7 @@
 package dev.julioperez.littleTree.box.currencyBox.pesos.application.recordPesosBoxToConfirmEgress.service;
 
 import dev.julioperez.littleTree.box.currencyBox.pesos.domain.port.recordPesosBoxToConfirmEgress.RecordPesosBoxToConfirmEgress;
+import dev.julioperez.littleTree.box.currencyBox.shared.domain.dto.LastQuantityAndQuantityViewed;
 import dev.julioperez.littleTree.box.currencyBox.shared.domain.enums.MultiBoxStatus;
 import dev.julioperez.littleTree.box.currencyBox.shared.domain.model.CurrencyMultiBox;
 import dev.julioperez.littleTree.operation.buyOperation.domain.model.BuyOperation;
@@ -12,15 +13,18 @@ import java.util.UUID;
 
 public class RecordPesosBoxToConfirmEgressService implements RecordPesosBoxToConfirmEgress {
     @Override
-    public CurrencyMultiBox execute(CurrencyMultiBox pesosBox, BuyOperation buyOperation, Float actualQuantityOfPesosBox) {
+    public CurrencyMultiBox execute(CurrencyMultiBox pesosBox, BuyOperation buyOperation, LastQuantityAndQuantityViewed actualQuantityAndQuantityViewedByPesosOrOfficeBox) {
+        Float newQuantityViewed = actualQuantityAndQuantityViewedByPesosOrOfficeBox.lastQuantityViewed() - buyOperation.getTotal();
         return new CurrencyMultiBox(
                 UUID.randomUUID().toString(),
+                pesosBox.getCreatedAt(),
                 Date.from(Instant.now()),
                 pesosBox.getCurrencyBox(),
                 buyOperation.getId(),
                 OperationType.BUY.value(),
-                actualQuantityOfPesosBox,
+                actualQuantityAndQuantityViewedByPesosOrOfficeBox.lastQuantity(),
                 buyOperation.getTotal(),
-                MultiBoxStatus.DONE.value());
+                MultiBoxStatus.DONE.value(),
+                newQuantityViewed);
     }
 }

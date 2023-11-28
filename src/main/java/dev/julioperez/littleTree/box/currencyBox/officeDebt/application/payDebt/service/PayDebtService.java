@@ -43,23 +43,29 @@ public class PayDebtService implements PayDebt {
         return new CurrencyMultiBox(
                 UUID.randomUUID().toString(),
                 Date.from(Instant.now()),
+                Date.from(Instant.now()),
                 CurrencyBox.PESO_OFFICE.value(),
                 null,
                 OperationType.DEBT_PAYMENT.value(),
                 0f,
                 officeDebt.getQuantity(),
-                OperationStatus.DONE.value());
+                OperationStatus.DONE.value(),
+                0f
+                );
     }
 
     private CurrencyMultiBox newPesosBox(CurrencyMultiBox pesosBox, Float debt) {
+        Float newQuantity = pesosBox.reduceQuantity(debt);
         return new CurrencyMultiBox(
                 UUID.randomUUID().toString(),
+                Date.from(Instant.now()),
                 Date.from(Instant.now()),
                 CurrencyBox.PESO.value(),
                 null,
                 OperationType.DEBT_PAYMENT.value(),
-                pesosBox.reduceQuantity(debt),
+                newQuantity,
                 debt,
-                OperationStatus.DONE.value());
+                OperationStatus.DONE.value(),
+                newQuantity);
     }
 }

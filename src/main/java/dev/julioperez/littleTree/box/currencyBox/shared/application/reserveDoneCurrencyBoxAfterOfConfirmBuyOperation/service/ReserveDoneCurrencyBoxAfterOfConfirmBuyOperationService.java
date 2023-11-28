@@ -3,6 +3,7 @@ package dev.julioperez.littleTree.box.currencyBox.shared.application.reserveDone
 import dev.julioperez.littleTree.box.currencyBox.foreignExchange.domain.port.recordForeignExchangeToConfirmIngress.RecordForeignExchangeToConfirmIngress;
 import dev.julioperez.littleTree.box.currencyBox.officeDebt.domain.port.recordOfficeBoxToConfirmEgress.RecordOfficeBoxToConfirmEgress;
 import dev.julioperez.littleTree.box.currencyBox.pesos.domain.port.recordPesosBoxToConfirmEgress.RecordPesosBoxToConfirmEgress;
+import dev.julioperez.littleTree.box.currencyBox.shared.domain.dto.LastQuantityAndQuantityViewed;
 import dev.julioperez.littleTree.box.currencyBox.shared.domain.enums.CurrencyBox;
 import dev.julioperez.littleTree.box.currencyBox.shared.domain.model.CurrencyMultiBox;
 import dev.julioperez.littleTree.box.currencyBox.shared.domain.port.getCurrencyMultibox.GetCurrencyMultibox;
@@ -34,14 +35,14 @@ public class ReserveDoneCurrencyBoxAfterOfConfirmBuyOperationService implements 
         String egressBox = buyOperation.hasOfficeCheck() ? CurrencyBox.PESO_OFFICE.value() : CurrencyBox.PESO.value();
         CurrencyMultiBox pesosOrOfficeBox = getCurrencyBoxByValues(egressBox, currenciesMultiboxByOperationId);
 
-        Float actualQuantityByForeignExchangeBox = getActualQuantityOfCurrencyBoxByDescription(foreignCurrencyBox.getCurrencyBox());
-        Float actualQuantityByPesosOrOfficeBox = getActualQuantityOfCurrencyBoxByDescription(egressBox);
+        LastQuantityAndQuantityViewed actualQuantityAndQuantityViewedByForeignExchangeBox = getLastQuantityAndQuantityViewedOfCurrencyBoxByDescription(foreignCurrencyBox.getCurrencyBox());
+        LastQuantityAndQuantityViewed actualQuantityAndQuantityViewedByPesosOrOfficeBox = getLastQuantityAndQuantityViewedOfCurrencyBoxByDescription(egressBox);
 
-        CurrencyMultiBox foreignExchangeToIngress = recordForeignExchangeToConfirmIngress.execute(foreignCurrencyBox, buyOperation, actualQuantityByForeignExchangeBox);
+        CurrencyMultiBox foreignExchangeToIngress = recordForeignExchangeToConfirmIngress.execute(foreignCurrencyBox, buyOperation, actualQuantityAndQuantityViewedByForeignExchangeBox);
         CurrencyMultiBox pesosOrOfficeBoxToEgress =
                 buyOperation.hasOfficeCheck()
-                        ? recordOfficeBoxToConfirmEgress.execute(pesosOrOfficeBox, buyOperation,actualQuantityByPesosOrOfficeBox)
-                        : recordPesosBoxToConfirmEgress.execute(pesosOrOfficeBox, buyOperation,actualQuantityByPesosOrOfficeBox);
+                        ? recordOfficeBoxToConfirmEgress.execute(pesosOrOfficeBox, buyOperation,actualQuantityAndQuantityViewedByPesosOrOfficeBox)
+                        : recordPesosBoxToConfirmEgress.execute(pesosOrOfficeBox, buyOperation,actualQuantityAndQuantityViewedByPesosOrOfficeBox);
 
         //todo: question, what happen if quantity of box is less of 0?
         if(pesosOrOfficeBoxToEgress.getQuantity() < 0) throw new IllegalArgumentException(String.format("Quantity of box %s cant be less of zero", pesosOrOfficeBox.getCurrencyBox()));
@@ -55,14 +56,16 @@ public class ReserveDoneCurrencyBoxAfterOfConfirmBuyOperationService implements 
         return currencyMultiBoxes.get(0);
     }
 
-    private Float getActualQuantityOfCurrencyBoxByDescription(String currencyBoxDescription){
+    private LastQuantityAndQuantityViewed getLastQuantityAndQuantityViewedOfCurrencyBoxByDescription(String currencyBoxDescription){
         CurrencyBox currencyBox = CurrencyBox.returnCurrencyBoxByDescription(currencyBoxDescription);
-        return getActualQuantityOfCurrencyBoxCaller(currencyBox);
+        CurrencyMultiBox actualQuantityOfCurrencyBoxCaller = getActualQuantityOfCurrencyBoxCaller(currencyBox);
+        return new LastQuantityAndQuantityViewed(
+                actualQuantityOfCurrencyBoxCaller.getQuantity(),
+                actualQuantityOfCurrencyBoxCaller.getQuantityChanged());
     }
 
-    private Float getActualQuantityOfCurrencyBoxCaller(CurrencyBox currencyBox){
+    private CurrencyMultiBox getActualQuantityOfCurrencyBoxCaller(CurrencyBox currencyBox){
         return getCurrencyMultibox
-                .getLastCurrencyMultiboxByCurrencyBox(currencyBox)
-                .getQuantity();
+                .getLastCurrencyMultiboxByCurrencyBox(currencyBox);
     }
 }

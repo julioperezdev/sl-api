@@ -16,12 +16,13 @@ public class RecordPendingForeignExchangeToIngressService implements RecordPendi
         return new CurrencyMultiBox(
                 UUID.randomUUID().toString(),
                 Date.from(Instant.now()),
+                Date.from(Instant.now()),
                 foreignExchangeBox.getCurrencyBox(),
                 buyOperation.getId(),
                 OperationType.BUY.value(),
-                //todo:does not add foreignExchange because does not have a confirmation of operation, then should be added, buy not now
-                foreignExchangeBox.getQuantity(),//todo:.addQuantity(buyOperation.getQuantity()),
+                foreignExchangeBox.getQuantity(),
                 buyOperation.getQuantity(),
-                MultiBoxStatus.PENDING.value());
+                MultiBoxStatus.PENDING.value(),
+                foreignExchangeBox.getQuantityChanged());
     }
 }

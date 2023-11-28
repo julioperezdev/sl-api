@@ -13,14 +13,17 @@ import java.util.UUID;
 public class RecordPendingPesosBoxToEgressService implements RecordPendingPesosBoxToEgress {
     @Override
     public CurrencyMultiBox execute(CurrencyMultiBox pesosBox, BuyOperation buyOperation) {
+        Float newQuantity = pesosBox.reduceQuantity(buyOperation.getTotal());
         return new CurrencyMultiBox(
                 UUID.randomUUID().toString(),
+                Date.from(Instant.now()),
                 Date.from(Instant.now()),
                 pesosBox.getCurrencyBox(),
                 buyOperation.getId(),
                 OperationType.BUY.value(),
-                pesosBox.reduceQuantity(buyOperation.getTotal()),
+                newQuantity,
                 buyOperation.getTotal(),
-                MultiBoxStatus.PENDING.value());
+                MultiBoxStatus.PENDING.value(),
+                pesosBox.getQuantityChanged());
     }
 }

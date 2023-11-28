@@ -32,7 +32,8 @@ public class ManualTransactionService implements ManualTransaction {
         validateManualType(manualTransactionRequest.manualOperationType());
         CurrencyMultiBox lastCurrencyMultiboxByCurrencyBox = getCurrencyMultibox.getLastCurrencyMultiboxByCurrencyBox(currencyBox);
         Float newTotal = newTotalByManualTransaction(manualTransactionRequest, lastCurrencyMultiboxByCurrencyBox);
-        CurrencyMultiBox newCurrencyMultiBox = toNewCurrencyMultiBox(lastCurrencyMultiboxByCurrencyBox, newTotal, manualTransactionRequest);
+        Float newQuantityVisible = newQuantityVisibleByManualTransaction(manualTransactionRequest, lastCurrencyMultiboxByCurrencyBox);
+        CurrencyMultiBox newCurrencyMultiBox = toNewCurrencyMultiBox(lastCurrencyMultiboxByCurrencyBox, newTotal, newQuantityVisible,  manualTransactionRequest);
         return !updateCurrenciesMultiboxBoxes.execute(List.of(newCurrencyMultiBox)).isEmpty();
     }
 
@@ -41,17 +42,25 @@ public class ManualTransactionService implements ManualTransaction {
         ? currencyMultiBox.addQuantity(manualTransactionRequest.quantity())
         : currencyMultiBox.reduceQuantity(manualTransactionRequest.quantity());
     }
-    private CurrencyMultiBox toNewCurrencyMultiBox(CurrencyMultiBox currencyMultiBox, Float newTotal, ManualTransactionRequest manualTransactionRequest) {
-        //currencyMultibox share package
+
+    private Float newQuantityVisibleByManualTransaction(ManualTransactionRequest manualTransactionRequest, CurrencyMultiBox currencyMultiBox){
+        return isManualIngress(manualTransactionRequest.manualOperationType())
+                ? currencyMultiBox.addQuantityVisible(manualTransactionRequest.quantity())
+                : currencyMultiBox.reduceQuantityVisible(manualTransactionRequest.quantity());
+    }
+
+    private CurrencyMultiBox toNewCurrencyMultiBox(CurrencyMultiBox currencyMultiBox, Float newTotal, Float newQuantityVisible, ManualTransactionRequest manualTransactionRequest) {
         return new CurrencyMultiBox(
                 UUID.randomUUID().toString(),
+                Date.from(Instant.now()),
                 Date.from(Instant.now()),
                 currencyMultiBox.getCurrencyBox(),
                 UUID.randomUUID().toString(),
                 OperationType.returnOperationTypeByDescription(manualTransactionRequest.manualOperationType()).value(),
                 newTotal,
                 manualTransactionRequest.quantity(),
-                OperationStatus.DONE.value());
+                OperationStatus.DONE.value(),
+                newQuantityVisible);
     }
 
     private boolean isManualIngress(String manualType){
