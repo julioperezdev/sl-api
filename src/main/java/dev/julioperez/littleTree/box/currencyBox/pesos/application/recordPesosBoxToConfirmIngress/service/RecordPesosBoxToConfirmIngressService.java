@@ -14,7 +14,7 @@ import java.util.UUID;
 public class RecordPesosBoxToConfirmIngressService implements RecordPesosBoxToConfirmIngress {
     @Override
     public CurrencyMultiBox execute(CurrencyMultiBox pesosBox, SellOperation sellOperation, LastQuantityAndQuantityViewed actualQuantityAndQuantityViewedByPesosBox) {
-        Float newQuantity = actualQuantityAndQuantityViewedByPesosBox.lastQuantityViewed() + sellOperation.getTotal();
+        Float newQuantity = actualQuantityAndQuantityViewedByPesosBox.lastQuantityViewed() + sellOperation.getTotal() - sellOperation.getProfit();
         return new CurrencyMultiBox(
                 UUID.randomUUID().toString(),
                 pesosBox.getCreatedAt(),
