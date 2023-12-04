@@ -5,6 +5,7 @@ import dev.julioperez.littleTree.operation.shared.domain.dto.GetOperationRespons
 import dev.julioperez.littleTree.operation.shared.domain.dto.GetDoneOperationToShowReserve;
 import dev.julioperez.littleTree.operation.buyOperation.domain.model.BuyOperation;
 import dev.julioperez.littleTree.operation.sellOperation.domain.model.SellOperation;
+import dev.julioperez.littleTree.operation.shared.domain.dto.TotalPendingOperationDto;
 import dev.julioperez.littleTree.operation.shared.domain.port.getOperations.GetOperations;
 import dev.julioperez.littleTree.operation.shared.domain.port.getOperations.GetOperationsInputPort;
 
@@ -45,5 +46,10 @@ public class GetOperationsDelivery implements GetOperationsInputPort {
     @Override
     public List<SellOperation> getSellOperations() {
         return getOperations.getSellOperations();
+    }
+
+    @Override
+    public TotalPendingOperationDto getTotalPendingOperationDto() {
+        return getOperations.getTotalPendingOperationDto();
     }
 }

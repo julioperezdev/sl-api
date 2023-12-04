@@ -4,6 +4,7 @@ import dev.julioperez.littleTree.client.client.domain.port.getClients.GetClients
 import dev.julioperez.littleTree.operation.shared.domain.dto.GetBuyAndSellOperationResponseDto;
 import dev.julioperez.littleTree.operation.shared.domain.dto.GetOperationResponseDto;
 import dev.julioperez.littleTree.operation.shared.domain.dto.GetDoneOperationToShowReserve;
+import dev.julioperez.littleTree.operation.shared.domain.dto.TotalPendingOperationDto;
 import dev.julioperez.littleTree.operation.shared.domain.enums.OperationStatus;
 import dev.julioperez.littleTree.operation.buyOperation.domain.model.BuyOperation;
 import dev.julioperez.littleTree.operation.sellOperation.domain.model.SellOperation;
@@ -137,4 +138,12 @@ public class GetOperationsService implements GetOperations {
                 .filter(operation -> operation.getId().equals(operationId))
                 .findFirst();
     }
+
+    @Override
+    public TotalPendingOperationDto getTotalPendingOperationDto() {
+        Float totalPendingBuyOperation = getOperationsOutputPort.getBuyOperationsByStatus(OperationStatus.PENDING).stream().map(BuyOperation::getTotal).reduce(0f, Float::sum);
+        Float totalPendingSellOperation = getOperationsOutputPort.geSellOperationsByStatus(OperationStatus.PENDING).stream().map(SellOperation::getTotal).reduce(0f, Float::sum);
+        return new TotalPendingOperationDto(totalPendingBuyOperation, totalPendingSellOperation);
+    }
+
 }

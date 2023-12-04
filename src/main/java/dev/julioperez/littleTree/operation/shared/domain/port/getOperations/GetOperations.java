@@ -5,6 +5,7 @@ import dev.julioperez.littleTree.operation.shared.domain.dto.GetOperationRespons
 import dev.julioperez.littleTree.operation.shared.domain.dto.GetDoneOperationToShowReserve;
 import dev.julioperez.littleTree.operation.buyOperation.domain.model.BuyOperation;
 import dev.julioperez.littleTree.operation.sellOperation.domain.model.SellOperation;
+import dev.julioperez.littleTree.operation.shared.domain.dto.TotalPendingOperationDto;
 
 import java.util.List;
 import java.util.Optional;
@@ -18,4 +19,5 @@ public interface GetOperations {
     Optional<BuyOperation> getBuyOperationById(String operationId);
     List<SellOperation> getSellOperations();
     Optional<SellOperation> getSellOperationById(String operationId);
+    TotalPendingOperationDto getTotalPendingOperationDto();
 }

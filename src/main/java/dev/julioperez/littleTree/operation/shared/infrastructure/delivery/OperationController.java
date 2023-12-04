@@ -1,6 +1,7 @@
 package dev.julioperez.littleTree.operation.shared.infrastructure.delivery;
 
 import dev.julioperez.littleTree.operation.buyOperation.domain.dto.BuyOperationRequest;
+import dev.julioperez.littleTree.operation.shared.domain.dto.TotalPendingOperationDto;
 import dev.julioperez.littleTree.operation.shared.domain.port.cancelOperation.CancelOperationInputPort;
 import dev.julioperez.littleTree.operation.shared.domain.port.createOperation.CreateOperationInputPort;
 import dev.julioperez.littleTree.operation.shared.domain.port.getOperations.GetOperationsInputPort;
@@ -14,6 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Objects;
 
 @RestController
 @RequestMapping("/api/v1/operation")
@@ -55,16 +57,6 @@ public class OperationController {
         return new ResponseEntity<>(buyOperations, httpStatus);
     }
 
-//    @PutMapping("/create/buy")
-//    public ResponseEntity<Boolean> createBuyOperation(@RequestBody BuyOperationRequest buyOperationRequest){
-//        boolean buyOperation = createOperationInputPort.createBuyOperation(buyOperationRequest);
-//        return new ResponseEntity<>(buyOperation, HttpStatus.CREATED);
-//    }
-//    @PutMapping("/create/sell")
-//    public ResponseEntity<Boolean> createSellOperation(@RequestBody SellOperationRequest sellOperationRequest){
-//        boolean sellOperation = createOperationInputPort.createSellOperation(sellOperationRequest);
-//        return new ResponseEntity<>(sellOperation, HttpStatus.CREATED);
-//    }
     @PutMapping("/pending")
     public ResponseEntity<Boolean> pendingOperation(@RequestBody ChangePendingOperationRequest changePendingOperationRequest){
         boolean response = pendingOperationInputPort.changePendingToExecuteOperation(changePendingOperationRequest);
@@ -73,7 +65,17 @@ public class OperationController {
     @PutMapping("/cancel")
     public ResponseEntity<Boolean> cancelOperation(@RequestBody ChangePendingOperationRequest changePendingOperationRequest){
         boolean response = cancelOperationInputPort.changePendingToCancelOperation(changePendingOperationRequest);
-        System.out.println(response);
         return new ResponseEntity<>(response, HttpStatus.ACCEPTED);
     }
+
+    @PutMapping("/get/pending/total")
+    public ResponseEntity<TotalPendingOperationDto> getTotalPendingOperation(@RequestBody ChangePendingOperationRequest changePendingOperationRequest){
+        TotalPendingOperationDto totalPendingOperationDto = getOperationsInputPort.getTotalPendingOperationDto();
+        HttpStatus httpStatus = Objects.isNull(totalPendingOperationDto)
+                ? HttpStatus.NO_CONTENT
+                : HttpStatus.FOUND;
+        return new ResponseEntity<>(totalPendingOperationDto, httpStatus);
+    }
+
+
 }
