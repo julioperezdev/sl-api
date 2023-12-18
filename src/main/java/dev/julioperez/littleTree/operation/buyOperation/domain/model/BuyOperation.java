@@ -6,6 +6,7 @@ import dev.julioperez.littleTree.client.client.domain.model.ClientId;
 import dev.julioperez.littleTree.operation.shared.domain.enums.OperationStatus;
 
 import java.util.Date;
+import java.util.Objects;
 
 public final class BuyOperation {
 
@@ -95,7 +96,8 @@ public final class BuyOperation {
     }
 
     private BuyOperationPercent ensureSetPercentValueOnUsdLowForeignCurrency(Float value, CurrencyBox currencyMultiBox){
-        Float percent = currencyMultiBox.equals(CurrencyBox.USD_LOW) ? value : 0;
+        float percent =
+                currencyMultiBox.equals(CurrencyBox.USD_LOW) && Objects.nonNull(value) ? value : 0;
         return new BuyOperationPercent(percent);
     }
 }

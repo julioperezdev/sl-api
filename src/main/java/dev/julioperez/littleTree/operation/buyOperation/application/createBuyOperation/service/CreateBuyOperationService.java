@@ -14,6 +14,7 @@ import dev.julioperez.littleTree.operation.shared.domain.enums.OperationType;
 import java.time.Instant;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 public class CreateBuyOperationService implements CreateBuyOperation {
 
@@ -67,7 +68,7 @@ public class CreateBuyOperationService implements CreateBuyOperation {
     private Float calculateTotalPriceToBuyOperation(BuyOperationData buyOperationData){
         float totalPriceInPesos = 0f;
         totalPriceInPesos = buyOperationData.buyPrice() * buyOperationData.quantity();
-        if(buyOperationData.currencyMultiBox().equals(CurrencyBox.USD_LOW.value())){
+        if(buyOperationData.currencyMultiBox().equals(CurrencyBox.USD_LOW.value()) && Objects.nonNull(buyOperationData.percent())){
             Float percent = buyOperationData.percent();
             Float newBuyPrice = buyOperationData.buyPrice() - ((buyOperationData.buyPrice() * percent)/100);
             totalPriceInPesos = newBuyPrice * buyOperationData.quantity();
